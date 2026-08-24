@@ -9,15 +9,16 @@ from __future__ import annotations
 import logging
 from datetime import date, timedelta
 
+from . import images
 from .config import Config
 from .llm import WEB_SEARCH_TOOL, call_json
 from .models import Candidate
 
-log = logging.getLogger("alba.sources_web")
+log = logging.getLogger("remodelar.sources_web")
 
-SYSTEM = """Sos el agente investigador de exploración de ALBA, un medio editorial \
-vanguardista de arquitectura interior y remodelación de espacios (estilo designboom, \
-pero con voz propia). Tu trabajo es usar búsqueda web para encontrar noticias, \
+SYSTEM = """Sos el agente investigador de exploración de Remodelar, un medio editorial \
+vanguardista de arquitectura interior y remodelación de espacios, hecho para diseñadores \
+(estilo designboom, pero con voz propia). Tu trabajo es usar búsqueda web para encontrar noticias, \
 lanzamientos, proyectos y tendencias RECIENTES y VERIFICABLES en:
 - arquitectura interior y remodelación de espacios residenciales/comerciales
 - nuevos materiales y técnicas de construcción/acabado
@@ -82,6 +83,7 @@ def fetch_web_candidates(cfg: Config) -> list[Candidate]:
                 source_name=str(item.get("source_name", "Web")).strip() or "Web",
                 published_at=item.get("published_at") or None,
                 origin="web",
+                image_url=images.fetch_og_image(url),
             )
         )
 

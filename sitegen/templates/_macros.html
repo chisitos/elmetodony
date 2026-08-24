@@ -1,0 +1,38 @@
+{% macro media(a, asset_prefix, size='card') %}
+<div class="media media--{{ size }}">
+  {% if a.image_url %}
+  <img src="{{ a.image_url }}" alt="{{ a.headline }}" loading="{{ 'eager' if size == 'hero' else 'lazy' }}">
+  {% else %}
+  <div class="media-fallback"><span class="media-fallback__cat">{{ a.category }}</span></div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro card(a, asset_prefix) %}
+<a class="card" href="{{ asset_prefix }}articulos/{{ a.slug }}.html">
+  {{ media(a, asset_prefix, 'card') }}
+  <div class="card__body">
+    <span class="cat">{{ a.category }}</span>
+    <h2>{{ a.headline }}</h2>
+    <p>{{ a.dek }}</p>
+    <div class="foot">
+      <span>{{ a.source_name }}</span>
+      <span>{{ a.published_at_human }}</span>
+    </div>
+  </div>
+</a>
+{% endmacro %}
+
+{% macro hero(a, asset_prefix, kicker) %}
+<section class="hero">
+  {{ media(a, asset_prefix, 'hero') }}
+  <div class="hero__text">
+    <span class="kicker">{{ kicker }}</span>
+    <a class="hero__link" href="{{ asset_prefix }}articulos/{{ a.slug }}.html">
+      <h1>{{ a.headline }}</h1>
+    </a>
+    <p class="dek">{{ a.dek }}</p>
+    <div class="byline">{{ a.category }} · {{ a.source_name }} · {{ a.published_at_human }}</div>
+  </div>
+</section>
+{% endmacro %}

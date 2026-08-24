@@ -1,10 +1,11 @@
-# Configuración editorial de ALBA — motor editorial de arquitectura interior
-# y remodelación de espacios. Este archivo controla el alcance temático, el
-# criterio del agente curador y la voz del agente editor, sin tocar código.
+# Configuración editorial de Remodelar — motor editorial de arquitectura
+# interior y remodelación de espacios, hecho para diseñadores. Este archivo
+# controla el alcance temático, el criterio del agente curador y la voz del
+# agente editor, sin tocar código.
 
 publication:
-  name: "ALBA"
-  tagline: "Arquitectura interior y remodelación, en tiempo real"
+  name: "Remodelar"
+  tagline: "Ediciones semanales de arquitectura interior y remodelación"
   language: "es"
 
 models:
@@ -15,11 +16,15 @@ models:
   editor: "claude-opus-5"
 
 run:
-  lookback_days: 6          # qué tan atrás mirar en RSS / búsqueda web
-  max_rss_per_feed: 12       # tope de items crudos por feed antes de filtrar
-  max_web_queries: 4         # nº de búsquedas web que hace el agente investigador
-  max_selected_per_run: 6    # artículos que el curador puede aprobar por corrida
-  min_score_to_select: 6.5   # sobre 10 — umbral del rubro ponderado
+  lookback_days: 8            # qué tan atrás mirar en RSS / búsqueda web (~1 semana + margen)
+  max_rss_per_feed: 12         # tope de items crudos por feed antes de filtrar
+  max_web_queries: 4           # nº de búsquedas web que hace el agente investigador
+  # Techo de artículos por EDICIÓN SEMANAL — no es un objetivo a cumplir.
+  # No tiene que ser infinito: mejor una edición de 3 piezas muy buenas que
+  # una de 8 con relleno. El curador puede seleccionar menos, o ninguna.
+  max_selected_per_run: 8
+  min_score_to_select: 6.5     # sobre 10 — umbral del rubro ponderado
+  dedup_lookback_articles: 40  # nº de notas recientes que ve el curador para nunca repetir
 
 # Alcance temático: el agente de RSS pre-filtra con esto antes de gastar
 # tokens en el curador. El curador aplica el mismo alcance con más criterio.
@@ -70,7 +75,7 @@ scope:
 # el criterio editorial sin tocar prompts.
 rubric:
   weights:
-    novedad: 0.22            # ¿es genuinamente nuevo / no visto ya?
+    novedad: 0.22            # ¿es genuinamente nuevo / no visto ya / no repetido?
     actualidad: 0.18          # ¿qué tan reciente es (fecha de publicación)?
     utilidad: 0.18            # ¿le sirve a un lector que diseña o remodela?
     uso_materiales: 0.20      # ¿hay especificidad de materiales/técnica?
@@ -78,8 +83,8 @@ rubric:
     encaje_tematico: 0.08     # ¿encaja con el alcance de interiores/remodelación?
 
 # Guía de voz para el agente editor. Esto SE INYECTA tal cual en el prompt
-# del editor — es la fuente de verdad del tono de ALBA. Editar aquí cambia
-# el estilo de todos los artículos futuros.
+# del editor — es la fuente de verdad del tono de Remodelar. Editar aquí
+# cambia el estilo de todos los artículos futuros.
 voice:
   principles:
     - "Abrí con una imagen concreta o un dato específico. Nunca con 'En un mundo donde...' ni frases genéricas de intro."
@@ -88,9 +93,9 @@ voice:
     - "Alterná frases cortas y declarativas con una frase larga y cinematográfica por párrafo. Ritmo, no relleno."
     - "Cero clichés de marketing: nada de 'revolucionario', 'único en su tipo', 'a nivel mundial', 'game changer'."
     - "Cerrá con una implicación: qué anticipa esto para la industria, o qué tendencia confirma."
-    - "Tono vanguardista pero preciso — el lector es alguien que diseña o remodela, no un turista del diseño."
+    - "Tono vanguardista pero preciso — el lector es un diseñador o arquitecto, no un turista del diseño."
     - "Nunca inventes datos que no estén en la fuente. Si un dato no está confirmado, decilo explícitamente o quitalo."
-    - "Siempre atribuí y enlazá la fuente original — ALBA cura y reescribe con voz propia, no republica texto ajeno."
+    - "Siempre atribuí y enlazá la fuente original — Remodelar cura y reescribe con voz propia, no republica texto ajeno."
   forbidden_phrases:
     - "revolucionario"
     - "único en su tipo"

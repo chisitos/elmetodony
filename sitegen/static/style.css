@@ -1,6 +1,9 @@
-/* ALBA — hoja de estilo editorial.
-   Vanguardista, denso, tipografía como protagonista. Blanco/negro + un
-   acento (rojo señal) que marca lo curatorial: categoría, fecha, score. */
+/* REMODELAR — hoja de estilo editorial.
+   Vanguardista, denso, con la imagen como protagonista (es una publicación
+   para diseñadores). Blanco/negro + un acento (rojo señal) que marca lo
+   curatorial: categoría, edición, fecha. Cuando no hay foto, la nota se
+   resuelve con una placa de trama técnica — hatching de plano de obra —
+   nunca con un ícono de imagen rota. */
 
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
@@ -31,6 +34,7 @@ body {
 }
 
 a { color: inherit; }
+img { max-width: 100%; }
 
 .wrap {
   max-width: 1240px;
@@ -55,14 +59,14 @@ a { color: inherit; }
 
 .masthead .brand {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-size: clamp(1.9rem, 5.2vw, 3.3rem);
   letter-spacing: -0.02em;
   line-height: 0.9;
   text-decoration: none;
   color: var(--ink);
 }
 
-.masthead .brand span { color: var(--accent); }
+.masthead .brand .re { color: var(--accent); }
 
 .masthead .tagline {
   font-family: var(--font-mono);
@@ -86,10 +90,123 @@ a { color: inherit; }
   margin-top: 12px;
 }
 
-/* ---------- grid de portada ---------- */
+.masthead .meta-strip a { color: var(--muted); text-decoration: none; }
+.masthead .meta-strip a:hover { color: var(--accent); }
+
+/* ---------- imagen: foto real o placa de respaldo ---------- */
+
+.media {
+  position: relative;
+  overflow: hidden;
+  background: var(--paper-raised);
+  border: 1px solid var(--line);
+}
+
+.media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media--card { aspect-ratio: 4 / 3; }
+.media--hero { aspect-ratio: 16 / 9; }
+.media--article { aspect-ratio: 16 / 9; margin-bottom: 8px; }
+
+.media-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 16px;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 9px,
+    var(--line) 9px,
+    var(--line) 10px
+  );
+}
+
+.media-fallback__cat {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  padding: 5px 11px;
+}
+
+/* ---------- edición: kicker de N.º y rango ---------- */
+
+.edition-strip {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 22px 0 0;
+  font-family: var(--font-mono);
+}
+
+.edition-strip__num {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 4px 10px;
+}
+
+.edition-strip__range {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.edition-strip__link {
+  margin-left: auto;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  text-decoration: none;
+}
+.edition-strip__link:hover { text-decoration: underline; }
+
+.archive-link-row {
+  padding: 8px 0 56px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.archive-link-row a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); }
+.archive-link-row a:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---------- hero de portada / de edición ---------- */
 
 .hero {
-  padding: 40px 0 8px;
+  padding: 24px 0 8px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
+  /* align-items:start (no stretch): con aspect-ratio en .media, si el grid
+     estira la altura de la imagen a la del texto, el navegador recalcula el
+     ANCHO a partir de esa altura estirada y la imagen se monta sobre la
+     columna de texto. Sin stretch, el ancho lo fija el track y la altura
+     sale del aspect-ratio, como corresponde. */
+  align-items: start;
+}
+
+.hero > * { min-width: 0; }
+
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; }
 }
 
 .hero .kicker {
@@ -102,38 +219,41 @@ a { color: inherit; }
   margin-bottom: 10px;
 }
 
+.hero__text { display: flex; flex-direction: column; justify-content: center; }
+
 .hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.6rem);
+  font-size: clamp(1.8rem, 4vw, 2.9rem);
   line-height: 0.98;
   letter-spacing: -0.01em;
   margin: 0 0 16px;
-  max-width: 20ch;
+  text-wrap: balance;
 }
 
+.hero__link { text-decoration: none; color: inherit; }
+
 .hero .dek {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: #33312a;
-  max-width: 60ch;
-  margin: 0 0 12px;
+  margin: 0 0 14px;
 }
 
 .hero .byline {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   color: var(--muted);
   letter-spacing: 0.05em;
 }
 
+/* ---------- grid de notas ---------- */
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--line);
   border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-  margin: 32px 0 64px;
+  border-left: 1px solid var(--line);
+  margin: 32px 0 24px;
 }
 
 @media (max-width: 900px) {
@@ -145,16 +265,27 @@ a { color: inherit; }
 
 .card {
   background: var(--paper-raised);
-  padding: 22px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--ink);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  min-width: 0;
+}
+
+.card .media { border: none; border-radius: 0; }
+
+.card__body {
+  padding: 18px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  text-decoration: none;
-  color: var(--ink);
+  flex: 1;
   transition: background 0.15s ease;
 }
 
-.card:hover { background: #fffdf7; }
+.card:hover .card__body { background: #fffdf7; }
 
 .card .cat {
   font-family: var(--font-mono);
@@ -166,7 +297,7 @@ a { color: inherit; }
 
 .card h2 {
   font-family: var(--font-display);
-  font-size: 1.32rem;
+  font-size: 1.24rem;
   line-height: 1.08;
   margin: 0;
   letter-spacing: -0.01em;
@@ -175,7 +306,7 @@ a { color: inherit; }
 .card p {
   margin: 0;
   color: #4a4738;
-  font-size: 0.94rem;
+  font-size: 0.92rem;
   line-height: 1.45;
 }
 
@@ -185,19 +316,112 @@ a { color: inherit; }
   display: flex;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.66rem;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   border-top: 1px dashed var(--line);
 }
 
+/* ---------- archivo de ediciones ---------- */
+
+.archive-header { padding: 32px 0 8px; }
+
+.archive-header .kicker {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.archive-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  margin: 0 0 12px;
+}
+
+.archive-header .dek {
+  font-size: 1.05rem;
+  color: #33312a;
+  max-width: 60ch;
+  margin: 0 0 8px;
+}
+
+.edition-list {
+  list-style: none;
+  margin: 24px 0 64px;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.edition-row { border-bottom: 1px solid var(--line); }
+
+.edition-row a {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 16px 4px;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.edition-row a:hover { background: var(--paper-raised); }
+
+.edition-row__num {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--paper);
+  background: var(--ink);
+  padding: 3px 8px;
+  flex-shrink: 0;
+}
+
+.edition-row__range {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.edition-row__headline {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.edition-row__count {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--muted);
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
 /* ---------- artículo ---------- */
 
 .article {
-  padding: 48px 0 80px;
+  padding: 32px 0 80px;
   max-width: 760px;
   margin: 0 auto;
+}
+
+.article__media-credit {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: -4px 0 20px;
 }
 
 .article .cat {
@@ -214,6 +438,7 @@ a { color: inherit; }
   line-height: 1.02;
   letter-spacing: -0.01em;
   margin: 10px 0 18px;
+  text-wrap: balance;
 }
 
 .article .dek {
@@ -291,7 +516,7 @@ a { color: inherit; }
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   text-decoration: none;
   color: var(--muted);
 }

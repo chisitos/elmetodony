@@ -1,4 +1,4 @@
-"""Orquesta una corrida completa del pipeline editorial de ALBA."""
+"""Orquesta una corrida completa del pipeline editorial de Remodelar."""
 from __future__ import annotations
 
 import json
@@ -11,7 +11,7 @@ from .models import Article, Candidate
 from .sources_rss import fetch_rss_candidates
 from .sources_web import fetch_web_candidates
 
-log = logging.getLogger("alba.orchestrator")
+log = logging.getLogger("remodelar.orchestrator")
 ARTICLES_DIR = Path(__file__).resolve().parent.parent / "data" / "articles"
 
 
@@ -37,6 +37,19 @@ def _persist(article: Article) -> Path:
     return path
 
 
+def _load_recent_articles(limit: int) -> list[Article]:
+    """Lo último publicado — se le muestra al curador para que nunca repita
+    la misma historia o el mismo ángulo en una edición nueva."""
+    if not ARTICLES_DIR.exists():
+        return []
+    articles = []
+    for path in ARTICLES_DIR.glob("*.json"):
+        with open(path, "r", encoding="utf-8") as fh:
+            articles.append(Article.from_dict(json.load(fh)))
+    articles.sort(key=lambda a: a.published_at, reverse=True)
+    return articles[:limit]
+
+
 def run(cfg: Config | None = None) -> list[Path]:
     cfg = cfg or Config.load()
     seen = state.load_seen()
@@ -51,7 +64,8 @@ def run(cfg: Config | None = None) -> list[Path]:
         log.info("Nada nuevo dentro de alcance. Corrida terminada sin artículos.")
         return []
 
-    scored = curator.curate(candidates, cfg)
+    recent = _load_recent_articles(cfg.dedup_lookback_articles)
+    scored = curator.curate(candidates, cfg, recent_published=recent)
     selected = [s for s in scored if s.selected]
 
     used_slugs = {p.stem for p in ARTICLES_DIR.glob("*.json")} if ARTICLES_DIR.exists() else set()

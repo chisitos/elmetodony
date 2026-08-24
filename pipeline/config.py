@@ -32,7 +32,7 @@ class Config:
     # -- accesos convenientes -------------------------------------------------
     @property
     def publication_name(self) -> str:
-        return self.raw.get("publication", {}).get("name", "ALBA")
+        return self.raw.get("publication", {}).get("name", "Remodelar")
 
     @property
     def tagline(self) -> str:
@@ -69,6 +69,12 @@ class Config:
     @property
     def min_score_to_select(self) -> float:
         return float(self.raw.get("run", {}).get("min_score_to_select", 6.5))
+
+    @property
+    def dedup_lookback_articles(self) -> int:
+        """Cuántos artículos recientes le mostramos al curador para que nunca
+        repita historia ni ángulo con lo ya publicado."""
+        return int(self.raw.get("run", {}).get("dedup_lookback_articles", 40))
 
     @property
     def include_keywords(self) -> list[str]:

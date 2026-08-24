@@ -1,22 +1,33 @@
-"""Genera el sitio estático de ALBA a partir de data/articles/*.json."""
+"""Genera el sitio estático de Remodelar a partir de data/articles/*.json.
+
+Estructura de salida:
+  public/index.html                 -> última edición (portada + grilla)
+  public/ediciones/index.html       -> archivo de todas las ediciones
+  public/ediciones/<year>-w<NN>.html -> cada edición pasada
+  public/articulos/<slug>.html      -> cada nota individual
+  public/static/                    -> CSS
+
+Las "ediciones" agrupan los artículos por semana calendario (ISO) de
+published_at. No es paginación infinita: cada semana es una selección
+curada y cerrada — ver pipeline/curator.py.
+"""
 from __future__ import annotations
 
 import html
 import json
 import logging
 import shutil
-from datetime import datetime
+import sys
+from datetime import date, datetime
 from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
-
-import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from pipeline.config import Config  # noqa: E402
 from pipeline.models import Article  # noqa: E402
 
-log = logging.getLogger("alba.site")
+log = logging.getLogger("remodelar.site")
 
 ROOT = Path(__file__).resolve().parent.parent
 ARTICLES_DIR = ROOT / "data" / "articles"
@@ -40,6 +51,16 @@ def _human_date(iso: str | None) -> str:
     return f"{dt.day} de {_MESES[dt.month]} de {dt.year}"
 
 
+def _week_range_human(year: int, week: int) -> str:
+    monday = date.fromisocalendar(year, week, 1)
+    sunday = date.fromisocalendar(year, week, 7)
+    if monday.month == sunday.month:
+        return f"{monday.day}–{sunday.day} de {_MESES[monday.month]} de {sunday.year}"
+    if monday.year == sunday.year:
+        return f"{monday.day} de {_MESES[monday.month]} – {sunday.day} de {_MESES[sunday.month]} de {sunday.year}"
+    return f"{monday.day} de {_MESES[monday.month]} de {monday.year} – {sunday.day} de {_MESES[sunday.month]} de {sunday.year}"
+
+
 def _load_articles() -> list[Article]:
     if not ARTICLES_DIR.exists():
         return []
@@ -50,6 +71,37 @@ def _load_articles() -> list[Article]:
         articles.append(Article.from_dict(data))
     articles.sort(key=lambda a: a.published_at, reverse=True)
     return articles
+
+
+def _view_model(a: Article) -> dict:
+    d = a.to_dict()
+    d["published_at_human"] = _human_date(a.published_at)
+    d["original_published_at_human"] = _human_date(a.original_published_at)
+    return d
+
+
+def _build_editions(view_models: list[dict]) -> list[dict]:
+    """Agrupa por semana ISO de published_at y numera cronológicamente."""
+    by_week: dict[tuple[int, int], list[dict]] = {}
+    for vm in view_models:
+        dt = datetime.fromisoformat(vm["published_at"].replace("Z", "+00:00"))
+        year, week, _ = dt.isocalendar()
+        by_week.setdefault((year, week), []).append(vm)
+
+    editions = []
+    for i, key in enumerate(sorted(by_week.keys()), start=1):
+        year, week = key
+        editions.append(
+            {
+                "number": i,
+                "slug": f"{year}-w{week:02d}",
+                "range_human": _week_range_human(year, week),
+                # ya vienen ordenados desc (view_models global ya está desc)
+                "articles": by_week[key],
+            }
+        )
+    editions.sort(key=lambda e: e["number"], reverse=True)
+    return editions
 
 
 def _body_html(body_md: str, pull_quote: str) -> str:
@@ -67,12 +119,7 @@ def _body_html(body_md: str, pull_quote: str) -> str:
     return "\n".join(parts)
 
 
-def build_site(*, asset_prefix: str = "") -> Path:
-    """Renderiza public/index.html y public/articulos/<slug>.html.
-
-    asset_prefix: prefijo relativo para links/estáticos (útil si se sirve
-    desde un subpath). Por defecto vacío, sirve desde la raíz.
-    """
+def build_site() -> Path:
     cfg = Config.load()
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES_DIR)),
@@ -80,39 +127,49 @@ def build_site(*, asset_prefix: str = "") -> Path:
     )
 
     articles = _load_articles()
-    view_models = []
-    for a in articles:
-        d = a.to_dict()
-        d["published_at_human"] = _human_date(a.published_at)
-        d["original_published_at_human"] = _human_date(a.original_published_at)
-        view_models.append(d)
+    view_models = [_view_model(a) for a in articles]
+    editions = _build_editions(view_models)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     articulos_dir = OUTPUT_DIR / "articulos"
+    ediciones_dir = OUTPUT_DIR / "ediciones"
     articulos_dir.mkdir(parents=True, exist_ok=True)
+    ediciones_dir.mkdir(parents=True, exist_ok=True)
 
     common = dict(
         pub_name=cfg.publication_name,
         tagline=cfg.tagline,
         language=cfg.language,
-        asset_prefix=asset_prefix,
         build_date=_human_date(datetime.utcnow().isoformat()),
     )
 
-    index_tpl = env.get_template("index.html")
-    index_html = index_tpl.render(
-        featured=view_models[0] if view_models else None,
-        rest=view_models[1:] if len(view_models) > 1 else view_models,
-        **common,
-    )
-    (OUTPUT_DIR / "index.html").write_text(index_html, encoding="utf-8")
+    def render(template_name: str, output_path: Path, depth: int, **ctx) -> None:
+        tpl = env.get_template(template_name)
+        rendered = tpl.render(asset_prefix="../" * depth, **common, **ctx)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(rendered, encoding="utf-8")
 
+    # Portada = última edición
+    if editions:
+        render("edition.html", OUTPUT_DIR / "index.html", depth=0, edition=editions[0], is_latest=True)
+    else:
+        render("editions_archive.html", OUTPUT_DIR / "index.html", depth=0, editions=[])
+
+    # Archivo de ediciones
+    render("editions_archive.html", ediciones_dir / "index.html", depth=1, editions=editions)
+
+    # Cada edición pasada (todas, incluida la última, para que también tenga URL propia)
+    for e in editions:
+        render("edition.html", ediciones_dir / f"{e['slug']}.html", depth=1, edition=e, is_latest=(e is editions[0]))
+
+    # Cada artículo
     article_tpl = env.get_template("article.html")
     for a, vm in zip(articles, view_models):
         rendered = article_tpl.render(
             article=vm,
             body_html=_body_html(a.body_md, a.pull_quote),
-            **{**common, "asset_prefix": "../" + asset_prefix if not asset_prefix else asset_prefix},
+            asset_prefix="../",
+            **common,
         )
         (articulos_dir / f"{a.slug}.html").write_text(rendered, encoding="utf-8")
 
@@ -130,6 +187,7 @@ def build_site(*, asset_prefix: str = "") -> Path:
             "source_name": a.source_name,
             "source_url": a.source_url,
             "published_at": a.published_at,
+            "image_url": a.image_url,
             "url": f"articulos/{a.slug}.html",
         }
         for a in articles
@@ -138,7 +196,12 @@ def build_site(*, asset_prefix: str = "") -> Path:
         json.dumps(feed, ensure_ascii=False, indent=2), encoding="utf-8"
     )
 
-    log.info("Sitio generado en %s (%d artículos)", OUTPUT_DIR, len(articles))
+    log.info(
+        "Sitio generado en %s (%d artículos, %d ediciones)",
+        OUTPUT_DIR,
+        len(articles),
+        len(editions),
+    )
     return OUTPUT_DIR
 
 

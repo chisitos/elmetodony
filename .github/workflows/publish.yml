@@ -1,9 +1,9 @@
-name: ALBA — corrida editorial y publicación
+name: Remodelar — edición semanal y publicación
 
 on:
   schedule:
-    # 08:00 America/Argentina (UTC-3) = 11:00 UTC. Ajustar si hace falta.
-    - cron: "0 11 * * *"
+    # Lunes 08:00 America/Argentina (UTC-3) = lunes 11:00 UTC. Ajustar si hace falta.
+    - cron: "0 11 * * 1"
   workflow_dispatch: {}
 
 permissions:
@@ -37,10 +37,10 @@ jobs:
 
       - name: Commit de artículos nuevos
         run: |
-          git config user.name "alba-bot"
-          git config user.email "alba-bot@users.noreply.github.com"
+          git config user.name "remodelar-bot"
+          git config user.email "remodelar-bot@users.noreply.github.com"
           git add data/articles data/seen.json
-          git diff --staged --quiet || git commit -m "ALBA: corrida editorial $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet || git commit -m "Remodelar: edición semanal $(date -u +%Y-%m-%d)"
           git push
 
       - name: Generar sitio estático

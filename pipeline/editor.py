@@ -1,4 +1,4 @@
-"""Agente editor: reescribe el candidato seleccionado con la voz de ALBA."""
+"""Agente editor: reescribe el candidato seleccionado con la voz de Remodelar."""
 from __future__ import annotations
 
 import logging
@@ -11,11 +11,12 @@ from .config import Config
 from .llm import call_json
 from .models import Article, ScoredCandidate, now_iso
 
-log = logging.getLogger("alba.editor")
+log = logging.getLogger("remodelar.editor")
 
-SYSTEM_TEMPLATE = """Sos el/la editor/a en jefe de ALBA, un medio editorial vanguardista \
-de arquitectura interior y remodelación de espacios (pensalo como un cruce entre \
-designboom y una revista de autor: mirada de vanguardia, pero rigurosa con los datos).
+SYSTEM_TEMPLATE = """Sos el/la editor/a en jefe de Remodelar, un medio editorial vanguardista \
+de arquitectura interior y remodelación de espacios, hecho para diseñadores (pensalo como \
+un cruce entre designboom y una revista de autor: mirada de vanguardia, pero rigurosa con \
+los datos).
 
 Tu voz, sin excepción:
 {principles}
@@ -26,7 +27,7 @@ Extensión objetivo del cuerpo: entre {min_words} y {max_words} palabras.
 
 Vas a recibir UNA noticia/proyecto ya seleccionado por el equipo curatorial, con su \
 resumen y fuente. Tu trabajo es reescribirlo como una pieza editorial ORIGINAL en la \
-voz de ALBA — no traducir ni parafrasear línea por línea, sino producir una lectura \
+voz de Remodelar — no traducir ni parafrasear línea por línea, sino producir una lectura \
 propia del hecho, fundamentada estrictamente en la información dada. Si el resumen no \
 alcanza para un dato (por ejemplo el precio, o el m2 exacto), no lo inventes: omitilo \
 o hablá en términos generales.
@@ -104,6 +105,8 @@ def edit(sc: ScoredCandidate, cfg: Config, used_slugs: set[str]) -> Article:
         original_published_at=sc.candidate.published_at,
         scores=sc.scores,
         weighted_score=sc.weighted_score,
+        image_url=sc.candidate.image_url,
+        image_credit=sc.candidate.source_name,
     )
     log.info("Editor: '%s' -> %s", sc.candidate.title[:60], article.slug)
     return article

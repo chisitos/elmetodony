@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""CLI de ALBA: corre el pipeline editorial y/o regenera el sitio estático.
+"""CLI de Remodelar: corre el pipeline editorial y/o regenera el sitio estático.
 
 Uso:
   python run.py              # pipeline completo (agentes) + sitio

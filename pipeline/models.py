@@ -21,6 +21,7 @@ class Candidate:
     source_name: str
     published_at: Optional[str] = None  # ISO 8601, puede ser None si no se sabe
     origin: str = "rss"  # "rss" | "web"
+    image_url: Optional[str] = None
 
     @property
     def id(self) -> str:
@@ -52,10 +53,12 @@ class Article:
     category: str
     source_name: str
     source_url: str
-    published_at: str  # ISO 8601 — cuándo lo publica ALBA
+    published_at: str  # ISO 8601 — cuándo lo publica Remodelar
     original_published_at: Optional[str] = None
     scores: dict[str, float] = field(default_factory=dict)
     weighted_score: float = 0.0
+    image_url: Optional[str] = None
+    image_credit: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

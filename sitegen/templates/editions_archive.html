@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Ediciones — {{ pub_name }}{% endblock %}
+{% block content %}
+
+<div class="archive-header">
+  <span class="kicker">Archivo</span>
+  <h1>Ediciones</h1>
+  <p class="dek">Todo lo que publicó {{ pub_name }}, semana a semana. Nada infinito — cada edición es una selección curada, nunca una repetición.</p>
+</div>
+
+<ul class="edition-list">
+  {% for e in editions %}
+  <li class="edition-row">
+    <a href="{{ asset_prefix }}ediciones/{{ e.slug }}.html">
+      <span class="edition-row__num">N.º {{ e.number }}</span>
+      <span class="edition-row__range">{{ e.range_human }}</span>
+      <span class="edition-row__headline">{{ e.articles[0].headline if e.articles else '' }}</span>
+      <span class="edition-row__count">{{ e.articles|length }} nota{{ 's' if e.articles|length != 1 else '' }}</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}

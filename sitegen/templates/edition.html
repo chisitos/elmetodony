@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_macros.html" import card, hero %}
+{% block title %}{% if is_latest %}{{ pub_name }} — {{ tagline }}{% else %}Edición N.º {{ edition.number }} — {{ pub_name }}{% endif %}{% endblock %}
+{% block content %}
+
+<div class="edition-strip">
+  <span class="edition-strip__num">Edición N.º {{ edition.number }}</span>
+  <span class="edition-strip__range">{{ edition.range_human }}</span>
+  {% if not is_latest %}
+  <a class="edition-strip__link" href="{{ asset_prefix }}index.html">Ver la última edición &rarr;</a>
+  {% endif %}
+</div>
+
+{% if edition.articles %}
+  {{ hero(edition.articles[0], asset_prefix, 'Portada de esta edición' if is_latest else 'Destacado de esta edición') }}
+  {% if edition.articles[1:] %}
+  <div class="grid">
+    {% for a in edition.articles[1:] %}{{ card(a, asset_prefix) }}{% endfor %}
+  </div>
+  {% endif %}
+{% endif %}
+
+<div class="archive-link-row">
+  <a href="{{ asset_prefix }}ediciones/index.html">Ver todas las ediciones &rarr;</a>
+</div>
+
+{% endblock %}

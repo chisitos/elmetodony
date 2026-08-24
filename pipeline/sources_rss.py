@@ -13,10 +13,11 @@ import re
 
 import feedparser
 
+from . import images
 from .config import Config
 from .models import Candidate
 
-log = logging.getLogger("alba.sources_rss")
+log = logging.getLogger("remodelar.sources_rss")
 
 _TAG_RE = re.compile(r"<[^>]+>")
 
@@ -78,6 +79,8 @@ def fetch_rss_candidates(cfg: Config) -> list[Candidate]:
             if not _matches_scope(f"{title} {summary}", cfg):
                 continue
 
+            image_url = images.from_rss_entry(entry) or images.fetch_og_image(link)
+
             candidates.append(
                 Candidate(
                     title=title,
@@ -86,6 +89,7 @@ def fetch_rss_candidates(cfg: Config) -> list[Candidate]:
                     source_name=name,
                     published_at=published_iso,
                     origin="rss",
+                    image_url=image_url,
                 )
             )
             count += 1
