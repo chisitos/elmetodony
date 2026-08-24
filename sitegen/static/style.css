@@ -9,11 +9,12 @@
 
 :root {
   --ink: #0a0a0a;
-  --paper: #f7f5f0;
+  --paper: #ffffff;
   --paper-raised: #ffffff;
-  --line: #d8d4c8;
+  --paper-tint: #f7f7f7;
+  --line: #e0e0e0;
   --accent: #ff3d1a;
-  --muted: #6b6759;
+  --muted: #6b6b6b;
   --font-display: 'Archivo Black', 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -234,7 +235,7 @@ img { max-width: 100%; }
 
 .hero .dek {
   font-size: 1.1rem;
-  color: #33312a;
+  color: #262626;
   margin: 0 0 14px;
 }
 
@@ -285,7 +286,7 @@ img { max-width: 100%; }
   transition: background 0.15s ease;
 }
 
-.card:hover .card__body { background: #fffdf7; }
+.card:hover .card__body { background: var(--paper-tint); }
 
 .card .cat {
   font-family: var(--font-mono);
@@ -305,7 +306,7 @@ img { max-width: 100%; }
 
 .card p {
   margin: 0;
-  color: #4a4738;
+  color: #3d3d3d;
   font-size: 0.92rem;
   line-height: 1.45;
 }
@@ -345,7 +346,7 @@ img { max-width: 100%; }
 
 .archive-header .dek {
   font-size: 1.05rem;
-  color: #33312a;
+  color: #262626;
   max-width: 60ch;
   margin: 0 0 8px;
 }
@@ -443,7 +444,7 @@ img { max-width: 100%; }
 
 .article .dek {
   font-size: 1.2rem;
-  color: #33312a;
+  color: #262626;
   margin: 0 0 20px;
 }
 
