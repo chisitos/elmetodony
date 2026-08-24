@@ -112,14 +112,23 @@ no se encuentra ninguna, la nota se resuelve con una placa de trama técnica
 
 ## Contenido de muestra
 
-`data/articles/` ya trae 5 notas de muestra (escritas a mano, en la voz de
-Remodelar, cubriendo remodelación, materiales, iluminación e interiorismo
-comercial/residencial) para que puedas ver el sitio funcionando sin correr
-el pipeline. Van sin imagen a propósito — son contenido inventado para la
-demo (no hay foto real que les corresponda), así que muestran la placa de
-respaldo; las notas reales que arme el pipeline sí van a traer foto. Si
-preferís arrancar de cero, borrá los `.json` de `data/articles/` y
-`data/seen.json`.
+`data/articles/` trae la primera edición real de Remodelar: 5 notas
+curadas a mano sobre RSS reales de los medios de `config/feeds.yaml`
+(designboom, Yellowtrace, Design Milk, ArchDaily), redactadas en la voz de
+Remodelar y fundamentadas estrictamente en lo que cada fuente publicó —
+sin inventar datos. Cada una lleva su **imagen real** (la que trae el
+propio feed o la página del artículo) y su **atribución con link** a la
+fuente original, visible al pie de la nota.
+
+Esta tanda se armó a mano (por Claude, en esta conversación) porque esta
+sesión no tiene una `ANTHROPIC_API_KEY` propia para invocar a los agentes
+curador/editor vía API — se usó el mismo agente investigador de RSS del
+pipeline (`pipeline/sources_rss.py`) para traer los candidatos reales, y
+después se escribió cada nota siguiendo el mismo criterio y la misma guía
+de voz que usan los agentes. Una vez que configures el secret
+`ANTHROPIC_API_KEY` (ver más abajo), las próximas ediciones las arma el
+pipeline solo. Si preferís arrancar de cero, borrá los `.json` de
+`data/articles/` y `data/seen.json`.
 
 ## Editar el tono o el criterio
 
