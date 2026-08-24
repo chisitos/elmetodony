@@ -1,0 +1,101 @@
+# Configuración editorial de ALBA — motor editorial de arquitectura interior
+# y remodelación de espacios. Este archivo controla el alcance temático, el
+# criterio del agente curador y la voz del agente editor, sin tocar código.
+
+publication:
+  name: "ALBA"
+  tagline: "Arquitectura interior y remodelación, en tiempo real"
+  language: "es"
+
+models:
+  # IDs de modelo Claude a usar en cada rol. Se pueden fijar por variable de
+  # entorno (ANTHROPIC_MODEL_*) para no editar este archivo en cada corrida.
+  research: "claude-sonnet-5"
+  curator: "claude-sonnet-5"
+  editor: "claude-opus-5"
+
+run:
+  lookback_days: 6          # qué tan atrás mirar en RSS / búsqueda web
+  max_rss_per_feed: 12       # tope de items crudos por feed antes de filtrar
+  max_web_queries: 4         # nº de búsquedas web que hace el agente investigador
+  max_selected_per_run: 6    # artículos que el curador puede aprobar por corrida
+  min_score_to_select: 6.5   # sobre 10 — umbral del rubro ponderado
+
+# Alcance temático: el agente de RSS pre-filtra con esto antes de gastar
+# tokens en el curador. El curador aplica el mismo alcance con más criterio.
+scope:
+  include_keywords:
+    - interior
+    - interiores
+    - remodel
+    - renovation
+    - renovación
+    - remodelación
+    - retrofit
+    - adaptive reuse
+    - reforma
+    - apartment
+    - departamento
+    - loft
+    - house renovation
+    - casa
+    - vivienda
+    - hospitality design
+    - retail design
+    - office interior
+    - oficinas
+    - material
+    - materiales
+    - furniture
+    - mobiliario
+    - lighting design
+    - iluminación
+    - kitchen
+    - cocina
+    - bathroom
+    - baño
+    - textile
+    - textil
+    - sustainable materials
+    - biomateriales
+  exclude_keywords:
+    - urban planning only
+    - skyscraper competition
+    - masterplan
+    - stadium
+    - airport terminal
+
+# Rubro de selección del agente curador. Cada candidato se puntúa 0-10 en
+# cada eje; el score final es la suma ponderada. Ajustar pesos aquí cambia
+# el criterio editorial sin tocar prompts.
+rubric:
+  weights:
+    novedad: 0.22            # ¿es genuinamente nuevo / no visto ya?
+    actualidad: 0.18          # ¿qué tan reciente es (fecha de publicación)?
+    utilidad: 0.18            # ¿le sirve a un lector que diseña o remodela?
+    uso_materiales: 0.20      # ¿hay especificidad de materiales/técnica?
+    tendencia_industria: 0.14 # ¿conecta con una tendencia real de la industria?
+    encaje_tematico: 0.08     # ¿encaja con el alcance de interiores/remodelación?
+
+# Guía de voz para el agente editor. Esto SE INYECTA tal cual en el prompt
+# del editor — es la fuente de verdad del tono de ALBA. Editar aquí cambia
+# el estilo de todos los artículos futuros.
+voice:
+  principles:
+    - "Abrí con una imagen concreta o un dato específico. Nunca con 'En un mundo donde...' ni frases genéricas de intro."
+    - "Nombrá el estudio, la arquitecta o la marca, y la ciudad, dentro de las primeras dos frases."
+    - "Precisión material: nombrá el material, la técnica o el proceso puntual — no digas 'materiales innovadores', decí cuáles y cómo se usan."
+    - "Alterná frases cortas y declarativas con una frase larga y cinematográfica por párrafo. Ritmo, no relleno."
+    - "Cero clichés de marketing: nada de 'revolucionario', 'único en su tipo', 'a nivel mundial', 'game changer'."
+    - "Cerrá con una implicación: qué anticipa esto para la industria, o qué tendencia confirma."
+    - "Tono vanguardista pero preciso — el lector es alguien que diseña o remodela, no un turista del diseño."
+    - "Nunca inventes datos que no estén en la fuente. Si un dato no está confirmado, decilo explícitamente o quitalo."
+    - "Siempre atribuí y enlazá la fuente original — ALBA cura y reescribe con voz propia, no republica texto ajeno."
+  forbidden_phrases:
+    - "revolucionario"
+    - "único en su tipo"
+    - "a nivel mundial"
+    - "en un mundo donde"
+    - "sin duda"
+    - "cabe destacar"
+  target_length_words: [280, 480]

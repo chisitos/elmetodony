@@ -1,0 +1,21 @@
+# Fuentes RSS para el agente investigador "de catálogo".
+# Cada fuente se lee, se filtra por palabras clave de alcance (ver editorial.yaml)
+# y se pasa como candidato al agente curador. Agregar/quitar fuentes aquí no
+# requiere tocar código.
+feeds:
+  - name: "Dezeen — Interiors"
+    url: "https://www.dezeen.com/interiors/feed/"
+  - name: "designboom — Interiors"
+    url: "https://www.designboom.com/interiors/feed/"
+  - name: "ArchDaily"
+    url: "https://www.archdaily.com/rss"
+  - name: "Design Milk"
+    url: "https://design-milk.com/feed/"
+  - name: "Yellowtrace"
+    url: "https://www.yellowtrace.com.au/feed/"
+  - name: "The Spaces"
+    url: "https://thespaces.com/feed/"
+  - name: "Interior Design"
+    url: "https://www.interiordesign.net/feed/"
+  - name: "Architectural Digest"
+    url: "https://www.architecturaldigest.com/feed/rss"

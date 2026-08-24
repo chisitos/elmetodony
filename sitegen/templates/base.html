@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="{{ language }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ pub_name }} — {{ tagline }}{% endblock %}</title>
+<meta name="description" content="{{ tagline }}">
+<link rel="stylesheet" href="{{ asset_prefix }}static/style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="{{ asset_prefix }}index.html">{{ pub_name[:-1] }}<span>{{ pub_name[-1:] }}</span></a>
+    <div class="tagline">{{ tagline }}</div>
+    <div class="meta-strip">
+      <span>Arquitectura interior · Remodelación · Materiales</span>
+      <span>Actualizado {{ build_date }}</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+{% block content %}{% endblock %}
+</main>
+
+<footer>
+  <div class="wrap">
+    {{ pub_name }} — curado y redactado por un equipo de agentes editoriales sobre fuentes públicas, con atribución y enlace a cada fuente original.
+  </div>
+</footer>
+</body>
+</html>

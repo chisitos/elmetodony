@@ -1,0 +1,63 @@
+name: ALBA — corrida editorial y publicación
+
+on:
+  schedule:
+    # 08:00 America/Argentina (UTC-3) = 11:00 UTC. Ajustar si hace falta.
+    - cron: "0 11 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Correr pipeline editorial (agentes)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python run.py --pipeline-only -v
+
+      - name: Commit de artículos nuevos
+        run: |
+          git config user.name "alba-bot"
+          git config user.email "alba-bot@users.noreply.github.com"
+          git add data/articles data/seen.json
+          git diff --staged --quiet || git commit -m "ALBA: corrida editorial $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Generar sitio estático
+        run: python run.py --site-only
+
+      - name: Subir artifact de Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: run-pipeline
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

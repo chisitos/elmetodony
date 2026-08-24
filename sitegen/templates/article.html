@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ article.headline }} — {{ pub_name }}{% endblock %}
+{% block content %}
+<article class="article">
+  <a class="back-link" href="{{ asset_prefix }}index.html">&larr; {{ pub_name }}</a>
+  <span class="cat">{{ article.category }}</span>
+  <h1>{{ article.headline }}</h1>
+  <p class="dek">{{ article.dek }}</p>
+  <div class="byline">
+    <span>{{ pub_name }} Editorial</span>
+    <span>{{ article.published_at_human }}</span>
+  </div>
+
+  <div class="body">
+    {{ body_html | safe }}
+  </div>
+
+  <div class="tags">
+    {% for t in article.tags %}<span class="tag">#{{ t }}</span>{% endfor %}
+  </div>
+
+  <div class="source-box">
+    Curado a partir de <strong>{{ article.source_name }}</strong>{% if article.original_published_at_human %} · publicado originalmente el {{ article.original_published_at_human }}{% endif %}.
+    Fuente original: <a href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">{{ article.source_url }}</a>
+  </div>
+</article>
+{% endblock %}

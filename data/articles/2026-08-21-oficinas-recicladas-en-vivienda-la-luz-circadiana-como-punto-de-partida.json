@@ -1,0 +1,15 @@
+{
+  "slug": "2026-08-21-oficinas-recicladas-en-vivienda-la-luz-circadiana-como-punto-de-partida",
+  "headline": "Oficinas recicladas en vivienda: la luz circadiana como punto de partida",
+  "dek": "Al convertir plantas de oficina en departamentos, el problema no es el espacio: es que la iluminación se diseñó para pantallas, no para vivir.",
+  "body_md": "La reconversión de edificios de oficina en vivienda creció donde la vacancia corporativa dejó plantas libres de 800 y 1.000 metros cuadrados sin uso. El desafío que casi nadie resuelve bien es la luz. Una oficina se ilumina para uniformidad — 500 lux parejos en toda la planta, luz fría de 4.000 kelvin, sin variación en el día — porque eso es lo que pide una pantalla. Una vivienda necesita lo opuesto: variación, temperatura de color que cambia de mañana a noche, zonas de sombra.\n\nLos proyectos de adaptive reuse que están funcionando bien no reutilizan el sistema de iluminación existente: lo sacan entero y parten de cero con circuitos regulables por zona, temperatura de color variable entre 2.700 y 4.000 kelvin según hora del día, y sensores de luz natural que bajan la artificial cuando hay sol de fachada. El sobrecosto de esa instalación nueva ronda el 8% del presupuesto total de la reforma — parece poco pero es la partida que más rápido se recorta cuando el proyecto se aprieta, y es la que más se nota si se recorta mal.\n\nLo otro que cambia es la profundidad de planta. Las oficinas suelen tener plantas profundas, de 15 o más metros desde la fachada, pensadas para escritorios en batería bajo luz artificial constante. Convertidas en vivienda, esa profundidad deja ambientes centrales sin luz natural directa — ahí es donde la iluminación circadiana artificial deja de ser un lujo estético y pasa a ser la única fuente de referencia horaria que tiene ese ambiente.\n\nEs una lección que está empezando a aplicarse también en reformas de vivienda nueva, no sólo en reciclaje de oficinas: diseñar primero la curva de luz del día, y recién después la disposición de los ambientes.",
+  "pull_quote": "Diseñar primero la curva de luz del día, y recién después la disposición de los ambientes.",
+  "tags": ["iluminación", "adaptive reuse", "oficinas", "luz circadiana", "reciclaje edilicio"],
+  "category": "Iluminación",
+  "source_name": "ALBA — contenido de muestra",
+  "source_url": "https://github.com/chisitos/elmetodony#contenido-de-muestra",
+  "published_at": "2026-08-21T13:00:00+00:00",
+  "original_published_at": null,
+  "scores": {"novedad": 8, "actualidad": 7, "utilidad": 8, "uso_materiales": 6, "tendencia_industria": 9, "encaje_tematico": 9},
+  "weighted_score": 7.72
+}
