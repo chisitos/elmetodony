@@ -78,7 +78,7 @@ def run(cfg: Config | None = None) -> list[Path]:
             continue
 
         if not article.image_url:
-            stock = stock_images.search_illustrative_image(article.category)
+            stock = stock_images.search_illustrative_image(article.category, article.image_search_hint)
             if stock:
                 article.image_url = stock["url"]
                 article.image_credit = stock["credit"]

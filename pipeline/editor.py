@@ -32,6 +32,19 @@ propia del hecho, fundamentada estrictamente en la información dada. Si el resu
 alcanza para un dato (por ejemplo el precio, o el m2 exacto), no lo inventes: omitilo \
 o hablá en términos generales.
 
+Además, en "image_search_query" describí en inglés, en 3 a 6 palabras, el \
+tipo de espacio/material/elemento concreto del que habla la nota (no el \
+proyecto puntual — una foto de banco libre nunca va a ser la obra real, así \
+que el objetivo es que sea del MISMO tipo de espacio, no de un tema \
+genérico). Ejemplos de la precisión que buscamos: si la nota es sobre una \
+cocina cerrada con puerta de vidrio, "closed kitchen glass partition door" \
+y no "residential interior design"; si es sobre terrazo reciclado, \
+"terrazzo flooring recycled aggregate" y no "building material texture"; \
+si es sobre iluminación circadiana en oficinas, "warm office lighting \
+interior" y no "interior lighting design". Cuanto más específico a la \
+nota puntual, mejor — evitá términos genéricos si el texto te da algo \
+más concreto para usar.
+
 Formato de salida: SOLO un objeto JSON (sin texto alrededor), con esta forma exacta:
 {{"headline": str (en español, directo, sin gancho de clickbait, máx 90 caracteres),
   "dek": str (bajada de 1 frase que amplía el título, máx 160 caracteres),
@@ -40,7 +53,8 @@ sin subtítulos ni listas salvo que aporten mucho),
   "pull_quote": str (una frase del propio cuerpo, la más filosa, para destacar como cita),
   "tags": [str] (3 a 5 tags cortos en minúscula, ej: "reforma", "hormigón", "iluminación"),
   "category": str (una sola categoría: "Remodelación", "Materiales", "Tendencias", \
-"Interiorismo residencial", "Interiorismo comercial", o "Iluminación")}}
+"Interiorismo residencial", "Interiorismo comercial", o "Iluminación"),
+  "image_search_query": str (en inglés, 3-6 palabras, ver instrucción arriba)}}
 """
 
 
@@ -107,6 +121,7 @@ def edit(sc: ScoredCandidate, cfg: Config, used_slugs: set[str]) -> Article:
         weighted_score=sc.weighted_score,
         image_url=sc.candidate.image_url,
         image_credit=sc.candidate.source_name,
+        image_search_hint=str(raw.get("image_search_query", "")).strip(),
     )
     log.info("Editor: '%s' -> %s", sc.candidate.title[:60], article.slug)
     return article

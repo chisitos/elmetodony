@@ -3,9 +3,16 @@ trajo foto propia (ni del RSS ni de la fuente).
 
 Diferencia clave con `pipeline/images.py`: esto NUNCA es una foto del
 proyecto/objeto real descrito en la nota — es una foto genérica de banco
-libre, elegida por categoría temática. Por eso el sitio la marca siempre
-como "imagen ilustrativa" y nunca la mezcla visualmente con una foto real
-de la obra (ver `image_is_illustrative` en pipeline/models.py).
+libre. Por eso el sitio la marca siempre como "imagen ilustrativa" y nunca
+la mezcla visualmente con una foto real de la obra (ver
+`image_is_illustrative` en pipeline/models.py). Pero "genérica" no quiere
+decir cualquiera: tiene que ser del MISMO TIPO de espacio/material que
+describe la nota (una cocina para una nota de cocinas, terrazo para una
+nota de terrazo) — nunca una foto de arquitectura cualquiera puesta de
+relleno. Por eso el agente editor manda su propia `image_search_query`
+específica (ej. "closed kitchen glass partition"), y esta búsqueda la usa
+como primer intento; el mapeo por categoría de acá abajo es sólo el
+respaldo genérico si esa búsqueda puntual no encuentra nada.
 
 Openverse (openverse.org, proyecto de Creative Commons) agrega fotos con
 licencia abierta de Flickr, Wikimedia Commons, museos, etc., con su
@@ -27,9 +34,9 @@ log = logging.getLogger("remodelar.stock_images")
 _API_URL = "https://api.openverse.org/v1/images/"
 _HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; RemodelarBot/1.0; +editorial illustrative-image fallback)"}
 
-# Cada categoría editorial (pipeline/editor.py las define) se traduce a un
-# término de búsqueda en inglés — Openverse indexa mayormente metadata en
-# inglés, así que buscar en español da resultados pobres.
+# Respaldo genérico por categoría editorial (pipeline/editor.py las define),
+# sólo para cuando la `image_search_query` puntual del editor no encontró
+# nada. Openverse indexa mayormente metadata en inglés.
 _CATEGORY_QUERY = {
     "Remodelación": "apartment renovation interior",
     "Materiales": "building material texture architecture",
@@ -41,13 +48,7 @@ _CATEGORY_QUERY = {
 _DEFAULT_QUERY = "interior architecture design"
 
 
-def search_illustrative_image(category: str, timeout: float = 8.0) -> Optional[dict]:
-    """Busca una foto de banco libre para ilustrar `category`.
-
-    Devuelve un dict {url, credit, license, source_url} o None si no
-    encontró nada o falló la búsqueda (nunca debe tumbar el pipeline).
-    """
-    query = _CATEGORY_QUERY.get(category, _DEFAULT_QUERY)
+def _query_openverse(query: str, timeout: float) -> Optional[dict]:
     params = {
         "q": query,
         "license_type": "commercial,modification",
@@ -59,7 +60,7 @@ def search_illustrative_image(category: str, timeout: float = 8.0) -> Optional[d
         resp.raise_for_status()
         results = resp.json().get("results", [])
     except Exception as exc:  # noqa: BLE001 — es un plus, nunca debe tumbar el pipeline
-        log.warning("Búsqueda de imagen ilustrativa falló para '%s': %s", category, exc)
+        log.warning("Búsqueda de imagen ilustrativa falló para '%s': %s", query, exc)
         return None
 
     for item in results:
@@ -76,6 +77,31 @@ def search_illustrative_image(category: str, timeout: float = 8.0) -> Optional[d
             "license": license_str,
             "source_url": item.get("foreign_landing_url") or item.get("license_url") or "",
         }
+    return None
 
-    log.info("Sin resultados de imagen ilustrativa para categoría '%s' (query: %s)", category, query)
+
+def search_illustrative_image(category: str, search_hint: str = "", timeout: float = 8.0) -> Optional[dict]:
+    """Busca una foto de banco libre coherente con la nota.
+
+    `search_hint` (la image_search_query específica que manda el editor) va
+    primero, porque es lo que hace que la foto sea del mismo tipo de
+    espacio/material que la nota, no una genérica por categoría. El mapeo
+    por categoría es sólo el segundo intento si esa búsqueda no dio nada.
+
+    Devuelve un dict {url, credit, license, source_url} o None si no
+    encontró nada o falló la búsqueda (nunca debe tumbar el pipeline).
+    """
+    tried = []
+    if search_hint:
+        tried.append(search_hint)
+    fallback = _CATEGORY_QUERY.get(category, _DEFAULT_QUERY)
+    if fallback not in tried:
+        tried.append(fallback)
+
+    for query in tried:
+        result = _query_openverse(query, timeout)
+        if result:
+            return result
+
+    log.info("Sin resultados de imagen ilustrativa (intentos: %s)", tried)
     return None

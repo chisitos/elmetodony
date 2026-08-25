@@ -67,6 +67,10 @@ class Article:
     image_is_illustrative: bool = False
     image_license: str = ""
     image_source_url: str = ""
+    # Pista del editor (en inglés, ej. "closed kitchen glass partition") para
+    # que, si hace falta banco libre, la foto sea del mismo tipo de espacio/
+    # material que describe ESTA nota — no una genérica por categoría.
+    image_search_hint: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
