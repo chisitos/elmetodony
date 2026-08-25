@@ -1,13 +1,21 @@
 """Extracción de imagen destacada para cada candidato.
 
-Remodelar es una publicación visual: cada nota necesita una imagen. Orden de
-prioridad para conseguirla sin inventar nada:
+Remodelar es una publicación visual, pero no aloja ni redistribuye fotos
+ajenas: cada nota referencia (hotlink) la imagen desde el servidor del medio
+original, con crédito y link visible — nunca se descarga ni se sirve desde
+acá. Dos niveles, con riesgo de derechos muy distinto:
 
-1. Metadata de imagen que ya trae el RSS (media:content, media:thumbnail,
-   enclosure, o el primer <img> del cuerpo/resumen del post).
-2. Fallback: meta og:image / twitter:image de la página del artículo — un
-   fetch liviano de la cabecera HTML (no scrapea el cuerpo), igual que
-   hace cualquier previsualizador de links.
+1. `from_rss_entry` — el thumbnail que el propio feed publica para
+   sindicación (media:content, media:thumbnail, enclosure, o el primer
+   <img> del post). Es el nivel seguro: un archivo que el medio ya preparó
+   y ofrece específicamente para que un lector de feeds lo muestre. Es lo
+   único que usa `sources_rss.py`.
+2. `fetch_og_image` — meta og:image/twitter:image de la página del
+   artículo (fetch liviano de la cabecera HTML, no scrapea el cuerpo). Es
+   un nivel de riesgo más alto: normalmente es la foto grande de portada
+   del artículo, pensada para compartir en redes, no un thumbnail de
+   sindicación. Por eso `sources_rss.py` NO la usa como fallback — sólo la
+   usa `sources_web.py`, donde es la única imagen posible.
 
 Si no se encuentra nada, el candidato queda sin imagen y el sitio lo
 resuelve con una placa de respaldo prolija (no un ícono de imagen rota).
@@ -82,14 +90,3 @@ def fetch_og_image(url: str, timeout: float = 6.0) -> Optional[str]:
     text = chunk.decode("utf-8", errors="ignore")
     match = _OG_IMAGE_RE.search(text) or _OG_IMAGE_RE_REV.search(text)
     return match.group(1) if match else None
-
-
-def resolve_image(*, rss_entry=None, article_url: Optional[str] = None) -> Optional[str]:
-    """Punto de entrada único: intenta RSS primero, después og:image."""
-    if rss_entry is not None:
-        found = from_rss_entry(rss_entry)
-        if found:
-            return found
-    if article_url:
-        return fetch_og_image(article_url)
-    return None

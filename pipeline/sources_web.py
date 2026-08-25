@@ -83,6 +83,12 @@ def fetch_web_candidates(cfg: Config) -> list[Candidate]:
                 source_name=str(item.get("source_name", "Web")).strip() or "Web",
                 published_at=item.get("published_at") or None,
                 origin="web",
+                # Acá SÍ recurrimos a og:image: a diferencia del agente de RSS,
+                # una nota encontrada por búsqueda web no tiene un thumbnail de
+                # sindicación disponible — es la única imagen posible. Es un
+                # escalón de riesgo más alto (suele ser la foto grande de
+                # portada, no un thumbnail pensado para esto), así que estas
+                # notas son la minoría del feed, no la base.
                 image_url=images.fetch_og_image(url),
             )
         )
