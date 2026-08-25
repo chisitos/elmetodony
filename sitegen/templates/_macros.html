@@ -2,6 +2,7 @@
 <div class="media media--{{ size }}">
   {% if a.image_url %}
   <img src="{{ a.image_url }}" alt="{{ a.headline }}" loading="{{ 'eager' if size == 'hero' else 'lazy' }}">
+  {% if a.image_is_illustrative %}<span class="media-badge">Imagen ilustrativa</span>{% endif %}
   {% else %}
   <div class="media-fallback"><span class="media-fallback__cat">{{ a.category }}</span></div>
   {% endif %}

@@ -12,9 +12,10 @@ Tres reglas de fondo, no negociables:
   cualquier historia o ángulo que ya haya salido, aunque venga de otra fuente.
 - **Calidad sobre cantidad.** El tope de notas por edición es un techo, no un
   objetivo. Una edición de 3 piezas muy buenas es mejor que una de 8 con relleno.
-- **Es una publicación visual.** Cada nota busca imagen real (del RSS o de la
-  página fuente) antes que texto solo; sin foto, se resuelve con una placa de
-  trama técnica prolija, nunca con un ícono roto.
+- **Es una publicación visual.** Cada nota busca imagen real del thumbnail
+  que el propio RSS publica para sindicación; si no hay, completa con una
+  foto ilustrativa de banco libre (marcada como tal); si tampoco hay, se
+  resuelve con una placa de trama técnica prolija, nunca con un ícono roto.
 
 ## Cómo funciona (5 agentes + generador de sitio)
 
@@ -44,12 +45,15 @@ Tres reglas de fondo, no negociables:
 - **`pipeline/sources_rss.py`** — lee los feeds de `config/feeds.yaml` (Dezeen,
   designboom, ArchDaily, Design Milk, Yellowtrace, The Spaces, Interior
   Design, Architectural Digest), filtra por las palabras clave de
-  `config/editorial.yaml → scope` y extrae la imagen del propio item
-  (`pipeline/images.py`). Determinístico, no gasta tokens.
+  `config/editorial.yaml → scope` y extrae el thumbnail de sindicación del
+  propio item (`pipeline/images.py`). Determinístico, no gasta tokens.
 - **`pipeline/sources_web.py`** — agente que usa la tool de búsqueda web
   nativa de Claude para encontrar lo que los feeds fijos no cubren
   (lanzamientos de materiales, tendencias emergentes), con fallback de
   imagen vía `og:image` de la página encontrada.
+- **`pipeline/stock_images.py`** — si ni el RSS ni la búsqueda web trajeron
+  imagen, completa con una foto ilustrativa de banco libre (Openverse,
+  licencias reusables) — ver "Imágenes y derechos de autor" más abajo.
 - **`pipeline/curator.py`** — agente que puntúa cada candidato en el rubro
   editorial, ve las últimas ~40 notas publicadas para no repetir historia
   ni ángulo, y selecciona sólo los que superan el umbral
@@ -124,10 +128,20 @@ con riesgo muy distinto, y el pipeline los trata distinto (`pipeline/images.py`)
    de la página — normalmente la foto grande pensada para redes, no para
    esto. Es un nivel de riesgo más alto a propósito acotado a la minoría del
    feed que viene de búsqueda web, nunca a la base de fuentes RSS.
+3. **Foto ilustrativa de banco libre, si los dos niveles anteriores no
+   encontraron nada** (`pipeline/stock_images.py`): busca en Openverse
+   (agregador de Creative Commons de Flickr, Wikimedia Commons, etc., API
+   pública sin key) una foto genérica por categoría, filtrada a licencias
+   que permiten uso comercial y modificación (CC0, CC BY, CC BY-SA — nunca
+   NC/ND), con autor y licencia guardados para atribuir. Esto es **siempre
+   una foto genérica, nunca del proyecto real de la nota** — por eso el
+   sitio la marca con un badge "Imagen ilustrativa" sobre la foto, y en la
+   página del artículo el crédito dice explícitamente "no es una foto del
+   proyecto" en vez de "Imagen: {fuente}".
 
-Cuando no se encuentra ninguna imagen, la nota se resuelve con una placa de
-trama técnica (el hatching de un plano de obra) en vez de un ícono de
-imagen rota — nunca se genera ni se inventa una foto para una nota real.
+Cuando ninguno de los tres niveles encuentra nada, la nota se resuelve con
+una placa de trama técnica (el hatching de un plano de obra) en vez de un
+ícono de imagen rota — nunca se inventa una foto para una nota real.
 
 Esto no es asesoría legal. El texto de cada nota es reescritura editorial
 original (bajo riesgo); las fotos son lo más sensible del sistema — si este

@@ -5,7 +5,7 @@ import json
 import logging
 from pathlib import Path
 
-from . import curator, editor, state
+from . import curator, editor, stock_images, state
 from .config import Config
 from .models import Article, Candidate
 from .sources_rss import fetch_rss_candidates
@@ -76,6 +76,17 @@ def run(cfg: Config | None = None) -> list[Path]:
         except Exception as exc:  # noqa: BLE001 — que un artículo falle no debe tumbar la corrida
             log.error("Falló la redacción de '%s': %s", sc.candidate.title[:60], exc)
             continue
+
+        if not article.image_url:
+            stock = stock_images.search_illustrative_image(article.category)
+            if stock:
+                article.image_url = stock["url"]
+                article.image_credit = stock["credit"]
+                article.image_license = stock["license"]
+                article.image_source_url = stock["source_url"]
+                article.image_is_illustrative = True
+                log.info("Nota sin foto propia, completada con imagen ilustrativa: %s", article.slug)
+
         written.append(_persist(article))
         state.mark_seen(seen, [sc.candidate], slug=article.slug)
 

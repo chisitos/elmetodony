@@ -59,6 +59,14 @@ class Article:
     weighted_score: float = 0.0
     image_url: Optional[str] = None
     image_credit: str = ""
+    # Cuando el candidato no trajo foto propia (ni de RSS ni de la fuente),
+    # se completa con una foto de banco libre (pipeline/stock_images.py) —
+    # genérica, con licencia CC, NUNCA una foto real de este proyecto puntual.
+    # Estos tres campos distinguen ese caso para que el sitio nunca la
+    # muestre como si documentara la obra descrita.
+    image_is_illustrative: bool = False
+    image_license: str = ""
+    image_source_url: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

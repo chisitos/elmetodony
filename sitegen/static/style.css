@@ -110,6 +110,19 @@ img { max-width: 100%; }
   object-fit: cover;
 }
 
+.media-badge {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--paper);
+  background: rgba(10, 10, 10, 0.72);
+  padding: 4px 8px;
+}
+
 .media--card { aspect-ratio: 4 / 3; }
 .media--hero { aspect-ratio: 16 / 9; }
 .media--article { aspect-ratio: 16 / 9; margin-bottom: 8px; }
@@ -424,6 +437,8 @@ img { max-width: 100%; }
   color: var(--muted);
   margin: -4px 0 20px;
 }
+.article__media-credit a { color: var(--accent); text-decoration: none; }
+.article__media-credit a:hover { text-decoration: underline; }
 
 .article .cat {
   font-family: var(--font-mono);

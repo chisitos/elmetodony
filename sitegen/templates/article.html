@@ -7,7 +7,13 @@
 
   {{ media(article, asset_prefix, 'article') }}
   {% if article.image_url and article.image_credit %}
-  <div class="article__media-credit">Imagen: {{ article.image_credit }}</div>
+  <div class="article__media-credit">
+    {% if article.image_is_illustrative %}
+    Imagen ilustrativa, no es una foto del proyecto — {{ article.image_credit }}{% if article.image_source_url %} · <a href="{{ article.image_source_url }}" target="_blank" rel="noopener noreferrer">fuente</a>{% endif %}
+    {% else %}
+    Imagen: {{ article.image_credit }}
+    {% endif %}
+  </div>
   {% endif %}
 
   <span class="cat">{{ article.category }}</span>
