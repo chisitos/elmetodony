@@ -1,0 +1,53 @@
+name: Remodelar — publicar sitio (sin agentes)
+
+# Sólo arma el sitio estático a partir de lo que ya está en data/articles/ y
+# lo publica en GitHub Pages. No llama a la API de Claude ni necesita
+# ANTHROPIC_API_KEY — a diferencia de publish.yml (que sí corre los agentes),
+# este workflow sirve para ver el sitio en la web ya mismo, con lo que haya
+# en el repo en este momento.
+
+on:
+  push:
+    branches: ["main", "claude/**"]
+    paths:
+      - "data/articles/**"
+      - "sitegen/**"
+      - "config/**"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias (sólo las que usa el generador de sitio)
+        run: pip install Jinja2 PyYAML python-slugify
+
+      - name: Generar sitio estático
+        run: python run.py --site-only
+
+      - name: Subir artifact de Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+      - name: Deploy a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
