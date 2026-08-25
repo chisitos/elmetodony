@@ -79,7 +79,13 @@ def fetch_rss_candidates(cfg: Config) -> list[Candidate]:
             if not _matches_scope(f"{title} {summary}", cfg):
                 continue
 
-            image_url = images.from_rss_entry(entry) or images.fetch_og_image(link)
+            # Sólo el thumbnail que el propio feed publica para sindicación
+            # (media:content/thumbnail, enclosure, <img> del post). A
+            # propósito NO hacemos fallback a og:image acá: eso traería la
+            # foto grande de portada del artículo, pensada para compartir en
+            # redes, no para esto. Si el feed no trae imagen, la nota queda
+            # sin foto y el sitio la resuelve con la placa de respaldo.
+            image_url = images.from_rss_entry(entry)
 
             candidates.append(
                 Candidate(
