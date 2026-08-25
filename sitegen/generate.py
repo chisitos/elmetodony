@@ -178,6 +178,12 @@ def build_site() -> Path:
         shutil.rmtree(static_out)
     shutil.copytree(STATIC_DIR, static_out)
 
+    # Sin esto, GitHub Pages puede correr el sitio a través de Jekyll y
+    # tropezar con nombres que empiezan con "_" (no tenemos ninguno hoy,
+    # pero es la convención estándar para un sitio estático que no es un
+    # sitio Jekyll).
+    (OUTPUT_DIR / ".nojekyll").touch()
+
     feed = [
         {
             "headline": a.headline,
