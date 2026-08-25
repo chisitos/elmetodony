@@ -13,8 +13,6 @@ import logging
 import sys
 
 from pipeline.config import Config
-from pipeline.orchestrator import run as run_pipeline
-from sitegen.generate import build_site
 
 
 def main() -> int:
@@ -32,12 +30,19 @@ def main() -> int:
     cfg = Config.load()
 
     if not args.site_only:
+        # Import diferido: esto arrastra anthropic/feedparser/requests, que
+        # --site-only no necesita para nada (ver .github/workflows/deploy-pages.yml,
+        # que sólo instala lo que usa el generador de sitio).
+        from pipeline.orchestrator import run as run_pipeline
+
         written = run_pipeline(cfg)
         print(f"Artículos nuevos: {len(written)}")
         for p in written:
             print(f"  - {p}")
 
     if not args.pipeline_only:
+        from sitegen.generate import build_site
+
         out = build_site()
         print(f"Sitio regenerado en: {out}")
 
