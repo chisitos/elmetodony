@@ -13,6 +13,8 @@ on:
       - "data/articles/**"
       - "sitegen/**"
       - "config/**"
+      - "run.py"
+      - ".github/workflows/deploy-pages.yml"
   workflow_dispatch: {}
 
 permissions:
