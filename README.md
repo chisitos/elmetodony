@@ -100,39 +100,15 @@ web, curador, editor por cada nota seleccionada). Con la config por defecto
 `python run.py` localmente primero para calibrar `min_score_to_select` y
 `max_selected_per_run` a tu gusto antes de dejarlo en automático.
 
-## Imágenes y derechos de autor
+## Imágenes
 
-Remodelar nunca aloja ni redistribuye fotos ajenas: cada nota referencia
-(`hotlink`) la imagen desde el servidor del medio original, con crédito
-visible ("Imagen: {fuente}") y link a la fuente al pie — nunca se descarga
-ni se sirve una copia desde acá. Achicar el tamaño en pantalla con CSS no
-cambia nada legalmente si el archivo de origen es el mismo; lo que importa
-es qué archivo se pide, no a qué tamaño se pinta. Por eso hay dos niveles,
-con riesgo muy distinto, y el pipeline los trata distinto (`pipeline/images.py`):
-
-1. **RSS-only para el agente de RSS** (`sources_rss.py`): sólo usa el
-   thumbnail que el propio feed publica para sindicación (`media:content`,
-   `media:thumbnail`, enclosure, o el primer `<img>` del post) — típicamente
-   un derivado chico (400-500px) que el medio arma a propósito para esto
-   (ej. la carpeta `/newsletter/` de ArchDaily). Es el nivel de riesgo bajo:
-   un archivo ofrecido específicamente para que un lector de feeds lo
-   muestre. **No hay fallback a la foto grande de portada** — si el feed no
-   trae thumbnail, la nota queda sin foto.
-2. **`og:image` sólo como último recurso para el agente de búsqueda web**
-   (`sources_web.py`): una nota que no vino de un RSS no tiene thumbnail de
-   sindicación disponible, así que ahí sí se usa el `og:image`/`twitter:image`
-   de la página — normalmente la foto grande pensada para redes, no para
-   esto. Es un nivel de riesgo más alto a propósito acotado a la minoría del
-   feed que viene de búsqueda web, nunca a la base de fuentes RSS.
-
-Cuando no se encuentra ninguna imagen, la nota se resuelve con una placa de
-trama técnica (el hatching de un plano de obra) en vez de un ícono de
-imagen rota — nunca se genera ni se inventa una foto para una nota real.
-
-Esto no es asesoría legal. El texto de cada nota es reescritura editorial
-original (bajo riesgo); las fotos son lo más sensible del sistema — si este
-proyecto crece a algo público/comercial de verdad, vale una revisión legal
-puntual sobre el uso de imagen antes de escalarlo.
+Cada candidato busca imagen en este orden: metadata del propio RSS
+(`media:content`, `media:thumbnail`, enclosure, o el primer `<img>` del
+post), y si no hay, un fetch liviano del `og:image`/`twitter:image` de la
+página original — el mismo mecanismo que usa cualquier previsualizador de
+links. Nunca se genera ni se inventa una imagen para una nota real. Cuando
+no se encuentra ninguna, la nota se resuelve con una placa de trama técnica
+(el hatching de un plano de obra) en vez de un ícono de imagen rota.
 
 ## Contenido de muestra
 
