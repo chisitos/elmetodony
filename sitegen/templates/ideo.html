@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}{{ ancla.nombre_largo }} — {{ ancla.direccion }} | {{ pub_name }}{% endblock %}
+{% block description %}{{ ancla.claim }}. {{ n_ideo }} locales de obra en la Autopista Sur: pisos, enchapes, sanitarios, grifería, cocinas y electrodomésticos.{% endblock %}
+{% block content %}
+
+<section class="ideo-hero">
+  <div class="ideo-hero__mark">IDEO</div>
+  <div class="ideo-hero__text">
+    <span class="kicker">{{ ancla.direccion }}</span>
+    <h1>{{ ancla.claim }}</h1>
+    <p class="dek">{{ ancla.descripcion }}</p>
+    <div class="acciones">
+      <a class="btn btn--primary" href="{{ ancla_maps_url }}" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="btn" href="#locales">Ver los {{ n_ideo }} locales</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2 class="sec-h">Por qué empezar acá</h2>
+  <div class="razones">
+    {% for p in ancla.por_que %}
+    <div class="razon">
+      <span class="razon__n">{{ "%02d"|format(loop.index) }}</span>
+      <p>{{ p }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="sec" id="locales">
+  <div class="sec-head">
+    <h2>Los {{ n_ideo }} locales</h2>
+    <span class="sec-head__link">Todos en {{ ancla.direccion }}</span>
+  </div>
+
+  <ul class="tienda-list">
+    {% for t in tiendas_ideo %}
+    <li class="tienda-row tienda-row--ideo">
+      <a class="tienda-row__main" href="{{ asset_prefix }}directorio/{{ t.slug }}.html">
+        <div class="tienda-row__top">
+          <h2>{{ t.nombre }}</h2>
+          {% if t.local %}<span class="chip chip--sm">{{ t.local }}</span>{% endif %}
+        </div>
+        <p class="tienda-row__aporta">{{ t.aporta }}</p>
+        <div class="tienda-row__cats">
+          {% for c in t.categorias_nombres %}<span class="tag-mini">{{ c }}</span>{% endfor %}
+          {% if t.nivel_short %}<span class="tag-mini tag-mini--nivel">{{ t.nivel_short }}</span>{% endif %}
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="sec">
+  <div class="sec-head">
+    <h2>Rutas que arrancan en IDEO</h2>
+    <a class="sec-head__link" href="{{ asset_prefix }}rutas/index.html">Todas &rarr;</a>
+  </div>
+  <div class="ruta-grid">
+    {% for r in rutas_ideo %}
+    <a class="ruta-card" href="{{ asset_prefix }}rutas/{{ r.slug }}.html">
+      <div class="ruta-card__top">
+        <span class="ruta-card__kicker">{{ r.kicker }}</span>
+        <span class="chip chip--ideo">{{ r.paradas_ideo }} en IDEO</span>
+      </div>
+      <h3>{{ r.nombre }}</h3>
+      <p>{{ r.resumen }}</p>
+      <div class="ruta-card__foot">
+        <span>{{ r.total_paradas }} paradas</span>
+        <span>{{ r.duracion }}</span>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="ruta-bar">
+  <div class="ruta-bar__info">
+    <strong>IDEO</strong>
+    <span>{{ ancla.direccion }}</span>
+  </div>
+  <a class="btn btn--primary btn--sm" href="{{ ancla_maps_url }}" target="_blank" rel="noopener">Cómo llegar</a>
+</div>
+
+{% endblock %}

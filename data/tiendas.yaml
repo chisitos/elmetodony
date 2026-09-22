@@ -1,0 +1,562 @@
+# Directorio de tiendas — Remodelar Medellín
+#
+# Esta es la base de datos del sitio. Editar aquí cambia el directorio, las
+# rutas y el buscador: no hay que tocar código. Después de editar, correr:
+#     python run.py --site-only
+#
+# Campos:
+#   slug        id en la URL (/directorio/<slug>.html). Único, sin tildes.
+#   nombre      como se muestra
+#   zona        una de las zonas definidas en config/rutas.yaml
+#   categorias  una o varias de: banos, pisos, cocinas, iluminacion, diseno,
+#               tech-home, jardines, infantil
+#   direccion   dirección completa — se usa tal cual para "Cómo llegar"
+#   local       local dentro de un centro comercial (opcional)
+#   nivel       accesible | medio | alto | especializado
+#   aporta      frase corta: qué se resuelve ahí
+#   en_ideo     true si está dentro del CC IDEO (Autopista Sur, Itagüí)
+#   telefono    opcional — formato +57...
+#   whatsapp    opcional — solo dígitos, con indicativo: 573001234567
+#   web         opcional
+#   horario     opcional
+
+tiendas:
+
+  # ─────────────────────────────────────────────────────────────────────
+  # IDEO — Centro Comercial de remodelación, Autopista Sur, Itagüí.
+  # Es el ancla del sitio: aquí se resuelve la OBRA completa (pisos, baño,
+  # cocina, electrodomésticos) en una sola parada. Todas las rutas de
+  # remodelación empiezan o pasan por acá.
+  # ─────────────────────────────────────────────────────────────────────
+
+  - slug: decorceramica-ideo
+    nombre: Decorcerámica
+    zona: ideo
+    categorias: [pisos, banos]
+    direccion: Cra. 42 #75-83, Itagüí
+    local: Local 121
+    nivel: alto
+    aporta: Revestimientos y baño — enchape de piso y pared en un solo lugar
+    en_ideo: true
+
+  - slug: ceramica-italia-ideo
+    nombre: Cerámica Italia
+    zona: ideo
+    categorias: [pisos]
+    direccion: Cra. 42 #75-83, Itagüí
+    local: Local 159
+    nivel: medio
+    aporta: Cerámicas y revestimientos de fábrica
+    en_ideo: true
+
+  - slug: mosagres-ideo
+    nombre: Mosagres
+    zona: ideo
+    categorias: [pisos]
+    direccion: Cra. 42 #75-83, Itagüí
+    local: Local 105
+    nivel: medio
+    aporta: Pisos y revestimientos — porcelanato y formato grande
+    en_ideo: true
+
+  - slug: pisos-prestige-ideo
+    nombre: Pisos Prestige Medellín
+    zona: ideo
+    categorias: [pisos]
+    direccion: Cra. 42 Autopista Sur #75-83, Itagüí
+    local: Local 130
+    nivel: medio
+    aporta: Pisos — laminado, vinilo y madera
+    en_ideo: true
+
+  - slug: dyd-colombia-ideo
+    nombre: D&D Colombia
+    zona: ideo
+    categorias: [banos]
+    direccion: Cra. 42 #75-83, Itagüí
+    local: Local 146
+    nivel: medio
+    aporta: Sanitarios, grifería y accesorios — el baño completo
+    en_ideo: true
+
+  - slug: tecnigrifos-ideo
+    nombre: Tecnigrifos Medellín
+    zona: ideo
+    categorias: [banos]
+    direccion: Cra. 42 #75-83, Itagüí
+    local: Local 126
+    nivel: medio
+    aporta: Grifería y duchas — repuestos y línea nueva
+    en_ideo: true
+
+  - slug: cocinas-y-ensambles-ideo
+    nombre: Cocinas y Ensambles
+    zona: ideo
+    categorias: [cocinas]
+    direccion: Cra. 42 #75-83, Itagüí
+    local: Local 242
+    nivel: medio
+    aporta: Cocinas integrales a medida
+    en_ideo: true
+
+  - slug: usa-electrodomesticos-ideo
+    nombre: USA Electrodomésticos
+    zona: ideo
+    categorias: [tech-home, cocinas]
+    direccion: Cra. 42 #75-83, Itagüí
+    local: Local 124A
+    nivel: accesible
+    aporta: Electrodomésticos — el empotrado de la cocina
+    en_ideo: true
+
+  # ─────────────────────────────────────────────────────────────────────
+  # El Poblado — diseño de autor, showrooms e interiorismo
+  # ─────────────────────────────────────────────────────────────────────
+
+  - slug: boconcept-medellin
+    nombre: BoConcept Medellín
+    zona: poblado
+    categorias: [diseno]
+    direccion: Cra. 43A #1A Sur-175, Medellín
+    local: Local 102
+    nivel: alto
+    aporta: Mobiliario e interiorismo de marca danesa
+    en_ideo: false
+
+  - slug: alevilla-decoracion
+    nombre: Alevilla Decoración
+    zona: poblado
+    categorias: [diseno]
+    direccion: Cra. 25A #1 Sur-45, El Tesoro, Medellín
+    local: Local 9652
+    nivel: alto
+    aporta: Mobiliario y decoración
+    en_ideo: false
+
+  - slug: fernando-garcia-atelier
+    nombre: Fernando García Atelier
+    zona: poblado
+    categorias: [diseno]
+    direccion: Cra. 40 #10A-03, Medellín
+    nivel: alto
+    aporta: Interiorismo y mobiliario de autor
+    en_ideo: false
+
+  - slug: habitat-store
+    nombre: Habitat Store
+    zona: poblado
+    categorias: [diseno]
+    direccion: Cra. 43A #16B-70, Medellín
+    nivel: alto
+    aporta: Mobiliario y decoración
+    en_ideo: false
+
+  - slug: the-blue-house
+    nombre: The Blue House
+    zona: poblado
+    categorias: [diseno, jardines]
+    direccion: Cra. 30 #10-110, Medellín
+    nivel: alto
+    aporta: Mobiliario de interior y exterior
+    en_ideo: false
+
+  - slug: la-carpi
+    nombre: La Carpi
+    zona: poblado
+    categorias: [diseno, cocinas]
+    direccion: Cl. 12 #30-144, Medellín
+    nivel: especializado
+    aporta: Carpintería a medida y mobiliario
+    en_ideo: false
+
+  - slug: selva-de-oro
+    nombre: Selva de Oro
+    zona: poblado
+    categorias: [diseno, infantil]
+    direccion: Cl. 12 #30, Medellín
+    nivel: especializado
+    aporta: Muebles, línea infantil y decoración
+    en_ideo: false
+
+  - slug: aluzina
+    nombre: Aluzina
+    zona: poblado
+    categorias: [diseno, iluminacion]
+    direccion: Cra. 37A #2 Sur-83, Medellín
+    nivel: especializado
+    aporta: Interiorismo con foco en diseño de iluminación
+    en_ideo: false
+
+  - slug: fokuss-poblado
+    nombre: Fokuss Poblado
+    zona: poblado
+    categorias: [iluminacion]
+    direccion: Cra. 30 #8B-97, Medellín
+    nivel: especializado
+    aporta: Iluminación técnica y decorativa
+    en_ideo: false
+
+  - slug: techno-smart
+    nombre: Techno Smart
+    zona: poblado
+    categorias: [tech-home, iluminacion]
+    direccion: Cra. 25A #1A Sur-45, El Tesoro, Medellín
+    local: Local 3042
+    nivel: alto
+    aporta: Domótica e iluminación inteligente
+    en_ideo: false
+
+  - slug: ktronix-poblado
+    nombre: Ktronix Poblado
+    zona: poblado
+    categorias: [tech-home]
+    direccion: Cra. 43A, El Poblado, Medellín
+    nivel: medio
+    aporta: Tecnología y electrodomésticos
+    en_ideo: false
+
+  - slug: vivero-tierranegra-poblado
+    nombre: Vivero Tierranegra Poblado
+    zona: poblado
+    categorias: [jardines]
+    direccion: Cl. 7D #43A-15, Medellín
+    nivel: medio
+    aporta: Plantas y materas para jardín y terraza
+    en_ideo: false
+
+  - slug: mi-bendicion
+    nombre: Mi Bendición
+    zona: poblado
+    categorias: [infantil]
+    direccion: Cl. 10 #42-49, Medellín
+    nivel: medio
+    aporta: Mobiliario infantil
+    en_ideo: false
+
+  # ─────────────────────────────────────────────────────────────────────
+  # Envigado — la milla de la iluminación (Cra. 43A) y mobiliario
+  # ─────────────────────────────────────────────────────────────────────
+
+  - slug: murano-home
+    nombre: Murano Home
+    zona: envigado
+    categorias: [diseno]
+    direccion: Cra. 43 #32A Sur-22, Envigado
+    nivel: alto
+    aporta: Mobiliario e interiorismo
+    en_ideo: false
+
+  - slug: cricket-home
+    nombre: Cricket Home
+    zona: envigado
+    categorias: [diseno]
+    direccion: CC City Plaza, Envigado
+    nivel: medio
+    aporta: Mobiliario
+    en_ideo: false
+
+  - slug: espacioflex
+    nombre: Espacioflex
+    zona: envigado
+    categorias: [diseno]
+    direccion: Cra. 45A #34 Sur-57, Envigado
+    local: Local 161
+    nivel: medio
+    aporta: Mobiliario y cortinas
+    en_ideo: false
+
+  - slug: ikea-viva-envigado
+    nombre: IKEA Viva Envigado
+    zona: envigado
+    categorias: [diseno, cocinas, tech-home]
+    direccion: CC Viva Envigado, Cra. 48 #32B Sur-139 Torre 1, Envigado
+    local: Local 235
+    nivel: accesible
+    aporta: Mobiliario, cocina modular y menaje
+    en_ideo: false
+
+  - slug: elemental-galeria
+    nombre: Elemental Galería
+    zona: envigado
+    categorias: [diseno, iluminacion]
+    direccion: Cra. 43A #33B Sur-14, Envigado
+    nivel: alto
+    aporta: Mobiliario e iluminación de diseño
+    en_ideo: false
+
+  - slug: deco-il-luminar
+    nombre: Deco Il-Luminar
+    zona: envigado
+    categorias: [iluminacion, diseno]
+    direccion: Cra. 43A #33B Sur-14, Envigado
+    nivel: medio
+    aporta: Lámparas y mobiliario
+    en_ideo: false
+
+  - slug: ambiente-living
+    nombre: Ambiente Living
+    zona: envigado
+    categorias: [diseno, jardines]
+    direccion: CC Viva Envigado, Envigado
+    nivel: medio
+    aporta: Mobiliario de interior y exterior
+    en_ideo: false
+
+  - slug: fokuss-envigado
+    nombre: Fokuss Envigado
+    zona: envigado
+    categorias: [iluminacion]
+    direccion: Cra. 43A #31A Sur-25, Envigado
+    nivel: especializado
+    aporta: Iluminación técnica y decorativa
+    en_ideo: false
+
+  - slug: ilumeco
+    nombre: Ilumeco
+    zona: envigado
+    categorias: [iluminacion]
+    direccion: Cra. 43A #35S-23, Envigado
+    nivel: medio
+    aporta: Lámparas
+    en_ideo: false
+
+  - slug: iluminaciones-antioquia
+    nombre: Iluminaciones Antioquia
+    zona: envigado
+    categorias: [iluminacion]
+    direccion: Cra. 39 #35 Sur-16, Envigado
+    nivel: medio
+    aporta: Iluminación
+    en_ideo: false
+
+  - slug: bucarest-lamparas
+    nombre: Bucarest Lámparas y Decoración
+    zona: envigado
+    categorias: [iluminacion]
+    direccion: Zona El Poblado / Envigado, Medellín
+    nivel: medio
+    aporta: Iluminación decorativa
+    en_ideo: false
+
+  - slug: mundo-grifos
+    nombre: Mundo Grifos
+    zona: envigado
+    categorias: [banos]
+    direccion: Cra. 39 #35 Sur-04, Envigado
+    nivel: medio
+    aporta: Griferías y equipos de baño
+    en_ideo: false
+
+  - slug: grival-envigado
+    nombre: Grival Envigado
+    zona: envigado
+    categorias: [banos]
+    direccion: Cra. 43A #38B Sur, Envigado
+    nivel: accesible
+    aporta: Griferías y sanitarios de marca
+    en_ideo: false
+
+  - slug: electroferia
+    nombre: ElectroFeria
+    zona: envigado
+    categorias: [tech-home]
+    direccion: Cl. 37 Sur #41-64, Envigado
+    nivel: accesible
+    aporta: Electrodomésticos
+    en_ideo: false
+
+  - slug: electrobello
+    nombre: Electrobello
+    zona: envigado
+    categorias: [tech-home]
+    direccion: Cra. 43 #37 Sur-17, Envigado
+    nivel: accesible
+    aporta: Electrodomésticos
+    en_ideo: false
+
+  # ─────────────────────────────────────────────────────────────────────
+  # Sabaneta e Itagüí (fuera de IDEO)
+  # ─────────────────────────────────────────────────────────────────────
+
+  - slug: matisses-sabaneta
+    nombre: Matisses
+    zona: sabaneta
+    categorias: [diseno]
+    direccion: Cl. 52 Sur #44-65, Sabaneta
+    nivel: alto
+    aporta: Mobiliario
+    en_ideo: false
+
+  - slug: pisende-sur
+    nombre: Pisende Sur
+    zona: sabaneta
+    categorias: [pisos]
+    direccion: Cl. 50 Sur #48-129, Sabaneta
+    nivel: accesible
+    aporta: Pisos y materiales de obra
+    en_ideo: false
+
+  - slug: domotica-medellin
+    nombre: Domótica Medellín
+    zona: itagui
+    categorias: [tech-home, iluminacion]
+    direccion: Cl. 55 #48-43, Los Naranjos, Itagüí
+    nivel: especializado
+    aporta: Domótica e iluminación controlada
+    en_ideo: false
+
+  # ─────────────────────────────────────────────────────────────────────
+  # Laureles
+  # ─────────────────────────────────────────────────────────────────────
+
+  - slug: matiz-laureles
+    nombre: Matiz
+    zona: laureles
+    categorias: [diseno]
+    direccion: Av. Nutibara #71-69, Medellín
+    nivel: alto
+    aporta: Muebles y decoración
+    en_ideo: false
+
+  - slug: vila-decoracion
+    nombre: Vilá Decoración
+    zona: laureles
+    categorias: [diseno]
+    direccion: Circular 75 #39B-61, Medellín
+    nivel: alto
+    aporta: Mobiliario y decoración
+    en_ideo: false
+
+  - slug: galeria-encanto-laureles
+    nombre: Galería Encanto Laureles
+    zona: laureles
+    categorias: [diseno]
+    direccion: Cra. 81 #34A-94, Medellín
+    nivel: medio
+    aporta: Mobiliario
+    en_ideo: false
+
+  - slug: pin8-toys
+    nombre: Pin8 Toys
+    zona: laureles
+    categorias: [infantil]
+    direccion: Cl. 47D #63B, Medellín
+    nivel: especializado
+    aporta: Mundo infantil
+    en_ideo: false
+
+  - slug: muebles-infantiles-ragla
+    nombre: Muebles Infantiles Ragla
+    zona: laureles
+    categorias: [infantil]
+    direccion: Cl. 50 #29, Medellín
+    nivel: especializado
+    aporta: Mobiliario infantil
+    en_ideo: false
+
+  - slug: al-solar
+    nombre: Al Solar
+    zona: laureles
+    categorias: [jardines]
+    direccion: Cra. 64B #34-20, Medellín
+    nivel: especializado
+    aporta: Vivero y paisajismo
+    en_ideo: false
+
+  # ─────────────────────────────────────────────────────────────────────
+  # Belén
+  # ─────────────────────────────────────────────────────────────────────
+
+  - slug: art-diseno
+    nombre: Art Diseño Muebles y Decoración
+    zona: belen
+    categorias: [diseno]
+    direccion: Av. 80 #19A-117, Medellín
+    nivel: accesible
+    aporta: Mobiliario
+    en_ideo: false
+
+  - slug: espacio-mobiliario
+    nombre: Espacio Mobiliario
+    zona: belen
+    categorias: [diseno, cocinas]
+    direccion: Cl. 30 #72-59, Medellín
+    nivel: alto
+    aporta: Muebles a medida
+    en_ideo: false
+
+  - slug: sembramos
+    nombre: Sembramos
+    zona: belen
+    categorias: [jardines]
+    direccion: Cl. 26B #70-93, Medellín
+    nivel: medio
+    aporta: Vivero
+    en_ideo: false
+
+  # ─────────────────────────────────────────────────────────────────────
+  # Centro — precio de obra, el clásico de materiales
+  # ─────────────────────────────────────────────────────────────────────
+
+  - slug: bazar-americano
+    nombre: Bazar Americano
+    zona: centro
+    categorias: [banos]
+    direccion: Cl. 50 #56B-86, Medellín
+    nivel: accesible
+    aporta: Equipos de baño a precio de centro
+    en_ideo: false
+
+  - slug: pisende-udea
+    nombre: Pisende UdeA
+    zona: centro
+    categorias: [pisos]
+    direccion: Cra. 58 #65-224, Medellín
+    nivel: accesible
+    aporta: Materiales y pisos
+    en_ideo: false
+
+  - slug: materiales-emo-san-benito
+    nombre: Materiales Emo San Benito
+    zona: centro
+    categorias: [pisos]
+    direccion: Cra. 56C #50-51, Medellín
+    nivel: accesible
+    aporta: Materiales de obra
+    en_ideo: false
+
+  - slug: ceramicas-y-porcelanatos
+    nombre: Cerámicas y Porcelanatos
+    zona: centro
+    categorias: [pisos]
+    direccion: Cra. 56C #50-56, Medellín
+    nivel: accesible
+    aporta: Cerámica y porcelanato
+    en_ideo: false
+
+  - slug: decolum-medellin
+    nombre: Decolum Medellín
+    zona: centro
+    categorias: [iluminacion, diseno]
+    direccion: Tenerife #50-18, Medellín
+    nivel: medio
+    aporta: Iluminación y mobiliario
+    en_ideo: false
+
+  - slug: terravatio-medellin
+    nombre: Terravatio Medellín
+    zona: centro
+    categorias: [iluminacion]
+    direccion: Tenerife #51-11, Medellín
+    nivel: especializado
+    aporta: Iluminación técnica
+    en_ideo: false
+
+  - slug: totally-electric-medellin
+    nombre: Totally Electric Medellín
+    zona: centro
+    categorias: [iluminacion, tech-home]
+    direccion: Cl. 51 #54-16, Medellín
+    nivel: accesible
+    aporta: Iluminación y material eléctrico
+    en_ideo: false

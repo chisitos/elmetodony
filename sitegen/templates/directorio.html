@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Directorio de tiendas para remodelar en {{ ciudad }} — {{ pub_name }}{% endblock %}
+{% block description %}{{ n_tiendas }} tiendas de remodelación en {{ ciudad }}: baños, pisos, cocinas, iluminación, mobiliario y domótica. Con dirección y cómo llegar.{% endblock %}
+{% block content %}
+
+<div class="page-head page-head--tight">
+  <span class="kicker">Directorio</span>
+  <h1>{{ n_tiendas }} tiendas</h1>
+</div>
+
+<!-- El buscador queda pegado arriba: en móvil se filtra y se sigue leyendo
+     sin tener que volver a subir. -->
+<div class="buscador" id="buscador">
+  <div class="buscador__input">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+    <input type="search" id="q" placeholder="Buscar tienda, categoría o zona…" autocomplete="off"
+           aria-label="Buscar en el directorio">
+    <button type="button" id="q-clear" aria-label="Limpiar búsqueda" hidden>&times;</button>
+  </div>
+
+  <div class="filtros" role="group" aria-label="Filtrar por categoría">
+    <button type="button" class="chip-btn is-on" data-cat="">Todas</button>
+    {% for c in categorias %}
+    <button type="button" class="chip-btn" data-cat="{{ c.slug }}">{{ c.nombre }} <em>{{ c.n }}</em></button>
+    {% endfor %}
+  </div>
+
+  <div class="filtros filtros--zonas" role="group" aria-label="Filtrar por zona">
+    <button type="button" class="chip-btn chip-btn--ideo" data-zona="ideo">Solo IDEO <em>{{ n_ideo }}</em></button>
+    {% for z in zonas_con_tiendas %}{% if z.slug != 'ideo' %}
+    <button type="button" class="chip-btn" data-zona="{{ z.slug }}">{{ z.corta }} <em>{{ z.n }}</em></button>
+    {% endif %}{% endfor %}
+  </div>
+</div>
+
+<div class="resultado-count" id="count" aria-live="polite">{{ n_tiendas }} tiendas</div>
+
+<ul class="tienda-list" id="lista">
+  {% for t in tiendas %}
+  <li class="tienda-row{% if t.en_ideo %} tienda-row--ideo{% endif %}"
+      data-buscable="{{ t.buscable }}"
+      data-cats="{{ t.categorias|join(' ') }}"
+      data-zona="{{ t.zona }}">
+    <a class="tienda-row__main" href="{{ asset_prefix }}directorio/{{ t.slug }}.html">
+      <div class="tienda-row__top">
+        <h2>{{ t.nombre }}</h2>
+        {% if t.en_ideo %}<span class="chip chip--ideo chip--sm">IDEO</span>{% endif %}
+      </div>
+      <p class="tienda-row__aporta">{{ t.aporta }}</p>
+      <div class="tienda-row__meta">
+        <span class="tienda-row__zona">{{ t.zona_corta }}</span>
+        <span class="sep">·</span>
+        <span>{{ t.direccion_completa }}</span>
+      </div>
+      <div class="tienda-row__cats">
+        {% for c in t.categorias_nombres %}<span class="tag-mini">{{ c }}</span>{% endfor %}
+        {% if t.nivel_short %}<span class="tag-mini tag-mini--nivel">{{ t.nivel_short }}</span>{% endif %}
+      </div>
+    </a>
+    <a class="tienda-row__maps" href="{{ t.maps_url }}" target="_blank" rel="noopener" aria-label="Cómo llegar a {{ t.nombre }}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <span>Ir</span>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+
+<p class="vacio" id="vacio" hidden>
+  Nada con esa búsqueda. Pruebe con una categoría —
+  <button type="button" class="linkish" data-reset>ver las {{ n_tiendas }} tiendas</button>.
+</p>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ asset_prefix }}static/buscador.js" defer></script>
+{% endblock %}

@@ -103,8 +103,7 @@ def curate(candidates: list[Candidate], cfg: Config, recent_published: list[Arti
         model=cfg.model("curator"),
         system=system,
         user=user,
-        max_tokens=6000,
-        temperature=0.2,
+        max_tokens=24000,
     )
     if not isinstance(raw, list):
         raise ValueError("El curador no devolvió una lista JSON")

@@ -1,0 +1,470 @@
+# Rutas de remodelación — Remodelar Medellín
+#
+# Una RUTA es un camino de compra: el orden real en que hay que resolver un
+# proyecto, con 4-6 paradas y tiendas concretas en cada una. No es un
+# listado: es "salga un sábado y resuelva el baño".
+#
+# Criterio de negocio: IDEO (Autopista Sur, Itagüí) es el centro comercial
+# de remodelación de la ciudad y concentra la OBRA — pisos, enchapes,
+# sanitarios, grifería, cocinas y electrodomésticos. Toda ruta de obra
+# arranca ahí porque ahí se resuelve en una sola parada; después sale a
+# completar decoración en Envigado, Poblado o Laureles. Las rutas que no
+# tocan obra (decoración pura) existen, pero no son el corazón del sitio.
+
+sitio:
+  nombre: "Remodelar"
+  tagline: "Rutas de remodelación en Medellín"
+  descripcion: >-
+    El mapa de dónde comprar para remodelar en Medellín. Rutas armadas por
+    proyecto, con las tiendas en el orden en que hay que visitarlas.
+  ciudad: "Medellín"
+
+# El ancla del ecosistema.
+ancla:
+  slug: ideo
+  nombre: "IDEO"
+  nombre_largo: "IDEO — Centro Comercial de Remodelación"
+  direccion: "Cra. 42 (Autopista Sur) #75-83, Itagüí"
+  claim: "Todo lo de obra, en un solo lugar"
+  descripcion: >-
+    IDEO es el único punto de Medellín donde pisos, enchapes, sanitarios,
+    grifería, cocinas integrales y electrodomésticos están en el mismo
+    edificio. Lo que en otra parte son cinco sábados de tráfico, acá es una
+    mañana: se compara porcelanato en tres locales seguidos, se escoge
+    sanitario dos puertas más allá y se cierra la cocina en el segundo piso.
+  por_que:
+    - "8 locales de obra en el mismo edificio — se compara sin volver a montarse al carro"
+    - "Sobre la Autopista Sur: entrada y salida directa, con parqueadero"
+    - "Pisos, baño y cocina resueltos el mismo día"
+    - "Medidas y cotizaciones de varios proveedores en una sola visita"
+
+# ─────────────────────────────────────────────────────────────────────────
+# Zonas — agrupan las tiendas geográficamente
+# ─────────────────────────────────────────────────────────────────────────
+zonas:
+  - slug: ideo
+    nombre: "IDEO · Autopista Sur"
+    corta: "IDEO"
+    descripcion: "Centro Comercial de remodelación en Itagüí. La obra completa."
+    destacada: true
+  - slug: envigado
+    nombre: "Envigado"
+    corta: "Envigado"
+    descripcion: "La milla de la iluminación sobre la Cra. 43A, más mobiliario."
+  - slug: poblado
+    nombre: "El Poblado"
+    corta: "Poblado"
+    descripcion: "Showrooms de diseño de autor e interiorismo."
+  - slug: laureles
+    nombre: "Laureles"
+    corta: "Laureles"
+    descripcion: "Mobiliario, infantil y vivero."
+  - slug: belen
+    nombre: "Belén"
+    corta: "Belén"
+    descripcion: "Muebles a medida y vivero."
+  - slug: centro
+    nombre: "Centro"
+    corta: "Centro"
+    descripcion: "Materiales y baño a precio de obra, sobre Tenerife y San Benito."
+  - slug: sabaneta
+    nombre: "Sabaneta"
+    corta: "Sabaneta"
+    descripcion: "Pisos y mobiliario."
+  - slug: itagui
+    nombre: "Itagüí"
+    corta: "Itagüí"
+    descripcion: "Domótica y especializados."
+
+# ─────────────────────────────────────────────────────────────────────────
+# Categorías — con qué se etiqueta cada tienda
+# ─────────────────────────────────────────────────────────────────────────
+categorias:
+  - slug: banos
+    nombre: "Baños"
+    descripcion: "Sanitarios, grifería, duchas, enchape y muebles de baño."
+  - slug: pisos
+    nombre: "Pisos y enchapes"
+    descripcion: "Porcelanato, cerámica, laminado, vinilo y madera."
+  - slug: cocinas
+    nombre: "Cocinas"
+    descripcion: "Cocinas integrales, mesones, carpintería y empotrados."
+  - slug: iluminacion
+    nombre: "Iluminación"
+    descripcion: "Luz técnica, decorativa y control."
+  - slug: diseno
+    nombre: "Diseño y mobiliario"
+    descripcion: "Muebles, interiorismo, cortinas y decoración."
+  - slug: tech-home
+    nombre: "Tech Home"
+    descripcion: "Electrodomésticos, domótica y casa inteligente."
+  - slug: jardines
+    nombre: "Jardines y exterior"
+    descripcion: "Viveros, paisajismo, terraza y mobiliario de exterior."
+  - slug: infantil
+    nombre: "Infantil"
+    descripcion: "Cuarto de niños: mobiliario y ambientación."
+
+# ─────────────────────────────────────────────────────────────────────────
+# RUTAS
+#
+# paradas[].tiendas — la primera es la recomendada, el resto alternativas.
+# paradas[].tip     — el consejo práctico: qué preguntar, qué llevar, en qué
+#                     orden. Es lo que hace que la ruta valga.
+# ─────────────────────────────────────────────────────────────────────────
+rutas:
+
+  - slug: bano-completo
+    foto: bano
+    nombre: "Ruta Baños"
+    kicker: "Obra"
+    duracion: "Una mañana"
+    paradas_count: 5
+    resumen: >-
+      Cuatro de las cinco paradas están en el mismo edificio. Se sale con
+      enchape, sanitario y grifería escogidos el mismo día.
+    intro: >-
+      El baño es la remodelación que más se atrasa por un motivo tonto: el
+      enchape se compra en un lado, el sanitario en otro y la grifería en un
+      tercero, y cuando llega todo no combina. El orden importa — primero el
+      enchape, que manda el tono, y sobre él se escoge lo demás. Por eso esta
+      ruta arranca en IDEO: los cuatro locales están a menos de cien metros
+      uno del otro y se puede volver atrás a comparar sin perder el sábado.
+    empieza_en_ideo: true
+    paradas:
+      - titulo: "Enchape de piso y pared"
+        categoria: pisos
+        que_buscar: "El enchape define el tono de todo lo demás. Escogerlo primero."
+        tip: "Lleve las medidas del baño y pida el cálculo con 10% de desperdicio. Pregunte por el mismo formato en piso y pared: agranda el espacio."
+        tiendas: [decorceramica-ideo, ceramica-italia-ideo, mosagres-ideo]
+      - titulo: "Sanitario y lavamanos"
+        categoria: banos
+        que_buscar: "Sanitario, lavamanos y mueble. Verificar la salida del desagüe."
+        tip: "Mida la distancia del muro al centro del desagüe antes de salir de la casa. Si es de 30 cm, el sanitario es estándar; si no, se necesita adaptador."
+        tiendas: [dyd-colombia-ideo, grival-envigado, bazar-americano]
+      - titulo: "Grifería y ducha"
+        categoria: banos
+        que_buscar: "Grifería de lavamanos, ducha y accesorios en el mismo acabado."
+        tip: "Escoja un solo acabado para todo — cromo, negro o dorado — y compre la ducha y el lavamanos de la misma línea. Mezclar marcas se nota."
+        tiendas: [tecnigrifos-ideo, dyd-colombia-ideo, mundo-grifos]
+      - titulo: "Mueble y espejo"
+        categoria: diseno
+        que_buscar: "Mueble bajo lavamanos y espejo — a medida si el baño es angosto."
+        tip: "Si el baño mide menos de 1,5 m de ancho, un mueble a medida gana 20 cm de circulación frente a uno estándar."
+        tiendas: [espacio-mobiliario, la-carpi, ikea-viva-envigado]
+      - titulo: "Iluminación"
+        categoria: iluminacion
+        que_buscar: "Luz sobre el espejo, no en el techo. Temperatura neutra."
+        tip: "Pida 4000K para el espejo: la luz amarilla distorsiona el color de la piel al afeitarse o maquillarse. Y que sea IP44 si va dentro de la ducha."
+        tiendas: [fokuss-envigado, terravatio-medellin, ilumeco]
+
+  - slug: cocina-integral
+    foto: cocina
+    nombre: "Ruta Cocinas"
+    kicker: "Obra"
+    duracion: "Una mañana"
+    paradas_count: 5
+    resumen: >-
+      Cocina, mesón, salpicadero y electrodomésticos — cuatro paradas en
+      IDEO y una salida opcional a Envigado.
+    intro: >-
+      En una cocina el orden es al revés de lo que parece: primero se decide
+      el electrodoméstico y después el mueble, porque el horno y la nevera
+      mandan las medidas del empotrado. Hacerlo al contrario es la razón
+      número uno por la que una cocina nueva queda con un hueco de dos
+      centímetros al lado de la nevera.
+    empieza_en_ideo: true
+    paradas:
+      - titulo: "Electrodomésticos primero"
+        categoria: tech-home
+        que_buscar: "Nevera, horno, campana y cubierta. Anotar las medidas exactas."
+        tip: "Pida la ficha técnica con el ancho, alto y fondo de cada uno antes de ir donde el de las cocinas. Sin esas medidas no se puede cotizar el mueble."
+        tiendas: [usa-electrodomesticos-ideo, ikea-viva-envigado, electroferia]
+      - titulo: "Cocina integral y mesón"
+        categoria: cocinas
+        que_buscar: "Diseño, material del mesón y herrajes."
+        tip: "Lleve el plano de la cocina con la ubicación de agua, gas y tomacorrientes. Pregunte si el diseño y la toma de medidas van incluidos."
+        tiendas: [cocinas-y-ensambles-ideo, la-carpi, espacio-mobiliario]
+      - titulo: "Salpicadero y piso"
+        categoria: pisos
+        que_buscar: "Revestimiento entre mesón y gabinete alto, y piso resistente."
+        tip: "Para el salpicadero pida una pieza fácil de limpiar y con poca junta. En piso, porcelanato rectificado antideslizante — la cocina se moja."
+        tiendas: [decorceramica-ideo, mosagres-ideo, ceramica-italia-ideo]
+      - titulo: "Grifería de cocina"
+        categoria: banos
+        que_buscar: "Mezclador alto, ojalá con extensión retráctil."
+        tip: "Si el lavaplatos es de dos senos, mida el alcance del pico: tiene que llegar a los dos. Es el error más común."
+        tiendas: [tecnigrifos-ideo, dyd-colombia-ideo, mundo-grifos]
+      - titulo: "Luz de trabajo"
+        categoria: iluminacion
+        que_buscar: "Luz bajo el gabinete alto, sobre el mesón."
+        tip: "La luz del techo la bloquea el propio cuerpo al cocinar. Una tira LED debajo del gabinete resuelve el problema por poca plata."
+        tiendas: [fokuss-envigado, totally-electric-medellin, decolum-medellin]
+
+  - slug: pisos-toda-la-casa
+    foto: pisos
+    nombre: "Ruta Pisos"
+    kicker: "Obra"
+    duracion: "Media mañana"
+    paradas_count: 4
+    resumen: >-
+      Cuatro proveedores de piso en el mismo edificio: se compara precio y
+      formato sin volver a montarse al carro.
+    intro: >-
+      Cambiar el piso es la decisión con más metros cuadrados en juego, y por
+      eso la que más se arrepiente uno de tomar rápido. La única forma de
+      escoger bien es ver la pieza grande, bajo luz distinta, al lado de otra
+      opción. Eso solo se puede hacer donde hay varios proveedores seguidos.
+    empieza_en_ideo: true
+    paradas:
+      - titulo: "Porcelanato de formato grande"
+        categoria: pisos
+        que_buscar: "Rectificado, formato 60x120 o mayor. Pedir muestra."
+        tip: "Pida que le presten una pieza suelta y llévela a la casa: el mismo porcelanato cambia por completo con la luz de la tarde."
+        tiendas: [mosagres-ideo, decorceramica-ideo]
+      - titulo: "Cerámica de fábrica"
+        categoria: pisos
+        que_buscar: "La opción de precio. Comparar contra el porcelanato."
+        tip: "Pregunte por el PEI: para zona social necesitás PEI 4 mínimo. Un PEI 3 en el corredor se raya en un año."
+        tiendas: [ceramica-italia-ideo]
+      - titulo: "Laminado, vinilo o madera"
+        categoria: pisos
+        que_buscar: "Para alcobas: más cálido y más rápido de instalar."
+        tip: "El vinilo SPC va sobre el piso viejo sin demoler. Si la remodelación es en apartamento habitado, ahorra semanas de obra."
+        tiendas: [pisos-prestige-ideo, pisende-sur]
+      - titulo: "Comparar precio de obra"
+        categoria: pisos
+        que_buscar: "Contraste opcional en el Centro antes de cerrar."
+        tip: "Solo si el metraje es grande. Para menos de 40 m² la diferencia no paga el viaje ni el flete."
+        tiendas: [pisende-udea, ceramicas-y-porcelanatos, materiales-emo-san-benito]
+
+  - slug: apartamento-desde-cero
+    foto: apartamento
+    nombre: "Ruta Apartamento"
+    kicker: "Proyecto completo"
+    duracion: "Dos sábados"
+    paradas_count: 6
+    resumen: >-
+      El proyecto grande: obra resuelta en IDEO el primer sábado, mobiliario
+      e iluminación el segundo.
+    intro: >-
+      Entregar un apartamento en obra gris y tener que amoblarlo completo es
+      el proyecto que más gente subestima. Se hace en dos tiempos y en este
+      orden: primero todo lo que va pegado a la estructura — piso, baño,
+      cocina — porque de eso depende la fecha de entrega del maestro. El
+      mobiliario se puede escoger después, con calma y con el piso ya puesto.
+    empieza_en_ideo: true
+    paradas:
+      - titulo: "Sábado 1 · Piso de toda la casa"
+        categoria: pisos
+        que_buscar: "Un solo piso para zona social. Alcobas pueden ir en otro material."
+        tip: "Unificar el piso de sala, comedor y cocina hace ver el apartamento más grande y sale más barato por volumen."
+        tiendas: [mosagres-ideo, decorceramica-ideo, pisos-prestige-ideo]
+      - titulo: "Sábado 1 · Baños completos"
+        categoria: banos
+        que_buscar: "Enchape, sanitario y grifería de todos los baños de una vez."
+        tip: "Compre los baños juntos aunque sean distintos: se negocia mejor y se evita que una referencia se agote a mitad de obra."
+        tiendas: [dyd-colombia-ideo, tecnigrifos-ideo, decorceramica-ideo]
+      - titulo: "Sábado 1 · Cocina y electrodomésticos"
+        categoria: cocinas
+        que_buscar: "Cocina integral y empotrados. Cerrar medidas con el instalador."
+        tip: "La cocina es lo que más se demora en fabricar — entre 4 y 8 semanas. Déjela encargada el primer sábado o se vuelve el cuello de botella."
+        tiendas: [cocinas-y-ensambles-ideo, usa-electrodomesticos-ideo, ikea-viva-envigado]
+      - titulo: "Sábado 2 · Mobiliario de sala y comedor"
+        categoria: diseno
+        que_buscar: "Sofá, comedor y biblioteca. Con el piso ya instalado."
+        tip: "Ir después de que el piso esté puesto: el color del mueble contra el piso real no se puede adivinar con una foto."
+        tiendas: [murano-home, matisses-sabaneta, ikea-viva-envigado]
+      - titulo: "Sábado 2 · Iluminación"
+        categoria: iluminacion
+        que_buscar: "Lámparas de techo, apliques y luz de ambiente."
+        tip: "Sobre la Cra. 43A de Envigado hay cinco tiendas de iluminación en cuatro cuadras. Se recorren a pie."
+        tiendas: [fokuss-envigado, elemental-galeria, ilumeco, deco-il-luminar]
+      - titulo: "Sábado 2 · Cortinas y textiles"
+        categoria: diseno
+        que_buscar: "Cortinas, blackout en alcobas y tapetes."
+        tip: "Las cortinas se miden después de instalado el piso, no antes: el nivel final cambia el largo."
+        tiendas: [espacioflex, cricket-home, habitat-store]
+
+  - slug: iluminacion-de-la-casa
+    foto: iluminacion
+    nombre: "Ruta Iluminación"
+    kicker: "Corta"
+    duracion: "Una tarde, a pie"
+    paradas_count: 4
+    resumen: >-
+      Cuatro tiendas de iluminación en cuatro cuadras sobre la Cra. 43A de
+      Envigado. Se recorre caminando.
+    intro: >-
+      La iluminación es lo que más cambia una casa por menos plata, y lo que
+      peor se compra por internet: una lámpara se escoge prendida. Envigado
+      tiene una concentración inusual de tiendas de luz sobre la misma
+      carrera, así que es la única compra de esta lista que se hace a pie.
+    empieza_en_ideo: false
+    paradas:
+      - titulo: "Luz técnica y empotrada"
+        categoria: iluminacion
+        que_buscar: "Bombillos empotrados, rieles y temperatura de color."
+        tip: "Defina la temperatura antes de comprar: 3000K para alcobas y sala, 4000K para cocina y baño. Mezclarlas en un mismo espacio se ve mal."
+        tiendas: [fokuss-envigado, terravatio-medellin]
+      - titulo: "Lámpara de comedor"
+        categoria: iluminacion
+        que_buscar: "La pieza protagonista. Colgante sobre la mesa."
+        tip: "La lámpara va a 75-80 cm sobre la mesa. Más alto no ilumina, más bajo estorba la conversación."
+        tiendas: [elemental-galeria, ilumeco, deco-il-luminar]
+      - titulo: "Apliques y luz de ambiente"
+        categoria: iluminacion
+        que_buscar: "Apliques de muro, lámparas de mesa y de piso."
+        tip: "Una sala necesita tres fuentes de luz a distintas alturas. Con una sola del techo queda con cara de oficina."
+        tiendas: [bucarest-lamparas, decolum-medellin, iluminaciones-antioquia]
+      - titulo: "Control y domótica"
+        categoria: tech-home
+        que_buscar: "Dimmers, escenas y control por app. Opcional."
+        tip: "Un dimmer en la sala y el comedor es la mejora más barata que existe. Deje el cableado listo aunque no lo instales ya."
+        tiendas: [domotica-medellin, techno-smart, totally-electric-medellin]
+
+  - slug: sala-y-comedor
+    foto: sala
+    nombre: "Ruta Sala y Comedor"
+    kicker: "Diseño"
+    duracion: "Una tarde"
+    paradas_count: 4
+    resumen: >-
+      Showrooms de El Poblado y Envigado para la zona social, en orden de
+      mayor a menor pieza.
+    intro: >-
+      La zona social se arma de la pieza más grande a la más pequeña: primero
+      el sofá, que define la escala, después el comedor y al final lo que
+      acompaña. Comprar al revés termina en una sala donde nada conversa.
+    empieza_en_ideo: false
+    paradas:
+      - titulo: "El sofá"
+        categoria: diseno
+        que_buscar: "La pieza que define la escala del espacio."
+        tip: "Mida el ancho de la puerta y del ascensor antes de comprar. Un sofá de tres puestos que no entra es un problema caro."
+        tiendas: [boconcept-medellin, murano-home, matisses-sabaneta]
+      - titulo: "Comedor"
+        categoria: diseno
+        que_buscar: "Mesa y sillas. Verificar circulación alrededor."
+        tip: "Deje 90 cm libres entre la mesa y la pared para poder correr la silla. Con menos, el comedor no se usa."
+        tiendas: [habitat-store, matiz-laureles, vila-decoracion]
+      - titulo: "Piezas de autor"
+        categoria: diseno
+        que_buscar: "La pieza que hace la diferencia: una silla, una consola."
+        tip: "Una sola pieza fuerte levanta un espacio entero. Es mejor que cinco medianas."
+        tiendas: [fernando-garcia-atelier, alevilla-decoracion, elemental-galeria]
+      - titulo: "Carpintería a medida"
+        categoria: diseno
+        que_buscar: "Biblioteca, mueble de TV o closet. Cuando nada estándar cabe."
+        tip: "A medida sale entre 20% y 40% más caro, pero en espacios irregulares es la única opción que no deja huecos muertos."
+        tiendas: [la-carpi, espacio-mobiliario, art-diseno]
+
+  - slug: terraza-y-jardin
+    foto: terraza
+    nombre: "Ruta Terraza y Jardín"
+    kicker: "Exterior"
+    duracion: "Una tarde"
+    paradas_count: 4
+    resumen: >-
+      Piso exterior, mobiliario y plantas — con la parada de obra en IDEO.
+    intro: >-
+      Una terraza se daña por dos cosas: piso equivocado y planta equivocada.
+      El piso exterior tiene que ser antideslizante y resistir el sol y el
+      agua de Medellín; la planta tiene que aguantar las horas de luz que
+      realmente le llegan al balcón, que casi siempre son menos de las que uno
+      cree.
+    empieza_en_ideo: true
+    paradas:
+      - titulo: "Piso exterior"
+        categoria: pisos
+        que_buscar: "Antideslizante, resistente a sol y lluvia. Deck o porcelanato."
+        tip: "Pida específicamente piso para exterior. Un porcelanato de interior en la terraza se vuelve una pista de patinaje cuando llueve."
+        tiendas: [decorceramica-ideo, mosagres-ideo, pisos-prestige-ideo]
+      - titulo: "Mobiliario de exterior"
+        categoria: diseno
+        que_buscar: "Muebles que aguanten intemperie. Fibra sintética o teca."
+        tip: "Pregunte si la tela es dralón o similar. Las telas normales se pudren en un semestre con la humedad de acá."
+        tiendas: [the-blue-house, ambiente-living, habitat-store]
+      - titulo: "Plantas y materas"
+        categoria: jardines
+        que_buscar: "Especies según las horas reales de sol del espacio."
+        tip: "Cuente cuántas horas de sol directo le dan al balcón antes de ir. Con menos de cuatro, la mayoría de floríferas no sirven."
+        tiendas: [vivero-tierranegra-poblado, al-solar, sembramos]
+      - titulo: "Luz de exterior"
+        categoria: iluminacion
+        que_buscar: "Luminarias IP65 para intemperie."
+        tip: "Tiene que decir IP65 o superior. Una lámpara de interior en la terraza dura hasta el primer aguacero."
+        tiendas: [terravatio-medellin, fokuss-envigado, totally-electric-medellin]
+
+  - slug: cuarto-infantil
+    foto: infantil
+    nombre: "Ruta Infantil"
+    kicker: "Corta"
+    duracion: "Una tarde"
+    paradas_count: 4
+    resumen: >-
+      Mobiliario que crece con el niño, piso seguro y luz que no asusta de
+      noche.
+    intro: >-
+      El error del cuarto infantil es comprar para la edad que el niño tiene
+      hoy. Un cuarto bien resuelto dura de los tres a los diez años, y eso
+      depende de dos decisiones: cama que no se quede corta y almacenamiento
+      que el niño pueda alcanzar solo.
+    empieza_en_ideo: false
+    paradas:
+      - titulo: "Cama y mobiliario"
+        categoria: infantil
+        que_buscar: "Cama que dure, con almacenamiento a la altura del niño."
+        tip: "Sáltese la cama de bebé temática: dura dos años. Una cama sencilla bien hecha llega hasta la adolescencia."
+        tiendas: [muebles-infantiles-ragla, mi-bendicion, selva-de-oro]
+      - titulo: "Piso cálido y seguro"
+        categoria: pisos
+        que_buscar: "Laminado o vinilo — más cálido y más blando que la cerámica."
+        tip: "En cuarto de niño el vinilo gana: amortigua la caída y no se siente frío al sentarse a jugar."
+        tiendas: [pisos-prestige-ideo, pisende-sur]
+      - titulo: "Almacenamiento y juego"
+        categoria: infantil
+        que_buscar: "Repisas bajas, cajas y zona de juego."
+        tip: "Todo lo que el niño usa solo va por debajo de 1,20 m. Arriba de eso lo guarda el adulto y deja de usarse."
+        tiendas: [pin8-toys, ikea-viva-envigado, selva-de-oro]
+      - titulo: "Luz de noche"
+        categoria: iluminacion
+        que_buscar: "Luz general regulable más una luz tenue de noche."
+        tip: "Un dimmer en el cuarto del niño vale lo mismo que un interruptor normal y resuelve la hora de dormir."
+        tiendas: [deco-il-luminar, ilumeco, totally-electric-medellin]
+
+  - slug: casa-inteligente
+    foto: tech
+    nombre: "Ruta Casa Inteligente"
+    kicker: "Técnica"
+    duracion: "Una tarde"
+    paradas_count: 4
+    resumen: >-
+      Domótica, iluminación controlada y electrodomésticos conectados.
+    intro: >-
+      La domótica se instala barata durante la obra y cara después. Si hay
+      remodelación en curso, esta es la ruta que hay que hacer antes de que
+      el maestro cierre los muros: dejar el cableado previsto cuesta poco y
+      permite decidir el equipo más adelante.
+    empieza_en_ideo: false
+    paradas:
+      - titulo: "Diseño del sistema"
+        categoria: tech-home
+        que_buscar: "Qué controlar: luz, cortinas, cerradura, cámaras."
+        tip: "Empiece por la luz. Es lo que más se usa y lo que más se nota. Cortinas y cerraduras después."
+        tiendas: [domotica-medellin, techno-smart]
+      - titulo: "Material eléctrico y control"
+        categoria: iluminacion
+        que_buscar: "Dimmers, interruptores inteligentes y tableros."
+        tip: "Verifique que el tablero tenga neutro en las cajas de los interruptores. Sin neutro, la mayoría de interruptores inteligentes no funcionan."
+        tiendas: [totally-electric-medellin, terravatio-medellin, fokuss-envigado]
+      - titulo: "Electrodomésticos conectados"
+        categoria: tech-home
+        que_buscar: "Nevera, lavadora y horno con app. Medir antes de comprar."
+        tip: "Compruebe que la marca tenga servicio técnico en Medellín. Un electrodoméstico conectado sin soporte local es un problema."
+        tiendas: [usa-electrodomesticos-ideo, ktronix-poblado, electroferia]
+      - titulo: "Audio y entretenimiento"
+        categoria: tech-home
+        que_buscar: "Sonido embebido y pantalla. Opcional."
+        tip: "Si va sonido en techo, hay que definirlo antes del drywall. Después toca romper."
+        tiendas: [techno-smart, ktronix-poblado, electrobello]

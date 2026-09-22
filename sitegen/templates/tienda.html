@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}{{ t.nombre }} — {{ t.zona_nombre }} | {{ pub_name }}{% endblock %}
+{% block description %}{{ t.nombre }}: {{ t.aporta }}. {{ t.direccion_completa }}.{% endblock %}
+{% block content %}
+
+<a class="back-link" href="{{ asset_prefix }}directorio/index.html">&larr; Directorio</a>
+
+<article class="ficha">
+
+  <header class="ficha__head">
+    <div class="ficha__kicker">
+      <span class="kicker">{{ t.zona_nombre }}</span>
+      {% if t.en_ideo %}<span class="chip chip--ideo chip--sm">IDEO</span>{% endif %}
+    </div>
+    <h1>{{ t.nombre }}</h1>
+    <p class="dek">{{ t.aporta }}</p>
+  </header>
+
+  <dl class="ficha__datos">
+    <div>
+      <dt>Dirección</dt>
+      <dd>{{ t.direccion }}{% if t.local %}<br><span class="muted">{{ t.local }}</span>{% endif %}</dd>
+    </div>
+    <div>
+      <dt>Zona</dt>
+      <dd>{{ t.zona_nombre }}</dd>
+    </div>
+    {% if t.nivel_label %}
+    <div>
+      <dt>Nivel</dt>
+      <dd>{{ t.nivel_short }} {{ t.nivel_label }}</dd>
+    </div>
+    {% endif %}
+    {% if t.horario %}
+    <div>
+      <dt>Horario</dt>
+      <dd>{{ t.horario }}</dd>
+    </div>
+    {% endif %}
+    {% if t.telefono %}
+    <div>
+      <dt>Teléfono</dt>
+      <dd><a href="tel:{{ t.telefono }}">{{ t.telefono }}</a></dd>
+    </div>
+    {% endif %}
+    {% if t.web %}
+    <div>
+      <dt>Web</dt>
+      <dd><a href="{{ t.web }}" target="_blank" rel="noopener">{{ t.web }}</a></dd>
+    </div>
+    {% endif %}
+  </dl>
+
+  <div class="acciones acciones--ficha">
+    <a class="btn btn--primary" href="{{ t.maps_url }}" target="_blank" rel="noopener">Cómo llegar</a>
+    {% if t.whatsapp %}<a class="btn" href="https://wa.me/{{ t.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a>{% endif %}
+    {% if t.telefono %}<a class="btn" href="tel:{{ t.telefono }}">Llamar</a>{% endif %}
+  </div>
+
+  <section class="ficha__sec">
+    <h2>Qué se resuelve acá</h2>
+    <div class="cat-chips">
+      {% for c in t.cats_full %}
+      <a class="cat-chip" href="{{ asset_prefix }}directorio/index.html#{{ c.slug }}">
+        <strong>{{ c.nombre }}</strong>
+        <span>{{ c.descripcion }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% if t.rutas %}
+  <section class="ficha__sec">
+    <h2>Aparece en estas rutas</h2>
+    <ul class="ruta-mini-list">
+      {% for r in t.rutas %}
+      <li>
+        <a href="{{ asset_prefix }}rutas/{{ r.slug }}.html">
+          <strong>{{ r.nombre }}</strong>
+          <span>Parada: {{ r.parada }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  {% if t.en_ideo and otras_ideo %}
+  <section class="ficha__sec">
+    <h2>En el mismo edificio</h2>
+    <p class="ficha__sec-dek">
+      Está en IDEO, así que estas otras {{ otras_ideo|length }} quedan a metros —
+      se comparan sin volver a montarse al carro.
+    </p>
+    <ul class="vecinas">
+      {% for o in otras_ideo %}
+      <li><a href="{{ asset_prefix }}directorio/{{ o.slug }}.html"><strong>{{ o.nombre }}</strong><span>{{ o.aporta }}</span></a></li>
+      {% endfor %}
+    </ul>
+    <a class="btn btn--sm" href="{{ asset_prefix }}ideo/index.html">Ver IDEO completo</a>
+  </section>
+  {% elif cercanas %}
+  <section class="ficha__sec">
+    <h2>Cerca, en {{ t.zona_corta }}</h2>
+    <ul class="vecinas">
+      {% for o in cercanas %}
+      <li><a href="{{ asset_prefix }}directorio/{{ o.slug }}.html"><strong>{{ o.nombre }}</strong><span>{{ o.aporta }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+</article>
+
+<div class="ruta-bar">
+  <div class="ruta-bar__info">
+    <strong>{{ t.nombre }}</strong>
+    <span>{{ t.direccion_completa }}</span>
+  </div>
+  <a class="btn btn--primary btn--sm" href="{{ t.maps_url }}" target="_blank" rel="noopener">Cómo llegar</a>
+</div>
+
+{% endblock %}

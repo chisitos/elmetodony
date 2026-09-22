@@ -2,31 +2,182 @@
 <html lang="{{ language }}">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{% block title %}{{ pub_name }} — {{ tagline }}{% endblock %}</title>
-<meta name="description" content="{{ tagline }}">
+<meta name="description" content="{% block description %}{{ tagline }}{% endblock %}">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="manifest" href="{{ asset_prefix }}manifest.webmanifest">
+<link rel="icon" href="{{ asset_prefix }}static/icono.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{{ asset_prefix }}static/style.css">
 </head>
 <body>
+
 <header class="masthead">
-  <div class="wrap">
+  <div class="masthead__bar">
     <a class="brand" href="{{ asset_prefix }}index.html"><span class="re">RE</span>MODELAR</a>
     <div class="tagline">{{ tagline }}</div>
-    <div class="meta-strip">
-      <span>Arquitectura interior · Remodelación · Materiales</span>
-      <span><a href="{{ asset_prefix }}ediciones/index.html">Archivo de ediciones</a> · Actualizado {{ build_date }}</span>
-    </div>
+    <button type="button" class="hamb" id="hamb" aria-label="Abrir menú" aria-expanded="false" aria-controls="sidebar">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="masthead__strip">
+    <span>Rutas · Directorio · Arquitectura interior</span>
+    <span>{{ n_tiendas }} tiendas · {{ n_rutas }} rutas · Actualizado {{ build_date }}</span>
   </div>
 </header>
 
-<main class="wrap">
-{% block content %}{% endblock %}
-</main>
+<div class="shell">
+
+
+  <div class="scrim" id="scrim" hidden></div>
+
+  <main class="content">
+  {% block content %}{% endblock %}
+  </main>
+
+  <!-- Menú lateral: la navegación real del sitio. Va a la derecha, fijo
+       mientras se baja; en móvil entra como cajón desde ese mismo lado.
+       Cuatro secciones y nada más — sólo las rutas llevan miniatura. -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__inner">
+
+      <!-- Sección 1: empezar una ruta. Es la acción principal del sitio, así
+           que es la única con imagen — la miniatura ayuda a reconocer el
+           proyecto de un vistazo. Sólo cuatro: el resto está en /rutas/. -->
+      <section class="side-sec">
+        <span class="side-h">Rutas Remodelar</span>
+        <ul class="side-rutas">
+          {% for r in nav_rutas_side %}
+          <li>
+            <a href="{{ asset_prefix }}rutas/{{ r.slug }}.html" {% if nav_ruta == r.slug %}class="is-active"{% endif %}>
+              {% if r.foto %}
+              <img src="{{ asset_prefix }}static/fotos/{{ r.foto }}-sm.jpg" alt="" loading="lazy" width="60" height="45">
+              {% else %}
+              <span class="side-rutas__plate plate--{{ loop.index0 % 6 }}"></span>
+              {% endif %}
+              <span class="side-rutas__txt">
+                <strong>{{ r.nombre }}</strong>
+                <em>{{ r.total_paradas }} paradas{% if r.paradas_ideo %} · {{ r.paradas_ideo }} en IDEO{% endif %}</em>
+              </span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        <a class="side-all" href="{{ asset_prefix }}rutas/index.html">Las {{ n_rutas }} rutas &rarr;</a>
+      </section>
+
+      <!-- Sección 2: el ancla -->
+      <section class="side-sec">
+        <a class="side-ideo" href="{{ asset_prefix }}ideo/index.html">
+          <span class="side-ideo__mark">IDEO</span>
+          <span class="side-ideo__txt">{{ n_ideo }} locales de obra<br>Autopista Sur, Itagüí</span>
+        </a>
+      </section>
+
+      <!-- Sección 3: buscar. Sin lista de categorías: el buscador ya las
+           tiene como filtros, repetirlas acá sólo alargaba la columna. -->
+      <section class="side-sec">
+        <span class="side-h">Buscar</span>
+        <a class="side-buscar" href="{{ asset_prefix }}directorio/index.html">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+          <span><strong>{{ n_tiendas }} tiendas</strong><em>por categoría y zona</em></span>
+        </a>
+      </section>
+
+      <!-- Sección 4: revista -->
+      <section class="side-sec">
+        <span class="side-h">Revista</span>
+        <ul class="side-list">
+          <li><a href="{{ asset_prefix }}revista/index.html" {% if nav_active == 'revista' %}class="is-active"{% endif %}>Última edición</a></li>
+          <li><a href="{{ asset_prefix }}ediciones/index.html">Archivo de ediciones</a></li>
+        </ul>
+        <p class="side-note">
+          Semanal, sobre fuentes públicas con atribución a cada original.
+        </p>
+      </section>
+
+    </div>
+  </aside>
+
+</div>
 
 <footer>
-  <div class="wrap">
-    REMODELAR — curado y redactado por un equipo de agentes editoriales sobre fuentes públicas, con atribución y enlace a cada fuente original. Ediciones semanales, nunca infinitas.
+  <div class="foot-wrap">
+    <div class="footer-cols">
+      <div>
+        <span class="footer-h">Rutas</span>
+        {% for r in nav_rutas %}<a href="{{ asset_prefix }}rutas/{{ r.slug }}.html">{{ r.nombre }}</a>{% endfor %}
+      </div>
+      <div>
+        <span class="footer-h">Categorías</span>
+        {% for c in nav_categorias %}<a href="{{ asset_prefix }}directorio/index.html#{{ c.slug }}">{{ c.nombre }}</a>{% endfor %}
+      </div>
+      <div>
+        <span class="footer-h">{{ pub_name }}</span>
+        <a href="{{ asset_prefix }}ideo/index.html">IDEO · Autopista Sur</a>
+        <a href="{{ asset_prefix }}directorio/index.html">Directorio completo</a>
+        <a href="{{ asset_prefix }}revista/index.html">Revista</a>
+        <a href="{{ asset_prefix }}ediciones/index.html">Archivo</a>
+      </div>
+    </div>
+    <div class="footer-legal">
+      REMODELAR — el mapa de dónde comprar para remodelar en {{ ciudad }}, y una
+      revista semanal de arquitectura interior curada y redactada sobre fuentes
+      públicas, con atribución y enlace a cada original. Las direcciones se
+      verifican pero pueden cambiar sin aviso: confirme el horario antes de salir.
+    </div>
   </div>
 </footer>
+
+<nav class="tabbar">
+  <a href="{{ asset_prefix }}index.html" {% if nav_active == 'inicio' %}class="is-active"{% endif %}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 9.5V21h14V9.5"/></svg>
+    <span>Inicio</span>
+  </a>
+  <a href="{{ asset_prefix }}rutas/index.html" {% if nav_active == 'rutas' %}class="is-active"{% endif %}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M6 8.5v4a3 3 0 003 3h6"/></svg>
+    <span>Rutas</span>
+  </a>
+  <a href="{{ asset_prefix }}directorio/index.html" {% if nav_active == 'directorio' %}class="is-active"{% endif %}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg>
+    <span>Buscar</span>
+  </a>
+  <a href="{{ asset_prefix }}ideo/index.html" {% if nav_active == 'ideo' %}class="is-active"{% endif %}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    <span>IDEO</span>
+  </a>
+  <a href="{{ asset_prefix }}revista/index.html" {% if nav_active == 'revista' %}class="is-active"{% endif %}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>
+    <span>Revista</span>
+  </a>
+</nav>
+
+<script>
+  (function () {
+    var b = document.getElementById('hamb'),
+        s = document.getElementById('sidebar'),
+        k = document.getElementById('scrim');
+    if (!b || !s) return;
+    function set(open) {
+      document.body.classList.toggle('menu-open', open);
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      k.hidden = !open;
+    }
+    b.addEventListener('click', function () {
+      set(!document.body.classList.contains('menu-open'));
+    });
+    k.addEventListener('click', function () { set(false); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') set(false);
+    });
+  })();
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('{{ asset_prefix }}sw.js').catch(function () {});
+    });
+  }
+</script>
+{% block scripts %}{% endblock %}
 </body>
 </html>

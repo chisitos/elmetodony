@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% from "_macros.html" import card, hero %}
+{% block title %}{{ pub_name }} — Rutas de remodelación y arquitectura interior en {{ ciudad }}{% endblock %}
+{% block description %}{{ sitio.descripcion }}{% endblock %}
+{% block content %}
+
+{# ---- La revista manda la portada: es lo único con fotografía real, del
+       motor editorial, con atribución a cada fuente. Las rutas se resuelven
+       gráficamente más abajo. ---- #}
+{% if edicion and edicion.articles %}
+<div class="edition-strip">
+  <span class="edition-strip__num">Edición N.º {{ edicion.number }}</span>
+  <span class="edition-strip__range">{{ edicion.range_human }}</span>
+  <a class="edition-strip__link" href="{{ asset_prefix }}ediciones/index.html">Archivo de ediciones &rarr;</a>
+</div>
+
+{{ hero(edicion.articles[0], asset_prefix, 'Portada de esta edición') }}
+
+{% if edicion.articles[1:] %}
+<div class="grid">
+  {% for a in edicion.articles[1:] %}{{ card(a, asset_prefix) }}{% endfor %}
+</div>
+{% endif %}
+{% endif %}
+
+{# ---- Rutas: sin foto propia, así que la identidad es tipográfica y de
+       trama — el mismo hatching de plano de obra que la revista usa cuando
+       una nota no trae imagen. ---- #}
+<section class="band">
+  <div class="band__head">
+    <h2>Rutas Remodelar</h2>
+    <p>El orden real de la obra, con las tiendas de {{ ciudad }} en cada paso.</p>
+    <a class="band__link" href="{{ asset_prefix }}rutas/index.html">Las {{ n_rutas }} rutas &rarr;</a>
+  </div>
+
+  <div class="plates">
+    {% for r in rutas_destacadas %}
+    <a class="plate plate--{{ loop.index0 % 6 }}{% if r.foto %} plate--foto{% endif %}" href="{{ asset_prefix }}rutas/{{ r.slug }}.html">
+      <div class="plate__art">
+        {% if r.foto %}<img src="{{ asset_prefix }}static/fotos/{{ r.foto }}.jpg" alt="" loading="lazy">{% endif %}
+        <h3 class="plate__name">{{ r.nombre }}</h3>
+      </div>
+      <div class="plate__body">
+        <span class="plate__kicker">{{ r.kicker }}</span>
+        <p>{{ r.resumen }}</p>
+        <div class="plate__foot">
+          <span>{{ r.total_paradas }} paradas · {{ r.duracion }}</span>
+          {% if r.paradas_ideo %}<span class="plate__ideo">{{ r.paradas_ideo }} en IDEO</span>{% endif %}
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="ancla">
+  <div class="ancla__mark">IDEO</div>
+  <div class="ancla__body">
+    <span class="kicker">El ancla de {{ ciudad }}</span>
+    <h2>{{ ancla.claim }}</h2>
+    <p>{{ ancla.descripcion }}</p>
+    <ul class="ancla__list">
+      {% for p in ancla.por_que %}<li>{{ p }}</li>{% endfor %}
+    </ul>
+    <div class="ancla__cta">
+      <a class="btn btn--invert" href="{{ asset_prefix }}ideo/index.html">Ver los {{ n_ideo }} locales</a>
+      <a class="btn btn--ghost" href="{{ ancla_maps_url }}" target="_blank" rel="noopener">Cómo llegar</a>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="band__head">
+    <h2>Directorio</h2>
+    <p>{{ n_tiendas }} tiendas verificadas, por categoría y por zona.</p>
+    <a class="band__link" href="{{ asset_prefix }}directorio/index.html">Buscar &rarr;</a>
+  </div>
+
+  <div class="cat-grid">
+    {% for c in categorias %}
+    <a class="cat-tile" href="{{ asset_prefix }}directorio/index.html#{{ c.slug }}">
+      <span class="cat-tile__n">{{ c.n }}</span>
+      <span class="cat-tile__nombre">{{ c.nombre }}</span>
+      <span class="cat-tile__desc">{{ c.descripcion }}</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

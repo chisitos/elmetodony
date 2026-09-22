@@ -1,10 +1,16 @@
+{# La placa de trama va SIEMPRE debajo de la foto, no sólo cuando falta
+   image_url. Las fotos de la revista son hotlink al servidor del medio
+   original (ver README, "Imágenes y derechos de autor"): si ese servidor
+   bloquea el hotlinking, cambia la URL o simplemente se cae, `onerror`
+   quita la imagen y queda la placa — nunca el ícono de imagen rota. #}
 {% macro media(a, asset_prefix, size='card') %}
 <div class="media media--{{ size }}">
-  {% if a.image_url %}
-  <img src="{{ a.image_url }}" alt="{{ a.headline }}" loading="{{ 'eager' if size == 'hero' else 'lazy' }}">
-  {% if a.image_is_illustrative %}<span class="media-badge">Imagen ilustrativa</span>{% endif %}
-  {% else %}
   <div class="media-fallback"><span class="media-fallback__cat">{{ a.category }}</span></div>
+  {% if a.image_url %}
+  <img src="{{ a.image_url }}" alt="{{ a.headline }}"
+       loading="{{ 'eager' if size == 'hero' else 'lazy' }}"
+       onerror="this.parentNode.classList.add('media--sin-foto'); this.remove();">
+  {% if a.image_is_illustrative %}<span class="media-badge">Imagen ilustrativa</span>{% endif %}
   {% endif %}
 </div>
 {% endmacro %}

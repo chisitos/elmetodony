@@ -1,0 +1,11 @@
+<!-- Ícono de Remodelar: la marca es la ruta misma — dos paradas unidas por un
+     recorrido en ángulo recto, en el magenta de la publicación sobre negro.
+     Sin texto: se lee a 48px en la pantalla de inicio. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#0a0a0a"/>
+  <path d="M150 150 L150 300 L362 300"
+        fill="none" stroke="#e4007c" stroke-width="34"
+        stroke-linecap="square" stroke-linejoin="miter"/>
+  <rect x="112" y="112" width="76" height="76" fill="#ffffff"/>
+  <rect x="324" y="262" width="76" height="76" fill="#e4007c"/>
+</svg>

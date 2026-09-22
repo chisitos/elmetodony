@@ -2,8 +2,8 @@ name: Remodelar — edición semanal y publicación
 
 on:
   schedule:
-    # Lunes 08:00 America/Argentina (UTC-3) = lunes 11:00 UTC. Ajustar si hace falta.
-    - cron: "0 11 * * 1"
+    # Lunes 08:00 en Colombia (America/Bogota, UTC-5) = lunes 13:00 UTC.
+    - cron: "0 13 * * 1"
   workflow_dispatch: {}
 
 permissions:

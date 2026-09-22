@@ -55,8 +55,7 @@ def fetch_web_candidates(cfg: Config) -> list[Candidate]:
             system=SYSTEM,
             user=_user_prompt(cfg),
             tools=[WEB_SEARCH_TOOL],
-            max_tokens=6000,
-            temperature=0.3,
+            max_tokens=16000,
         )
     except Exception as exc:  # noqa: BLE001 — la búsqueda web es un plus, no debe tumbar el pipeline
         log.warning("Agente de búsqueda web falló, sigo solo con RSS: %s", exc)

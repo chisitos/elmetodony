@@ -96,8 +96,7 @@ def edit(sc: ScoredCandidate, cfg: Config, used_slugs: set[str]) -> Article:
         model=cfg.model("editor"),
         system=_build_system(cfg),
         user=_user_prompt(sc),
-        max_tokens=3000,
-        temperature=0.7,
+        max_tokens=12000,
     )
     if not isinstance(raw, dict):
         raise ValueError("El editor no devolvió un objeto JSON")

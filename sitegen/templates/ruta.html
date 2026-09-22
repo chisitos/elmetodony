@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}{{ ruta.nombre }} — ruta de compra en {{ ciudad }} | {{ pub_name }}{% endblock %}
+{% block description %}{{ ruta.resumen }}{% endblock %}
+{% block content %}
+
+<a class="back-link" href="{{ asset_prefix }}rutas/index.html">&larr; Todas las rutas</a>
+
+<article class="ruta">
+
+  <header class="ruta__head">
+    <!-- Cabecera: foto de ambiente de la categoría, nunca de una tienda
+         concreta. Si la ruta no tiene foto, cae en la trama de plano. -->
+    <div class="ruta__plate plate--{{ ruta.indice % 6 }}{% if ruta.foto %} ruta__plate--foto{% endif %}">
+      {% if ruta.foto %}<img src="{{ asset_prefix }}static/fotos/{{ ruta.foto }}.jpg" alt="" fetchpriority="high">{% endif %}
+      <span class="ruta__plate-n">{{ ruta.nombre }}</span>
+    </div>
+
+    <div class="ruta__head-meta">
+      <span class="kicker">{{ ruta.kicker }}</span>
+      {% if ruta.paradas_ideo %}<span class="chip chip--ideo">{{ ruta.paradas_ideo }} de {{ ruta.total_paradas }} paradas en IDEO</span>{% endif %}
+    </div>
+    <h1>{{ ruta.nombre }}</h1>
+    <p class="dek">{{ ruta.intro }}</p>
+
+    <dl class="ruta__facts">
+      <div><dt>Paradas</dt><dd>{{ ruta.total_paradas }}</dd></div>
+      <div><dt>Tiempo</dt><dd>{{ ruta.duracion }}</dd></div>
+      <div><dt>Arranca en</dt><dd>{{ ruta.paradas[0].principal.zona_corta if ruta.paradas and ruta.paradas[0].principal else '—' }}</dd></div>
+    </dl>
+  </header>
+
+  <!-- Los pasos. En móvil se leen como una lista vertical con el número
+       pegado a la izquierda; es la vista que se usa caminando. -->
+  <ol class="pasos">
+    {% for p in ruta.paradas %}
+    <li class="paso{% if p.en_ideo %} paso--ideo{% endif %}" id="paso-{{ p.numero }}">
+      <div class="paso__num">{{ p.numero }}</div>
+
+      <div class="paso__body">
+        <div class="paso__top">
+          <span class="paso__cat">{{ p.categoria_nombre }}</span>
+          {% if p.en_ideo %}<span class="chip chip--ideo chip--sm">IDEO</span>{% endif %}
+        </div>
+
+        <h2>{{ p.titulo }}</h2>
+        <p class="paso__que">{{ p.que_buscar }}</p>
+
+        {% if p.tip %}
+        <div class="tip">
+          <span class="tip__label">Antes de ir</span>
+          <p>{{ p.tip }}</p>
+        </div>
+        {% endif %}
+
+        {% if p.principal %}
+        <div class="tienda-box">
+          <div class="tienda-box__head">
+            <div>
+              <a class="tienda-box__nombre" href="{{ asset_prefix }}directorio/{{ p.principal.slug }}.html">{{ p.principal.nombre }}</a>
+              <div class="tienda-box__meta">
+                {{ p.principal.zona_corta }}
+                {% if p.principal.nivel_short %}<span class="sep">·</span> {{ p.principal.nivel_short }} {{ p.principal.nivel_label }}{% endif %}
+              </div>
+            </div>
+            <span class="tienda-box__tag">Recomendada</span>
+          </div>
+
+          <div class="tienda-box__dir">{{ p.principal.direccion_completa }}</div>
+
+          <div class="acciones">
+            <a class="btn btn--sm btn--primary" href="{{ p.principal.maps_url }}" target="_blank" rel="noopener">Cómo llegar</a>
+            {% if p.principal.whatsapp %}
+            <a class="btn btn--sm" href="https://wa.me/{{ p.principal.whatsapp }}" target="_blank" rel="noopener">WhatsApp</a>
+            {% endif %}
+            {% if p.principal.telefono %}
+            <a class="btn btn--sm" href="tel:{{ p.principal.telefono }}">Llamar</a>
+            {% endif %}
+            <a class="btn btn--sm btn--ghost" href="{{ asset_prefix }}directorio/{{ p.principal.slug }}.html">Ver ficha</a>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if p.alternativas %}
+        <details class="alts">
+          <summary>{{ p.alternativas|length }} alternativa{{ 's' if p.alternativas|length != 1 else '' }} para esta parada</summary>
+          <ul>
+            {% for a in p.alternativas %}
+            <li>
+              <a href="{{ asset_prefix }}directorio/{{ a.slug }}.html">{{ a.nombre }}</a>
+              <span class="alts__meta">{{ a.zona_corta }} · {{ a.direccion_completa }}</span>
+              <a class="alts__maps" href="{{ a.maps_url }}" target="_blank" rel="noopener">Mapa</a>
+            </li>
+            {% endfor %}
+          </ul>
+        </details>
+        {% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ol>
+
+  <div class="ruta__cierre">
+    <h2>Llévese la ruta</h2>
+    <p>
+      El enlace abre Google Maps con las {{ ruta.total_paradas }} paradas en
+      orden. Se puede arrancar desde donde esté y reordenar si le conviene.
+    </p>
+    <a class="btn btn--primary" href="{{ ruta.maps_ruta_url }}" target="_blank" rel="noopener">Abrir la ruta en Google Maps</a>
+  </div>
+
+  {% if otras_rutas %}
+  <div class="otras">
+    <span class="otras__label">Seguir con</span>
+    <div class="otras__list">
+      {% for r in otras_rutas %}
+      <a href="{{ asset_prefix }}rutas/{{ r.slug }}.html">
+        <strong>{{ r.nombre }}</strong>
+        <span>{{ r.total_paradas }} paradas · {{ r.duracion }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+</article>
+
+<!-- Barra fija en móvil: la acción principal siempre a la mano mientras se
+     va bajando por los pasos. -->
+<div class="ruta-bar">
+  <div class="ruta-bar__info">
+    <strong>{{ ruta.nombre }}</strong>
+    <span>{{ ruta.total_paradas }} paradas · {{ ruta.duracion }}</span>
+  </div>
+  <a class="btn btn--primary btn--sm" href="{{ ruta.maps_ruta_url }}" target="_blank" rel="noopener">Abrir en Maps</a>
+</div>
+
+{% endblock %}

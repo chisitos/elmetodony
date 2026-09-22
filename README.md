@@ -1,10 +1,17 @@
 # Remodelar
 
-Motor editorial automatizado de arquitectura interior y remodelación de
-espacios, hecho para diseñadores. Un equipo de agentes investiga, filtra por
-relevancia y redacta con voz propia — vanguardista, precisa, sin relleno — y
-publica **ediciones semanales** de un sitio editorial estático, con imagen
-en cada nota.
+Guía de compra para remodelar en Medellín, y motor editorial automatizado de
+arquitectura interior. Dos mitades que comparten sitio, plantilla y voz:
+
+- **Rutas y directorio** — 55 tiendas verificadas y 9 **Rutas Remodelar** que
+  las ordenan en el orden real de la obra, con IDEO (Autopista Sur) como
+  ancla. Sale de archivos YAML, no gasta tokens.
+- **La revista** — un equipo de agentes investiga, filtra por relevancia y
+  redacta con voz propia — vanguardista, precisa, sin relleno — y publica
+  **ediciones semanales**, con imagen en cada nota.
+
+El sitio es estático y PWA instalable: la ruta se hace caminando, con el
+celular en la mano y a veces sin señal.
 
 Tres reglas de fondo, no negociables:
 
@@ -62,9 +69,12 @@ Tres reglas de fondo, no negociables:
 - **`pipeline/editor.py`** — agente que reescribe cada candidato seleccionado
   con la voz de Remodelar. La guía de voz completa vive en
   `config/editorial.yaml → voice` y se inyecta tal cual en el prompt.
-- **`sitegen/generate.py`** — agrupa lo publicado por semana calendario y arma
-  el sitio: `public/index.html` (última edición), `public/ediciones/` (cada
-  edición pasada + archivo), `public/articulos/` (cada nota).
+- **`sitegen/generate.py`** — arma el sitio completo: la portada, las rutas,
+  el directorio, la página de IDEO y la revista (`public/revista/`,
+  `public/ediciones/`, `public/articulos/`).
+- **`sitegen/directorio.py`** — carga `data/tiendas.yaml` y `config/rutas.yaml`
+  y resuelve cada parada de cada ruta a la tienda concreta. Sólo depende de
+  PyYAML: corre en `--site-only` sin tocar la API.
 
 Todo el criterio editorial (fuentes, alcance temático, pesos del rubro, tono,
 frases prohibidas, cuánto mirar hacia atrás para no repetir) vive en
@@ -89,20 +99,44 @@ sitio o previsualizar ediciones ya publicadas sin gastar tokens.
    agregar `ANTHROPIC_API_KEY` con tu API key de Anthropic.
 2. **Pages**: Settings → Pages → Source → "GitHub Actions".
 3. El workflow `.github/workflows/publish.yml` corre **una vez por semana**
-   (lunes 11:00 UTC / 08:00 ART), o manualmente desde la pestaña Actions
+   (lunes 13:00 UTC / 08:00 hora de Colombia), o manualmente desde la pestaña Actions
    ("Run workflow"). Cada corrida:
    - corre el pipeline de agentes, que arma la edición de esa semana,
    - commitea los artículos nuevos a `data/articles/` (historial versionado
      de todo lo publicado, y la base con la que el curador evita repetirse),
    - regenera y publica el sitio en GitHub Pages.
-4. Ajustá el día/horario editando el `cron` del workflow, y el volumen/
+4. Ajuste el día/horario editando el `cron` del workflow, y el volumen/
    criterio editando `config/editorial.yaml`.
 
 **Costo**: cada corrida hace llamadas reales a la API de Claude (investigador
 web, curador, editor por cada nota seleccionada). Con la config por defecto
-(techo de 8 notas por edición semanal) el consumo es acotado, pero corré
+(techo de 8 notas por edición semanal) el consumo es acotado, pero corra
 `python run.py` localmente primero para calibrar `min_score_to_select` y
 `max_selected_per_run` a tu gusto antes de dejarlo en automático.
+
+## Rutas y directorio
+
+Además de la revista, el sitio es una **guía de compra de Medellín**: 55
+tiendas verificadas y 9 rutas que las ordenan en el orden real de la obra.
+
+- `data/tiendas.yaml` — el directorio. Nombre, categorías, dirección, zona,
+  nivel de precio y si está en IDEO. Editarlo cambia el directorio, las rutas
+  y el buscador sin tocar código.
+- `config/rutas.yaml` — las rutas. Cada parada define una categoría, qué
+  buscar, un consejo práctico y las tiendas candidatas (la primera es la
+  recomendada, el resto alternativas).
+
+**IDEO (Autopista Sur, Itagüí) es el ancla del ecosistema.** Concentra los 8
+locales de obra — pisos, enchapes, sanitarios, grifería, cocinas y
+electrodomésticos — así que toda ruta de obra arranca ahí y después sale a
+completar decoración en Envigado, Poblado o Laureles. Ese criterio está
+escrito arriba de `config/rutas.yaml` y es lo que define qué tienda va
+primero en cada parada.
+
+El buscador del directorio corre entero en el navegador contra las filas ya
+renderizadas (`sitegen/static/buscador.js`): funciona sin conexión y sin
+servidor. El sitio es además una PWA instalable, porque la ruta se hace
+caminando y con mala señal.
 
 ## Imágenes y derechos de autor
 
@@ -143,6 +177,37 @@ Cuando ninguno de los tres niveles encuentra nada, la nota se resuelve con
 una placa de trama técnica (el hatching de un plano de obra) en vez de un
 ícono de imagen rota — nunca se inventa una foto para una nota real.
 
+### Excepción: las fotos de las rutas
+
+Todo lo anterior vale para **la revista**, donde la foto pertenece a un medio
+ajeno. Las **rutas** son otra cosa y sí alojan su imagen
+(`sitegen/static/fotos/`): son nueve fotos de Unsplash, cuya
+[licencia](https://unsplash.com/license) permite explícitamente descargar,
+alojar y usar comercialmente, sin atribución obligatoria. No hay hotlink que
+respetar porque no se está usando el servidor de ningún medio.
+
+La regla dura acá es otra, y es de honestidad más que de derechos:
+
+> Una foto de banco ilustra **una categoría**, nunca un establecimiento.
+
+Por eso `fotos/bano.jpg` encabeza la Ruta Baños, pero **ninguna ficha de
+tienda lleva foto de banco**: poner un baño genérico en la ficha de D&D
+Colombia da a entender que así es su local, y eso tergiversa un negocio real.
+**IDEO tampoco lleva foto de archivo** — es un lugar concreto, con fachada
+propia sobre la Autopista Sur, y va con su identidad gráfica hasta que haya
+fotografía real. Fichas e IDEO sólo admiten imagen propia: logo o foto que el
+establecimiento entregue.
+
+Qué foto va en qué ruta, y cómo reemplazarlas, está en
+`sitegen/static/fotos/CREDITOS.md`. La asociación vive en el campo `foto:` de
+cada ruta en `config/rutas.yaml`; si una ruta no lo tiene, cae sola en la
+placa de trama.
+
+> Pendiente de decisión: el pipeline ya usa **Openverse** (CC, con autor y
+> licencia guardados) como banco libre para la revista. Las fotos de ruta
+> podrían migrarse ahí por consistencia; se eligió Unsplash porque no exige
+> atribución visible y las nueve se revisaron una por una antes de asignarlas.
+
 Esto no es asesoría legal. El texto de cada nota es reescritura editorial
 original (bajo riesgo); las fotos son lo más sensible del sistema — si este
 proyecto crece a algo público/comercial de verdad, vale una revisión legal
@@ -165,7 +230,7 @@ pipeline (`pipeline/sources_rss.py`) para traer los candidatos reales, y
 después se escribió cada nota siguiendo el mismo criterio y la misma guía
 de voz que usan los agentes. Una vez que configures el secret
 `ANTHROPIC_API_KEY` (ver más abajo), las próximas ediciones las arma el
-pipeline solo. Si preferís arrancar de cero, borrá los `.json` de
+pipeline solo. Si prefiere arrancar de cero, borre los `.json` de
 `data/articles/` y `data/seen.json`.
 
 ## Editar el tono o el criterio
