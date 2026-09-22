@@ -132,28 +132,49 @@ def _body_html(body_md: str, pull_quote: str) -> str:
     return "\n".join(parts)
 
 
-def _manifest(sitio: dict) -> str:
+def _manifest(sitio: dict, rutas: list[dict]) -> str:
     """manifest.webmanifest — lo que hace que el sitio se instale en la
-    pantalla de inicio. La ruta se hace caminando, así que vale la pena."""
+    pantalla de inicio y abra sin barra de navegador.
+
+    Los íconos van en PNG: Android no ofrece instalar si no encuentra un
+    192 y un 512, y un SVG no le sirve. El `maskable` es aparte porque
+    Android recorta el ícono en círculo o squircle, y la marca a sangre
+    quedaría mutilada — ese archivo la trae encogida al 55%.
+    """
     return json.dumps(
         {
             "name": f"{sitio.get('nombre', 'Remodelar')} — {sitio.get('tagline', '')}",
             "short_name": sitio.get("nombre", "Remodelar"),
             "description": sitio.get("descripcion", ""),
+            # Relativos: el sitio vive en un subdirectorio (/elmetodony/) en
+            # GitHub Pages y en la raíz en el hosting propio. Con rutas
+            # absolutas habría que cambiarlo en cada mudanza.
             "start_url": "./index.html",
             "scope": "./",
+            "id": "./",
             "display": "standalone",
+            "display_override": ["standalone", "minimal-ui"],
             "orientation": "portrait",
             "background_color": "#ffffff",
             "theme_color": "#0a0a0a",
             "lang": "es",
+            "dir": "ltr",
+            "categories": ["shopping", "lifestyle", "navigation"],
             "icons": [
+                {"src": "static/icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+                {"src": "static/icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+                {"src": "static/icono-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+            ],
+            # Accesos directos: mantener pulsado el ícono en la pantalla de
+            # inicio abre las rutas de obra sin pasar por la portada.
+            "shortcuts": [
                 {
-                    "src": "static/icono.svg",
-                    "sizes": "any",
-                    "type": "image/svg+xml",
-                    "purpose": "any",
+                    "name": r["nombre"],
+                    "short_name": r["nombre"].replace("Ruta ", ""),
+                    "url": f"./rutas/{r['slug']}.html",
+                    "icons": [{"src": "static/icono-192.png", "sizes": "192x192"}],
                 }
+                for r in rutas[:4]
             ],
         },
         ensure_ascii=False,
@@ -336,7 +357,9 @@ def build_site() -> Path:
     # El service worker tiene que quedar en la raíz: su alcance es el
     # directorio donde vive, y desde /static/ no podría cachear el sitio.
     shutil.copy(STATIC_DIR / "sw.js", OUTPUT_DIR / "sw.js")
-    (OUTPUT_DIR / "manifest.webmanifest").write_text(_manifest(sitio), encoding="utf-8")
+    (OUTPUT_DIR / "manifest.webmanifest").write_text(
+        _manifest(sitio, dir_data.rutas), encoding="utf-8"
+    )
 
     # Búsqueda: JSON con todo el directorio, por si más adelante se quiere
     # consumir desde otro lado (mapa, app, integración con IDEO).

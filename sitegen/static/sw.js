@@ -4,7 +4,7 @@
  * Estrategia: red primero, caché de respaldo. El sitio se regenera cada
  * semana, así que siempre se prefiere lo nuevo; la caché sólo entra cuando la
  * red falla. Nunca se sirve algo viejo teniendo conexión. */
-var CACHE = 'remodelar-v1';
+var CACHE = 'remodelar-v2';
 
 // Sólo el casco: lo demás se cachea solo a medida que se visita.
 var ESENCIALES = [

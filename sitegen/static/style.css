@@ -1870,6 +1870,71 @@ a.sec-head__link:hover { color: var(--accent); }
   body { padding-bottom: 130px; }
 }
 
+/* ---------- aviso de instalación ---------- */
+
+.instalar {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: calc(80px + env(safe-area-inset-bottom));
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+}
+
+.instalar[hidden] { display: none; }
+
+/* En escritorio no hay barra inferior que esquivar y molesta menos abajo
+   a la derecha, como una notificación. */
+@media (min-width: 901px) {
+  .instalar { left: auto; right: 24px; bottom: 24px; max-width: 380px; }
+}
+
+.instalar__txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+
+.instalar__txt strong {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: normal;
+  letter-spacing: -0.01em;
+}
+
+.instalar__txt span {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  line-height: 1.4;
+  color: #b9b9b9;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.instalar .btn { flex-shrink: 0; }
+
+.instalar__x {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: #8a8a8a;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0 2px;
+  cursor: pointer;
+}
+.instalar__x:hover { color: var(--paper); }
+
+/* Instalada: la barra del navegador ya no está, así que el contenido
+   puede respirar hasta el borde real de la pantalla. */
+@media (display-mode: standalone) {
+  .masthead__strip { display: none; }
+  body { padding-top: env(safe-area-inset-top); }
+}
+
 /* ---------- buscador del directorio ---------- */
 
 .buscador {

@@ -7,7 +7,17 @@
 <meta name="description" content="{% block description %}{{ tagline }}{% endblock %}">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="manifest" href="{{ asset_prefix }}manifest.webmanifest">
-<link rel="icon" href="{{ asset_prefix }}static/icono.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ asset_prefix }}static/icono-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="{{ asset_prefix }}static/icono-512.png">
+
+{# iOS ignora el manifest para instalar: usa estas metas. Sin ellas, al
+   agregar a la pantalla de inicio abre con la barra de Safari encima. #}
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="{{ pub_name }}">
+<link rel="apple-touch-icon" href="{{ asset_prefix }}static/icono-180.png">
+
 <link rel="stylesheet" href="{{ asset_prefix }}static/style.css?v={{ asset_v }}">
 </head>
 <body>
@@ -152,7 +162,67 @@
   </a>
 </nav>
 
+<!-- Aviso de instalación. En Android el navegador avisa cuándo se puede
+     (beforeinstallprompt) y basta un botón. En iPhone, Safari no ofrece
+     nada: hay que decirle al usuario dónde tocar. -->
+<div class="instalar" id="instalar" hidden>
+  <div class="instalar__txt">
+    <strong>Instalar {{ pub_name }}</strong>
+    <span id="instalar-como">Se abre sin barra del navegador y funciona sin señal</span>
+  </div>
+  <button type="button" class="btn btn--primary btn--sm" id="instalar-btn">Instalar</button>
+  <button type="button" class="instalar__x" id="instalar-x" aria-label="Ahora no">&times;</button>
+</div>
+
 <script>
+  /* ---- instalación como app ---- */
+  (function () {
+    var caja = document.getElementById('instalar'),
+        btn = document.getElementById('instalar-btn'),
+        cerrar = document.getElementById('instalar-x'),
+        como = document.getElementById('instalar-como'),
+        evento = null,
+        CLAVE = 'remodelar:instalar-oculto';
+
+    if (!caja) return;
+
+    // Ya instalada: no tiene sentido ofrecerlo.
+    var instalada = window.matchMedia('(display-mode: standalone)').matches ||
+                    window.navigator.standalone === true;
+    var oculto = false;
+    try { oculto = localStorage.getItem(CLAVE) === '1'; } catch (e) {}
+    if (instalada || oculto) return;
+
+    var esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+    function mostrar() { caja.hidden = false; }
+
+    if (esIOS) {
+      // Safari no dispara beforeinstallprompt: sólo se puede instruir.
+      btn.hidden = true;
+      como.textContent = 'Tocá Compartir y luego "Agregar a inicio"';
+      setTimeout(mostrar, 2500);
+    } else {
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();   // se dispara el aviso propio, no el del navegador
+        evento = e;
+        mostrar();
+      });
+      btn.addEventListener('click', function () {
+        if (!evento) return;
+        evento.prompt();
+        evento.userChoice.then(function () { caja.hidden = true; evento = null; });
+      });
+    }
+
+    cerrar.addEventListener('click', function () {
+      caja.hidden = true;
+      try { localStorage.setItem(CLAVE, '1'); } catch (e) {}
+    });
+
+    window.addEventListener('appinstalled', function () { caja.hidden = true; });
+  })();
+
   (function () {
     var b = document.getElementById('hamb'),
         s = document.getElementById('sidebar'),
