@@ -24,6 +24,7 @@ curada y cerrada — ver pipeline/curator.py.
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import logging
@@ -181,6 +182,18 @@ def build_site() -> Path:
     for d in (articulos_dir, ediciones_dir, rutas_dir, tiendas_dir, OUTPUT_DIR / "revista", OUTPUT_DIR / "ideo"):
         d.mkdir(parents=True, exist_ok=True)
 
+    # Huella del contenido de los estáticos. Sin esto, un visitante que ya
+    # entró se queda con el CSS viejo en caché — HTML nuevo con estilos
+    # viejos — y el sitio se le ve descuadrado hasta que limpie el navegador.
+    def _huella(*rutas: Path) -> str:
+        h = hashlib.sha1()
+        for r in rutas:
+            if r.exists():
+                h.update(r.read_bytes())
+        return h.hexdigest()[:8]
+
+    asset_v = _huella(STATIC_DIR / "style.css", STATIC_DIR / "buscador.js")
+
     sitio = dir_data.sitio
     ancla = dir_data.ancla
     ciudad = sitio.get("ciudad", "Medellín")
@@ -218,6 +231,7 @@ def build_site() -> Path:
         nav_rutas_side=dir_data.rutas[:4],
         nav_categorias=cats_con_n,
         nav_ruta=None,
+        asset_v=asset_v,
     )
 
     def render(template_name: str, output_path: Path, depth: int, **ctx) -> None:
