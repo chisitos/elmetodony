@@ -15,6 +15,10 @@
       <span class="ruta__plate-n">{{ ruta.nombre }}</span>
     </div>
 
+    {% if ruta.foto and ruta.foto_credito %}
+    <p class="foto-credito">{{ ruta.foto_credito }}{% if ruta.foto_aclaracion %} · {{ ruta.foto_aclaracion }}{% endif %}</p>
+    {% endif %}
+
     <div class="ruta__head-meta">
       <span class="kicker">{{ ruta.kicker }}</span>
       {% if ruta.paradas_ideo %}<span class="chip chip--ideo">{{ ruta.paradas_ideo }} de {{ ruta.total_paradas }} paradas en IDEO</span>{% endif %}

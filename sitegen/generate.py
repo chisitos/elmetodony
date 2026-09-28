@@ -242,6 +242,7 @@ def build_site() -> Path:
         ciudad=ciudad,
         sitio=sitio,
         ancla=ancla,
+        fotos=dir_data.fotos,
         ancla_maps_url=directorio.maps_url(ancla.get("direccion", "")),
         n_tiendas=len(dir_data.tiendas),
         n_rutas=len(dir_data.rutas),

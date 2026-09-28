@@ -34,6 +34,9 @@
   </a>
   {% endfor %}
 </div>
+{% if fotos.credito_defecto %}
+<p class="plates-credito">{{ fotos.credito_defecto }} · {{ fotos.aclaracion }}</p>
+{% endif %}
 
 <div class="note-box">
   <strong>¿No sabe por cuál empezar?</strong>

@@ -106,6 +106,31 @@ categorias:
     descripcion: "Cuarto de niños: mobiliario y ambientación."
 
 # ─────────────────────────────────────────────────────────────────────────
+# Fotos de ambiente
+#
+# Ilustran UNA CATEGORÍA, nunca un establecimiento. La foto de la Ruta
+# Baños dice "esto va de baños"; no insinúa que así se vea ninguna de las
+# tiendas del directorio, y por eso las fichas e IDEO no llevan foto de
+# banco (ver sitegen/static/fotos/CREDITOS.md).
+#
+# Vienen de Unsplash, cuya licencia permite uso comercial sin exigir
+# atribución. Se acredita igual: una foto sin origen visible es
+# indistinguible de una foto tomada sin permiso, y el sitio no quiere esa
+# ambigüedad.
+#
+# El autor concreto no se puede acreditar: el archivo servido por el CDN
+# no trae metadatos IPTC y su identificador no resuelve a la página de la
+# foto, así que poner un nombre sería inventarlo.
+#
+# Cuando haya fotografía propia, se reemplaza el archivo y se pone
+# `foto_credito: "Foto: Remodelar"` en esa ruta. Eso es lo que hay que ir
+# construyendo: contenido propio, sin depender de bancos.
+# ─────────────────────────────────────────────────────────────────────────
+fotos:
+  credito_defecto: "Foto de ambiente · Unsplash"
+  aclaracion: "Ilustra la categoría, no el establecimiento"
+
+# ─────────────────────────────────────────────────────────────────────────
 # RUTAS
 #
 # paradas[].tiendas — la primera es la recomendada, el resto alternativas.

@@ -1870,6 +1870,28 @@ a.sec-head__link:hover { color: var(--accent); }
   body { padding-bottom: 130px; }
 }
 
+/* ---------- crédito de foto ----------
+   Discreto pero presente: una foto sin origen visible es indistinguible
+   de una foto tomada sin permiso. */
+
+.foto-credito {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  margin: -14px 0 16px;
+}
+
+.plates-credito {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding: 10px 0 0;
+}
+
 /* ---------- aviso de instalación ---------- */
 
 .instalar {

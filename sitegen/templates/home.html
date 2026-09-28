@@ -51,6 +51,9 @@
     </a>
     {% endfor %}
   </div>
+  {% if fotos.credito_defecto %}
+  <p class="plates-credito">{{ fotos.credito_defecto }} · {{ fotos.aclaracion }}</p>
+  {% endif %}
 </section>
 
 <section class="ancla">

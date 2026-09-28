@@ -75,6 +75,7 @@ def _load_yaml(path: Path) -> dict[str, Any]:
 class Directorio:
     sitio: dict[str, Any] = field(default_factory=dict)
     ancla: dict[str, Any] = field(default_factory=dict)
+    fotos: dict[str, Any] = field(default_factory=dict)
     zonas: list[dict[str, Any]] = field(default_factory=list)
     categorias: list[dict[str, Any]] = field(default_factory=list)
     tiendas: list[dict[str, Any]] = field(default_factory=list)
@@ -148,12 +149,20 @@ def load() -> Directorio:
     # vacía sin que se note hasta ver el sitio.
     faltantes: set[str] = set()
 
+    # Crédito de las fotos de ambiente. Por defecto el del bloque `fotos`
+    # de config/rutas.yaml; una ruta con fotografía propia lo pisa con su
+    # `foto_credito`, que es hacia donde va esto.
+    fotos_cfg = cfg.get("fotos", {})
+
     rutas = []
     for indice, raw in enumerate(cfg.get("rutas", [])):
         ruta = dict(raw)
         # Posición en el orden del YAML: numera la ruta y elige su trama, para
         # que cada una se reconozca siempre por el mismo par número/patrón.
         ruta["indice"] = indice
+        if ruta.get("foto"):
+            ruta.setdefault("foto_credito", fotos_cfg.get("credito_defecto", ""))
+            ruta["foto_aclaracion"] = fotos_cfg.get("aclaracion", "")
         paradas = []
         for i, p_raw in enumerate(raw.get("paradas", []), start=1):
             p = dict(p_raw)
@@ -199,6 +208,7 @@ def load() -> Directorio:
         )
 
     return Directorio(
+        fotos=fotos_cfg,
         sitio=cfg.get("sitio", {}),
         ancla=cfg.get("ancla", {}),
         zonas=zonas,
