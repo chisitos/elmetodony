@@ -1,0 +1,48 @@
+# Paso reutilizable: sube public/ al hosting propio por SFTP.
+#
+# El plan de Namecheap tiene el shell deshabilitado, así que rsync no sirve
+# (necesita ejecutarse también del lado remoto). scp usa el subsistema SFTP,
+# que sí está habilitado — es lo que se verificó a mano el 29 sep 2026.
+name: Desplegar a feriaremodelar.com
+
+on:
+  workflow_call: {}
+
+jobs:
+  subir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias del generador
+        run: pip install Jinja2 PyYAML python-slugify
+
+      - name: Generar sitio
+        run: python run.py --site-only
+
+      - name: Preparar la llave
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s' "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/deploy
+          chmod 600 ~/.ssh/deploy
+          ssh-keyscan -p "${{ secrets.DEPLOY_PORT }}" -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Subir por SFTP
+        run: |
+          cd public
+          scp -r -q -i ~/.ssh/deploy -P "${{ secrets.DEPLOY_PORT }}" \
+            index.html manifest.webmanifest sw.js feed.json directorio.json \
+            static articulos directorio ediciones ideo revista rutas \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:public_html/"
+
+      - name: Comprobar que el dominio sirve lo nuevo
+        run: |
+          sleep 5
+          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 25 https://feriaremodelar.com/ \
+                 || curl -s -o /dev/null -w '%{http_code}' --max-time 25 http://feriaremodelar.com/)
+          echo "feriaremodelar.com -> $code"
+          test "$code" = "200"

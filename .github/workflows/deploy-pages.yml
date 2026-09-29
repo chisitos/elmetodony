@@ -53,3 +53,10 @@ jobs:
       - name: Deploy a GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Publicar también en el hosting propio. GitHub Pages queda como espejo;
+  # el dominio de verdad es feriaremodelar.com.
+  hosting:
+    needs: build-and-deploy
+    uses: ./.github/workflows/_deploy-sftp.yml
+    secrets: inherit
