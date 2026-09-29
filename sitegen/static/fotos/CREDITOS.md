@@ -45,3 +45,36 @@ Cada ruta tiene dos tamaños: `<nombre>.jpg` (1200×520, cabecera y tarjeta) y
 Dejá el archivo con el mismo nombre en esta carpeta, en los dos tamaños, y
 corré `python run.py --site-only`. La asociación ruta→foto está en el campo
 `foto:` de cada ruta en `config/rutas.yaml`.
+
+---
+
+## Coordenadas para el mapa de rutas
+
+El mapa de cada ruta aparece cuando **al menos dos** de sus paradas
+principales tienen `lat` y `lng` en `data/tiendas.yaml`:
+
+```yaml
+  - slug: decorceramica-ideo
+    nombre: Decorcerámica
+    zona: ideo
+    lat: 6.173900
+    lng: -75.593600
+```
+
+Sin coordenadas la ruta muestra la foto de cabecera, como hasta ahora. Se
+pueden ir cargando de a poco: cada ruta se enciende sola al llegar a dos.
+
+**Cómo sacarlas:** abrir Google Maps, clic derecho sobre el local, y la
+primera línea del menú son las coordenadas — clic las copia. Van en ese
+orden: latitud primero, longitud después (negativa en Colombia).
+
+**IDEO rinde más que ninguna:** un solo punto sirve para sus 8 locales, y
+son la mayoría de las paradas de las rutas de obra.
+
+**Por qué no están ya:** se intentó geocodificar automáticamente contra
+Nominatim (OpenStreetMap) tres veces — por dirección, con caja delimitadora
+al Valle de Aburrá, y por nombre de negocio. OSM no tiene las placas
+colombianas: devuelve el punto medio de la carrera, así que los 8 locales de
+IDEO caían en tres sitios distintos y ninguno en la Autopista Sur. Por
+nombre sólo encuentra cadenas grandes (Homecenter, IKEA). Para automatizarlo
+haría falta la API de Google, que sí resuelve nomenclatura colombiana.

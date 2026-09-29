@@ -129,6 +129,9 @@ def _tienda_view(raw: dict, zona_por_slug: dict, cat_por_slug: dict) -> dict:
             ]
         )
     )
+    # Coordenadas: opcionales. Sin ellas la tienda no entra al mapa, pero
+    # todo lo demás (ficha, buscador, "Cómo llegar" por texto) funciona igual.
+    t["tiene_coords"] = t.get("lat") is not None and t.get("lng") is not None
     t["rutas"] = []  # se llena al resolver las rutas
     return t
 
@@ -189,6 +192,17 @@ def load() -> Directorio:
         ruta["url"] = f"rutas/{ruta['slug']}.html"
         # El enlace "abrir la ruta completa en Google Maps": las direcciones
         # de la tienda principal de cada parada, en orden.
+        # Una ruta se puede mapear cuando al menos dos de sus paradas
+        # principales tienen coordenadas.
+        con_coords = [p["principal"] for p in paradas
+                      if p["principal"] and p["principal"].get("tiene_coords")]
+        ruta["mapeable"] = len(con_coords) >= 2
+        ruta["paradas_mapa"] = [
+            {"nombre": t["nombre"], "direccion": t["direccion_completa"],
+             "lat": t["lat"], "lng": t["lng"], "ideo": bool(t.get("en_ideo")),
+             "maps": t["maps_url"]}
+            for t in con_coords
+        ]
         ruta["maps_ruta_url"] = maps_ruta_url(
             [p["principal"]["direccion"] for p in paradas if p["principal"]]
         )
