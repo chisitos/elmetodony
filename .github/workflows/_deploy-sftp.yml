@@ -42,7 +42,14 @@ jobs:
       - name: Comprobar que el dominio sirve lo nuevo
         run: |
           sleep 5
-          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 25 https://feriaremodelar.com/ \
-                 || curl -s -o /dev/null -w '%{http_code}' --max-time 25 http://feriaremodelar.com/)
-          echo "feriaremodelar.com -> $code"
+          # HTTPS primero, pero sin exigirlo: AutoSSL aun no emitio el
+          # certificado. Con `||` a secas curl ya habia escrito "000" en la
+          # salida y el codigo quedaba concatenado, nunca daba 200.
+          code=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 25 https://feriaremodelar.com/ 2>/dev/null || true)
+          via=https
+          if [ "$code" != "200" ]; then
+            code=$(curl -sL -o /dev/null -w '%{http_code}' --max-time 25 http://feriaremodelar.com/ 2>/dev/null || true)
+            via=http
+          fi
+          echo "feriaremodelar.com por $via -> $code"
           test "$code" = "200"
