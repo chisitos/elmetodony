@@ -33,7 +33,7 @@ tiendas:
     nombre: Decorcerámica
     zona: ideo
     categorias: [pisos, banos]
-    direccion: Cra. 42 #75-83, Itagüí
+    direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 121
     nivel: alto
     aporta: Revestimientos y baño — enchape de piso y pared en un solo lugar
@@ -43,7 +43,7 @@ tiendas:
     nombre: Cerámica Italia
     zona: ideo
     categorias: [pisos]
-    direccion: Cra. 42 #75-83, Itagüí
+    direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 159
     nivel: medio
     aporta: Cerámicas y revestimientos de fábrica
@@ -53,7 +53,7 @@ tiendas:
     nombre: Mosagres
     zona: ideo
     categorias: [pisos]
-    direccion: Cra. 42 #75-83, Itagüí
+    direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 105
     nivel: medio
     aporta: Pisos y revestimientos — porcelanato y formato grande
@@ -63,7 +63,7 @@ tiendas:
     nombre: Pisos Prestige Medellín
     zona: ideo
     categorias: [pisos]
-    direccion: Cra. 42 Autopista Sur #75-83, Itagüí
+    direccion: "Cra. 42 Autopista Sur #75-83, Itagüí"
     local: Local 130
     nivel: medio
     aporta: Pisos — laminado, vinilo y madera
@@ -73,7 +73,7 @@ tiendas:
     nombre: D&D Colombia
     zona: ideo
     categorias: [banos]
-    direccion: Cra. 42 #75-83, Itagüí
+    direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 146
     nivel: medio
     aporta: Sanitarios, grifería y accesorios — el baño completo
@@ -83,7 +83,7 @@ tiendas:
     nombre: Tecnigrifos Medellín
     zona: ideo
     categorias: [banos]
-    direccion: Cra. 42 #75-83, Itagüí
+    direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 126
     nivel: medio
     aporta: Grifería y duchas — repuestos y línea nueva
@@ -93,7 +93,7 @@ tiendas:
     nombre: Cocinas y Ensambles
     zona: ideo
     categorias: [cocinas]
-    direccion: Cra. 42 #75-83, Itagüí
+    direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 242
     nivel: medio
     aporta: Cocinas integrales a medida
@@ -103,7 +103,7 @@ tiendas:
     nombre: USA Electrodomésticos
     zona: ideo
     categorias: [tech-home, cocinas]
-    direccion: Cra. 42 #75-83, Itagüí
+    direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 124A
     nivel: accesible
     aporta: Electrodomésticos — el empotrado de la cocina
@@ -117,7 +117,7 @@ tiendas:
     nombre: BoConcept Medellín
     zona: poblado
     categorias: [diseno]
-    direccion: Cra. 43A #1A Sur-175, Medellín
+    direccion: "Cra. 43A #1A Sur-175, Medellín"
     local: Local 102
     nivel: alto
     aporta: Mobiliario e interiorismo de marca danesa
@@ -127,7 +127,7 @@ tiendas:
     nombre: Alevilla Decoración
     zona: poblado
     categorias: [diseno]
-    direccion: Cra. 25A #1 Sur-45, El Tesoro, Medellín
+    direccion: "Cra. 25A #1 Sur-45, El Tesoro, Medellín"
     local: Local 9652
     nivel: alto
     aporta: Mobiliario y decoración
@@ -137,7 +137,7 @@ tiendas:
     nombre: Fernando García Atelier
     zona: poblado
     categorias: [diseno]
-    direccion: Cra. 40 #10A-03, Medellín
+    direccion: "Cra. 40 #10A-03, Medellín"
     nivel: alto
     aporta: Interiorismo y mobiliario de autor
     en_ideo: false
@@ -146,7 +146,7 @@ tiendas:
     nombre: Habitat Store
     zona: poblado
     categorias: [diseno]
-    direccion: Cra. 43A #16B-70, Medellín
+    direccion: "Cra. 43A #16B-70, Medellín"
     nivel: alto
     aporta: Mobiliario y decoración
     en_ideo: false
@@ -155,7 +155,7 @@ tiendas:
     nombre: The Blue House
     zona: poblado
     categorias: [diseno, jardines]
-    direccion: Cra. 30 #10-110, Medellín
+    direccion: "Cra. 30 #10-110, Medellín"
     nivel: alto
     aporta: Mobiliario de interior y exterior
     en_ideo: false
@@ -164,7 +164,7 @@ tiendas:
     nombre: La Carpi
     zona: poblado
     categorias: [diseno, cocinas]
-    direccion: Cl. 12 #30-144, Medellín
+    direccion: "Cl. 12 #30-144, Medellín"
     nivel: especializado
     aporta: Carpintería a medida y mobiliario
     en_ideo: false
@@ -173,7 +173,7 @@ tiendas:
     nombre: Selva de Oro
     zona: poblado
     categorias: [diseno, infantil]
-    direccion: Cl. 12 #30, Medellín
+    direccion: "Cl. 12 #30, Medellín"
     nivel: especializado
     aporta: Muebles, línea infantil y decoración
     en_ideo: false
@@ -182,7 +182,7 @@ tiendas:
     nombre: Aluzina
     zona: poblado
     categorias: [diseno, iluminacion]
-    direccion: Cra. 37A #2 Sur-83, Medellín
+    direccion: "Cra. 37A #2 Sur-83, Medellín"
     nivel: especializado
     aporta: Interiorismo con foco en diseño de iluminación
     en_ideo: false
@@ -191,7 +191,7 @@ tiendas:
     nombre: Fokuss Poblado
     zona: poblado
     categorias: [iluminacion]
-    direccion: Cra. 30 #8B-97, Medellín
+    direccion: "Cra. 30 #8B-97, Medellín"
     nivel: especializado
     aporta: Iluminación técnica y decorativa
     en_ideo: false
@@ -200,7 +200,7 @@ tiendas:
     nombre: Techno Smart
     zona: poblado
     categorias: [tech-home, iluminacion]
-    direccion: Cra. 25A #1A Sur-45, El Tesoro, Medellín
+    direccion: "Cra. 25A #1A Sur-45, El Tesoro, Medellín"
     local: Local 3042
     nivel: alto
     aporta: Domótica e iluminación inteligente
@@ -219,7 +219,7 @@ tiendas:
     nombre: Vivero Tierranegra Poblado
     zona: poblado
     categorias: [jardines]
-    direccion: Cl. 7D #43A-15, Medellín
+    direccion: "Cl. 7D #43A-15, Medellín"
     nivel: medio
     aporta: Plantas y materas para jardín y terraza
     en_ideo: false
@@ -228,7 +228,7 @@ tiendas:
     nombre: Mi Bendición
     zona: poblado
     categorias: [infantil]
-    direccion: Cl. 10 #42-49, Medellín
+    direccion: "Cl. 10 #42-49, Medellín"
     nivel: medio
     aporta: Mobiliario infantil
     en_ideo: false
@@ -241,7 +241,7 @@ tiendas:
     nombre: Murano Home
     zona: envigado
     categorias: [diseno]
-    direccion: Cra. 43 #32A Sur-22, Envigado
+    direccion: "Cra. 43 #32A Sur-22, Envigado"
     nivel: alto
     aporta: Mobiliario e interiorismo
     en_ideo: false
@@ -259,7 +259,7 @@ tiendas:
     nombre: Espacioflex
     zona: envigado
     categorias: [diseno]
-    direccion: Cra. 45A #34 Sur-57, Envigado
+    direccion: "Cra. 45A #34 Sur-57, Envigado"
     local: Local 161
     nivel: medio
     aporta: Mobiliario y cortinas
@@ -269,7 +269,7 @@ tiendas:
     nombre: IKEA Viva Envigado
     zona: envigado
     categorias: [diseno, cocinas, tech-home]
-    direccion: CC Viva Envigado, Cra. 48 #32B Sur-139 Torre 1, Envigado
+    direccion: "CC Viva Envigado, Cra. 48 #32B Sur-139 Torre 1, Envigado"
     local: Local 235
     nivel: accesible
     aporta: Mobiliario, cocina modular y menaje
@@ -279,7 +279,7 @@ tiendas:
     nombre: Elemental Galería
     zona: envigado
     categorias: [diseno, iluminacion]
-    direccion: Cra. 43A #33B Sur-14, Envigado
+    direccion: "Cra. 43A #33B Sur-14, Envigado"
     nivel: alto
     aporta: Mobiliario e iluminación de diseño
     en_ideo: false
@@ -288,7 +288,7 @@ tiendas:
     nombre: Deco Il-Luminar
     zona: envigado
     categorias: [iluminacion, diseno]
-    direccion: Cra. 43A #33B Sur-14, Envigado
+    direccion: "Cra. 43A #33B Sur-14, Envigado"
     nivel: medio
     aporta: Lámparas y mobiliario
     en_ideo: false
@@ -306,7 +306,7 @@ tiendas:
     nombre: Fokuss Envigado
     zona: envigado
     categorias: [iluminacion]
-    direccion: Cra. 43A #31A Sur-25, Envigado
+    direccion: "Cra. 43A #31A Sur-25, Envigado"
     nivel: especializado
     aporta: Iluminación técnica y decorativa
     en_ideo: false
@@ -315,7 +315,7 @@ tiendas:
     nombre: Ilumeco
     zona: envigado
     categorias: [iluminacion]
-    direccion: Cra. 43A #35S-23, Envigado
+    direccion: "Cra. 43A #35S-23, Envigado"
     nivel: medio
     aporta: Lámparas
     en_ideo: false
@@ -324,7 +324,7 @@ tiendas:
     nombre: Iluminaciones Antioquia
     zona: envigado
     categorias: [iluminacion]
-    direccion: Cra. 39 #35 Sur-16, Envigado
+    direccion: "Cra. 39 #35 Sur-16, Envigado"
     nivel: medio
     aporta: Iluminación
     en_ideo: false
@@ -342,7 +342,7 @@ tiendas:
     nombre: Mundo Grifos
     zona: envigado
     categorias: [banos]
-    direccion: Cra. 39 #35 Sur-04, Envigado
+    direccion: "Cra. 39 #35 Sur-04, Envigado"
     nivel: medio
     aporta: Griferías y equipos de baño
     en_ideo: false
@@ -351,7 +351,7 @@ tiendas:
     nombre: Grival Envigado
     zona: envigado
     categorias: [banos]
-    direccion: Cra. 43A #38B Sur, Envigado
+    direccion: "Cra. 43A #38B Sur, Envigado"
     nivel: accesible
     aporta: Griferías y sanitarios de marca
     en_ideo: false
@@ -360,7 +360,7 @@ tiendas:
     nombre: ElectroFeria
     zona: envigado
     categorias: [tech-home]
-    direccion: Cl. 37 Sur #41-64, Envigado
+    direccion: "Cl. 37 Sur #41-64, Envigado"
     nivel: accesible
     aporta: Electrodomésticos
     en_ideo: false
@@ -369,7 +369,7 @@ tiendas:
     nombre: Electrobello
     zona: envigado
     categorias: [tech-home]
-    direccion: Cra. 43 #37 Sur-17, Envigado
+    direccion: "Cra. 43 #37 Sur-17, Envigado"
     nivel: accesible
     aporta: Electrodomésticos
     en_ideo: false
@@ -382,7 +382,7 @@ tiendas:
     nombre: Matisses
     zona: sabaneta
     categorias: [diseno]
-    direccion: Cl. 52 Sur #44-65, Sabaneta
+    direccion: "Cl. 52 Sur #44-65, Sabaneta"
     nivel: alto
     aporta: Mobiliario
     en_ideo: false
@@ -391,7 +391,7 @@ tiendas:
     nombre: Pisende Sur
     zona: sabaneta
     categorias: [pisos]
-    direccion: Cl. 50 Sur #48-129, Sabaneta
+    direccion: "Cl. 50 Sur #48-129, Sabaneta"
     nivel: accesible
     aporta: Pisos y materiales de obra
     en_ideo: false
@@ -400,7 +400,7 @@ tiendas:
     nombre: Domótica Medellín
     zona: itagui
     categorias: [tech-home, iluminacion]
-    direccion: Cl. 55 #48-43, Los Naranjos, Itagüí
+    direccion: "Cl. 55 #48-43, Los Naranjos, Itagüí"
     nivel: especializado
     aporta: Domótica e iluminación controlada
     en_ideo: false
@@ -413,7 +413,7 @@ tiendas:
     nombre: Matiz
     zona: laureles
     categorias: [diseno]
-    direccion: Av. Nutibara #71-69, Medellín
+    direccion: "Av. Nutibara #71-69, Medellín"
     nivel: alto
     aporta: Muebles y decoración
     en_ideo: false
@@ -422,7 +422,7 @@ tiendas:
     nombre: Vilá Decoración
     zona: laureles
     categorias: [diseno]
-    direccion: Circular 75 #39B-61, Medellín
+    direccion: "Circular 75 #39B-61, Medellín"
     nivel: alto
     aporta: Mobiliario y decoración
     en_ideo: false
@@ -431,7 +431,7 @@ tiendas:
     nombre: Galería Encanto Laureles
     zona: laureles
     categorias: [diseno]
-    direccion: Cra. 81 #34A-94, Medellín
+    direccion: "Cra. 81 #34A-94, Medellín"
     nivel: medio
     aporta: Mobiliario
     en_ideo: false
@@ -440,7 +440,7 @@ tiendas:
     nombre: Pin8 Toys
     zona: laureles
     categorias: [infantil]
-    direccion: Cl. 47D #63B, Medellín
+    direccion: "Cl. 47D #63B, Medellín"
     nivel: especializado
     aporta: Mundo infantil
     en_ideo: false
@@ -449,7 +449,7 @@ tiendas:
     nombre: Muebles Infantiles Ragla
     zona: laureles
     categorias: [infantil]
-    direccion: Cl. 50 #29, Medellín
+    direccion: "Cl. 50 #29, Medellín"
     nivel: especializado
     aporta: Mobiliario infantil
     en_ideo: false
@@ -458,7 +458,7 @@ tiendas:
     nombre: Al Solar
     zona: laureles
     categorias: [jardines]
-    direccion: Cra. 64B #34-20, Medellín
+    direccion: "Cra. 64B #34-20, Medellín"
     nivel: especializado
     aporta: Vivero y paisajismo
     en_ideo: false
@@ -471,7 +471,7 @@ tiendas:
     nombre: Art Diseño Muebles y Decoración
     zona: belen
     categorias: [diseno]
-    direccion: Av. 80 #19A-117, Medellín
+    direccion: "Av. 80 #19A-117, Medellín"
     nivel: accesible
     aporta: Mobiliario
     en_ideo: false
@@ -480,7 +480,7 @@ tiendas:
     nombre: Espacio Mobiliario
     zona: belen
     categorias: [diseno, cocinas]
-    direccion: Cl. 30 #72-59, Medellín
+    direccion: "Cl. 30 #72-59, Medellín"
     nivel: alto
     aporta: Muebles a medida
     en_ideo: false
@@ -489,7 +489,7 @@ tiendas:
     nombre: Sembramos
     zona: belen
     categorias: [jardines]
-    direccion: Cl. 26B #70-93, Medellín
+    direccion: "Cl. 26B #70-93, Medellín"
     nivel: medio
     aporta: Vivero
     en_ideo: false
@@ -502,7 +502,7 @@ tiendas:
     nombre: Bazar Americano
     zona: centro
     categorias: [banos]
-    direccion: Cl. 50 #56B-86, Medellín
+    direccion: "Cl. 50 #56B-86, Medellín"
     nivel: accesible
     aporta: Equipos de baño a precio de centro
     en_ideo: false
@@ -511,7 +511,7 @@ tiendas:
     nombre: Pisende UdeA
     zona: centro
     categorias: [pisos]
-    direccion: Cra. 58 #65-224, Medellín
+    direccion: "Cra. 58 #65-224, Medellín"
     nivel: accesible
     aporta: Materiales y pisos
     en_ideo: false
@@ -520,7 +520,7 @@ tiendas:
     nombre: Materiales Emo San Benito
     zona: centro
     categorias: [pisos]
-    direccion: Cra. 56C #50-51, Medellín
+    direccion: "Cra. 56C #50-51, Medellín"
     nivel: accesible
     aporta: Materiales de obra
     en_ideo: false
@@ -529,7 +529,7 @@ tiendas:
     nombre: Cerámicas y Porcelanatos
     zona: centro
     categorias: [pisos]
-    direccion: Cra. 56C #50-56, Medellín
+    direccion: "Cra. 56C #50-56, Medellín"
     nivel: accesible
     aporta: Cerámica y porcelanato
     en_ideo: false
@@ -538,7 +538,7 @@ tiendas:
     nombre: Decolum Medellín
     zona: centro
     categorias: [iluminacion, diseno]
-    direccion: Tenerife #50-18, Medellín
+    direccion: "Tenerife #50-18, Medellín"
     nivel: medio
     aporta: Iluminación y mobiliario
     en_ideo: false
@@ -547,7 +547,7 @@ tiendas:
     nombre: Terravatio Medellín
     zona: centro
     categorias: [iluminacion]
-    direccion: Tenerife #51-11, Medellín
+    direccion: "Tenerife #51-11, Medellín"
     nivel: especializado
     aporta: Iluminación técnica
     en_ideo: false
@@ -556,7 +556,7 @@ tiendas:
     nombre: Totally Electric Medellín
     zona: centro
     categorias: [iluminacion, tech-home]
-    direccion: Cl. 51 #54-16, Medellín
+    direccion: "Cl. 51 #54-16, Medellín"
     nivel: accesible
     aporta: Iluminación y material eléctrico
     en_ideo: false
