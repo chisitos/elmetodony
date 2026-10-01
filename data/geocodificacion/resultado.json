@@ -1,0 +1,344 @@
+{
+ "decorceramica-ideo": {
+  "lat": 6.183384,
+  "lng": -75.590154,
+  "calidad": "exacta",
+  "match": "Carrera 42 75-125 Itagüí"
+ },
+ "ceramica-italia-ideo": {
+  "lat": 6.183384,
+  "lng": -75.590154,
+  "calidad": "exacta",
+  "match": "Carrera 42 75-125 Itagüí"
+ },
+ "mosagres-ideo": {
+  "lat": 6.183384,
+  "lng": -75.590154,
+  "calidad": "exacta",
+  "match": "Carrera 42 75-125 Itagüí"
+ },
+ "pisos-prestige-ideo": {
+  "lat": 6.181828,
+  "lng": -75.591319,
+  "calidad": "exacta",
+  "match": "Autopista Sur 75 63 Itagüí"
+ },
+ "dyd-colombia-ideo": {
+  "lat": 6.183384,
+  "lng": -75.590154,
+  "calidad": "exacta",
+  "match": "Carrera 42 75-125 Itagüí"
+ },
+ "tecnigrifos-ideo": {
+  "lat": 6.183384,
+  "lng": -75.590154,
+  "calidad": "exacta",
+  "match": "Carrera 42 75-125 Itagüí"
+ },
+ "cocinas-y-ensambles-ideo": {
+  "lat": 6.183384,
+  "lng": -75.590154,
+  "calidad": "exacta",
+  "match": "Carrera 42 75-125 Itagüí"
+ },
+ "usa-electrodomesticos-ideo": {
+  "lat": 6.183384,
+  "lng": -75.590154,
+  "calidad": "exacta",
+  "match": "Carrera 42 75-125 Itagüí"
+ },
+ "boconcept-medellin": {
+  "lat": 6.200672,
+  "lng": -75.573061,
+  "calidad": "exacta",
+  "match": "Carrera 43 A 1A Sur - 267 Medellin"
+ },
+ "alevilla-decoracion": {
+  "lat": 6.19702,
+  "lng": -75.559183,
+  "calidad": "DUDOSA",
+  "match": "Carrera 25 A 1 Sur - 45 Medellín",
+  "nota": "comparte punto con 1 tienda(s) mas: relleno del geocodificador"
+ },
+ "fernando-garcia-atelier": {
+  "lat": 6.210592,
+  "lng": -75.567595,
+  "calidad": "exacta",
+  "match": "Carrera 40 10A-22 Medellín"
+ },
+ "habitat-store": {
+  "lat": 6.303607,
+  "lng": -75.56786,
+  "calidad": "cuadra",
+  "match": "Diagonal 104 69-120 Medellín"
+ },
+ "the-blue-house": {
+  "lat": 6.211323,
+  "lng": -75.559394,
+  "calidad": "DUDOSA",
+  "match": "Carrera 30 10-225 Medellín",
+  "nota": "comparte punto con 1 tienda(s) mas: relleno del geocodificador"
+ },
+ "la-carpi": {
+  "lat": 6.214319,
+  "lng": -75.561852,
+  "calidad": "exacta",
+  "match": "Calle 14 30-144 Medellin"
+ },
+ "selva-de-oro": {
+  "lat": 6.213589,
+  "lng": -75.561727,
+  "calidad": "exacta",
+  "match": "Calle 12A 30-190 Medellín"
+ },
+ "aluzina": {
+  "lat": 6.200412,
+  "lng": -75.569438,
+  "calidad": "exacta",
+  "match": "Carrera 37A 2 Sur - 83 Medellín"
+ },
+ "fokuss-poblado": {
+  "lat": 6.20062,
+  "lng": -75.563683,
+  "calidad": "zona",
+  "match": "Medellín"
+ },
+ "techno-smart": {
+  "lat": 6.19702,
+  "lng": -75.559183,
+  "calidad": "DUDOSA",
+  "match": "Carrera 25 A 1 Sur - 45 Medellín",
+  "nota": "comparte punto con 1 tienda(s) mas: relleno del geocodificador"
+ },
+ "ktronix-poblado": {
+  "lat": 6.192389,
+  "lng": -75.576283,
+  "calidad": "zona",
+  "match": "Medellín"
+ },
+ "vivero-tierranegra-poblado": {
+  "lat": 6.207985,
+  "lng": -75.571752,
+  "calidad": "exacta",
+  "match": "Calle 7D 43A 15 Medellín"
+ },
+ "mi-bendicion": {
+  "lat": 6.209255,
+  "lng": -75.566796,
+  "calidad": "exacta",
+  "match": "Calle 10 42 Medellín"
+ },
+ "murano-home": {
+  "lat": 6.178562,
+  "lng": -75.584252,
+  "calidad": "DUDOSA",
+  "match": "Carrera 43A 27A Sur - 81 Envigado",
+  "nota": "comparte punto con 3 tienda(s) mas: relleno del geocodificador"
+ },
+ "cricket-home": {
+  "lat": 6.245291,
+  "lng": -75.595224,
+  "calidad": "via",
+  "match": "Transversal 39B 74-20 Medellín"
+ },
+ "espacioflex": {
+  "lat": 6.173443,
+  "lng": -75.589056,
+  "calidad": "exacta",
+  "match": "Carrera 45A 34 sur 57 Envigado"
+ },
+ "elemental-galeria": {
+  "lat": 6.178562,
+  "lng": -75.584252,
+  "calidad": "DUDOSA",
+  "match": "Carrera 43A 27A Sur - 81 Envigado",
+  "nota": "comparte punto con 3 tienda(s) mas: relleno del geocodificador"
+ },
+ "deco-il-luminar": {
+  "lat": 6.178562,
+  "lng": -75.584252,
+  "calidad": "DUDOSA",
+  "match": "Carrera 43A 27A Sur - 81 Envigado",
+  "nota": "comparte punto con 3 tienda(s) mas: relleno del geocodificador"
+ },
+ "ambiente-living": {
+  "lat": 6.211323,
+  "lng": -75.559394,
+  "calidad": "DUDOSA",
+  "match": "Carrera 30 10-225 Medellín",
+  "nota": "comparte punto con 1 tienda(s) mas: relleno del geocodificador"
+ },
+ "fokuss-envigado": {
+  "lat": 6.178562,
+  "lng": -75.584252,
+  "calidad": "DUDOSA",
+  "match": "Carrera 43A 27A Sur - 81 Envigado",
+  "nota": "comparte punto con 3 tienda(s) mas: relleno del geocodificador"
+ },
+ "ilumeco": {
+  "lat": 6.268904,
+  "lng": -75.566116,
+  "calidad": "DUDOSA",
+  "match": "Carrera 52 71-117 Medellin",
+  "nota": "comparte punto con 5 tienda(s) mas: relleno del geocodificador"
+ },
+ "iluminaciones-antioquia": {
+  "lat": 6.162837,
+  "lng": -75.569965,
+  "calidad": "DUDOSA",
+  "match": "Carrera 27 36D Sur-35 Envigado",
+  "nota": "comparte punto con 1 tienda(s) mas: relleno del geocodificador"
+ },
+ "bucarest-lamparas": {
+  "lat": 6.183353,
+  "lng": -75.559955,
+  "calidad": "zona",
+  "match": "Medellín"
+ },
+ "mundo-grifos": {
+  "lat": 6.162837,
+  "lng": -75.569965,
+  "calidad": "DUDOSA",
+  "match": "Carrera 27 36D Sur-35 Envigado",
+  "nota": "comparte punto con 1 tienda(s) mas: relleno del geocodificador"
+ },
+ "grival-envigado": {
+  "lat": 6.170031,
+  "lng": -75.589814,
+  "calidad": "exacta",
+  "match": "Carrera 44A 38A Sur 09 Envigado"
+ },
+ "electroferia": {
+  "lat": 6.171162,
+  "lng": -75.587934,
+  "calidad": "cuadra",
+  "match": "Calle 37 Sur 43-58 Envigado"
+ },
+ "electrobello": {
+  "lat": 6.169842,
+  "lng": -75.586953,
+  "calidad": "exacta",
+  "match": "Carrera 42 37 Sur-20 Envigado"
+ },
+ "matisses-sabaneta": {
+  "lat": 6.268904,
+  "lng": -75.566116,
+  "calidad": "DUDOSA",
+  "match": "Carrera 52 71-117 Medellin",
+  "nota": "comparte punto con 5 tienda(s) mas: relleno del geocodificador"
+ },
+ "pisende-sur": {
+  "lat": 6.093131,
+  "lng": -75.636677,
+  "calidad": "cuadra",
+  "match": "Calle 128 Sur 50-48 Caldas"
+ },
+ "domotica-medellin": {
+  "lat": 6.268904,
+  "lng": -75.566116,
+  "calidad": "DUDOSA",
+  "match": "Carrera 52 71-117 Medellin",
+  "nota": "comparte punto con 5 tienda(s) mas: relleno del geocodificador"
+ },
+ "matiz-laureles": {
+  "lat": 6.24136,
+  "lng": -75.592175,
+  "calidad": "DUDOSA",
+  "match": "Transversal 39B 71-69 Medellín",
+  "nota": "comparte punto con 1 tienda(s) mas: relleno del geocodificador"
+ },
+ "vila-decoracion": {
+  "lat": 6.246569,
+  "lng": -75.595981,
+  "calidad": "exacta",
+  "match": "Circular 75 39B-56 Medellín"
+ },
+ "galeria-encanto-laureles": {
+  "lat": 6.259812,
+  "lng": -75.593022,
+  "calidad": "zona",
+  "match": "Calle 49 Medellín"
+ },
+ "pin8-toys": {
+  "lat": 6.258819,
+  "lng": -75.599499,
+  "calidad": "zona",
+  "match": "Medellín"
+ },
+ "muebles-infantiles-ragla": {
+  "lat": 6.206807,
+  "lng": -75.571015,
+  "calidad": "cuadra",
+  "match": "Calle 7-50 Carrera 43A Medellín"
+ },
+ "al-solar": {
+  "lat": 6.241103,
+  "lng": -75.5967,
+  "calidad": "exacta",
+  "match": "Carrera 76 34-20 Medellín"
+ },
+ "art-diseno": {
+  "lat": 6.24136,
+  "lng": -75.592175,
+  "calidad": "DUDOSA",
+  "match": "Transversal 39B 71-69 Medellín",
+  "nota": "comparte punto con 1 tienda(s) mas: relleno del geocodificador"
+ },
+ "espacio-mobiliario": {
+  "lat": 6.250974,
+  "lng": -75.555267,
+  "calidad": "cuadra",
+  "match": "Calle 59A 37 30 Medellín"
+ },
+ "sembramos": {
+  "lat": 6.268904,
+  "lng": -75.566116,
+  "calidad": "DUDOSA",
+  "match": "Carrera 52 71-117 Medellin",
+  "nota": "comparte punto con 5 tienda(s) mas: relleno del geocodificador"
+ },
+ "bazar-americano": {
+  "lat": 6.267547,
+  "lng": -75.604861,
+  "calidad": "cuadra",
+  "match": "Calle 50 A 86 Medellin"
+ },
+ "pisende-udea": {
+  "lat": 6.264386,
+  "lng": -75.570029,
+  "calidad": "cuadra",
+  "match": "Calle 67 56-5 Medellín"
+ },
+ "materiales-emo-san-benito": {
+  "lat": 6.251194,
+  "lng": -75.570267,
+  "calidad": "exacta",
+  "match": "Carrera 53 50-51 Medellín"
+ },
+ "ceramicas-y-porcelanatos": {
+  "lat": 6.253673,
+  "lng": -75.574247,
+  "calidad": "zona",
+  "match": "Medellín"
+ },
+ "decolum-medellin": {
+  "lat": 6.268904,
+  "lng": -75.566116,
+  "calidad": "DUDOSA",
+  "match": "Carrera 52 71-117 Medellin",
+  "nota": "comparte punto con 5 tienda(s) mas: relleno del geocodificador"
+ },
+ "terravatio-medellin": {
+  "lat": 6.268904,
+  "lng": -75.566116,
+  "calidad": "DUDOSA",
+  "match": "Carrera 52 71-117 Medellin",
+  "nota": "comparte punto con 5 tienda(s) mas: relleno del geocodificador"
+ },
+ "totally-electric-medellin": {
+  "lat": 6.226801,
+  "lng": -75.580135,
+  "calidad": "exacta",
+  "match": "Calle 25 54-16 Medellín"
+ }
+}
