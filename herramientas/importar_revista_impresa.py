@@ -40,14 +40,21 @@ SELECCION = [
         "categoria": "Cómo remodelar",
         "tags": ["remodelación", "planeación", "presupuesto", "arquitecto", "obra"],
         "fotografo": "",
-        "foto_de": "9_Proyecto_Veronica Ochoa",   # esta sección no trae foto propia
+        # Esta sección no trae foto. Se toma una de obra en proceso: es lo que
+        # el texto describe, paso por paso.
+        "foto_de": "27_Proyecto_Bathyard Home",
+        "foto_archivo": "IMG_8967.JPG",
     },
     {
         "carpeta": "15_¿Cuanto Cuesta_",
         "slug": "lavamanos-eleccion-a-la-medida",
         "categoria": "Baños",
-        "tags": ["lavamanos", "baños", "precios", "materiales", "griferia"],
+        "tags": ["lavamanos", "baños", "precios", "materiales", "grifería"],
         "fotografo": "",
+        # Las fotos de la sección 15 son todas de cocinas (DOSDE, SeisAsiete,
+        # STOSA): ninguna de baño. Se toma la del baño de Bathyard.
+        "foto_de": "27_Proyecto_Bathyard Home",
+        "foto_archivo": "00042_PIC_15.jpg",
     },
     {
         "carpeta": "13_Consejos para Remodelar con Vegetación",
@@ -55,6 +62,9 @@ SELECCION = [
         "categoria": "Jardines",
         "tags": ["jardines", "plantas", "interior", "luz natural", "riego"],
         "fotografo": "",
+        # Apaisada: las verticales de esta sección son retratos y el recorte
+        # 16:9 les corta la cara.
+        "foto_archivo": "FNS_0073.jpg",
     },
     {
         "carpeta": "17_La Iluminacion también es diseño",
@@ -62,6 +72,9 @@ SELECCION = [
         "categoria": "Iluminación",
         "tags": ["iluminación", "luz", "diseño interior", "temperatura de color"],
         "fotografo": "",
+        # Interior con luz de color: el tema del artículo, no el retrato del
+        # arquitecto que las verticales de esta carpeta repiten.
+        "foto_archivo": "FNS_2235.jpg",
     },
     {
         "carpeta": "9_Proyecto_Veronica Ochoa",
@@ -69,6 +82,7 @@ SELECCION = [
         "categoria": "Proyecto",
         "tags": ["remodelación", "apartamento", "medellín", "interiorismo"],
         "fotografo": "",
+        "foto_archivo": "FNS_1986.jpg",
     },
     {
         "carpeta": "11_Proyecto_Casa Trujillo",
@@ -115,6 +129,13 @@ def doc_final(d: pathlib.Path) -> pathlib.Path | None:
 
 
 _USADAS: set[str] = set()
+
+
+def foto_por_nombre(d: pathlib.Path, nombre: str) -> pathlib.Path | None:
+    for f in d.rglob("*"):
+        if f.name == nombre and not f.name.startswith("._"):
+            return f
+    return None
 
 
 def mejor_foto(d: pathlib.Path) -> pathlib.Path | None:
@@ -183,10 +204,19 @@ def main() -> int:
 
         # La foto puede venir de otra sección cuando la propia no tiene.
         origen_foto = carpeta_de(item.get("foto_de") or item["carpeta"])
-        f = mejor_foto(origen_foto) if origen_foto else None
+        f = None
+        if origen_foto:
+            if item.get("foto_archivo"):
+                f = foto_por_nombre(origen_foto, item["foto_archivo"])
+                if not f:
+                    print(f"  OJO: no está {item['foto_archivo']} en {item['carpeta']}")
+            f = f or mejor_foto(origen_foto)
         img = procesar_foto(f, item["slug"]) if f else None
 
         credito = item.get("fotografo") or "Revista Remodelar"
+        # Si la foto viene de otra sección, no documenta ESTE artículo: es
+        # del archivo propio, pero ilustra. El sitio ya sabe decirlo.
+        prestada = bool(item.get("foto_de")) and item["foto_de"] != item["carpeta"]
 
         nota = {
             "slug": f"{ahora:%Y-%m-%d}-{item['slug']}",
@@ -207,7 +237,7 @@ def main() -> int:
             "weighted_score": 0.0,
             "image_url": img,
             "image_credit": credito,
-            "image_is_illustrative": False,
+            "image_is_illustrative": prestada,
             "image_license": "",
             "image_source_url": "",
             "image_search_hint": "",

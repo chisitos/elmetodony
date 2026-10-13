@@ -62,6 +62,15 @@ class Article:
     # Material propio: cambia cómo se acredita (firma y fotógrafo en vez de
     # "Imagen: {medio}") y permite alojar la foto en vez de enlazarla.
     es_propio: bool = False
+    # Traducción autorizada por licencia. Sólo se publica si los tres campos
+    # están, porque son los que hacen válida la autorización: sin licencia
+    # verificable y sin enlace al original, no hay permiso que mostrar.
+    # OJO: una licencia CC del texto NO cubre necesariamente sus fotos —
+    # Brussels Studies, por ejemplo, dice "le texte seul". Por eso una nota
+    # traducida nunca trae la foto del original.
+    traducido_de: str = ""
+    licencia_texto: str = ""
+    url_original: str = ""
     scores: dict[str, float] = field(default_factory=dict)
     weighted_score: float = 0.0
     image_url: Optional[str] = None

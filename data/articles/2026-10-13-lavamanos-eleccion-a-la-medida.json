@@ -9,20 +9,20 @@
     "baños",
     "precios",
     "materiales",
-    "griferia"
+    "grifería"
   ],
   "category": "Baños",
   "source_name": "Revista Remodelar",
   "source_url": "",
   "autor": "",
   "es_propio": true,
-  "published_at": "2026-10-13T17:05:39+00:00",
+  "published_at": "2026-10-13T17:39:04+00:00",
   "original_published_at": null,
   "scores": {},
   "weighted_score": 0.0,
   "image_url": "static/revista/lavamanos-eleccion-a-la-medida.jpg",
   "image_credit": "Revista Remodelar",
-  "image_is_illustrative": false,
+  "image_is_illustrative": true,
   "image_license": "",
   "image_source_url": "",
   "image_search_hint": ""
