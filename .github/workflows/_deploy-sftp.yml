@@ -19,7 +19,7 @@ jobs:
           python-version: "3.11"
 
       - name: Instalar dependencias del generador
-        run: pip install Jinja2 PyYAML python-slugify
+        run: pip install Jinja2 PyYAML python-slugify Pillow
 
       - name: Generar sitio
         run: python run.py --site-only

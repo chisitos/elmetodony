@@ -40,7 +40,7 @@ jobs:
           python-version: "3.11"
 
       - name: Instalar dependencias (sólo las que usa el generador de sitio)
-        run: pip install Jinja2 PyYAML python-slugify
+        run: pip install Jinja2 PyYAML python-slugify Pillow
 
       - name: Generar sitio estático
         run: python run.py --site-only
