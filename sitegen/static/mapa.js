@@ -23,11 +23,12 @@
   var capa = L.layerGroup().addTo(mapa);
   var orden = paradas.slice();
 
-  function icono(etiqueta, enIdeo) {
+  function icono(etiqueta, enIdeo, aprox) {
     var ancho = etiqueta.length > 2 ? 44 : 30;
+    var clases = 'pin' + (enIdeo ? ' pin--ideo' : '') + (aprox ? ' pin--aprox' : '');
     return L.divIcon({
       className: '',
-      html: '<span class="pin' + (enIdeo ? ' pin--ideo' : '') + '">' + etiqueta + '</span>',
+      html: '<span class="' + clases + '">' + etiqueta + '</span>',
       iconSize: [ancho, 30],
       iconAnchor: [ancho / 2, 15]
     });
@@ -42,7 +43,7 @@
       var clave = p.lat.toFixed(5) + ',' + p.lng.toFixed(5);
       if (indice[clave] === undefined) {
         indice[clave] = grupos.length;
-        grupos.push({ lat: p.lat, lng: p.lng, ideo: p.ideo, nums: [], paradas: [] });
+        grupos.push({ lat: p.lat, lng: p.lng, ideo: p.ideo, aprox: p.aprox, nums: [], paradas: [] });
       }
       grupos[indice[clave]].nums.push(i + 1);
       grupos[indice[clave]].paradas.push(p);
@@ -62,10 +63,16 @@
            ? g.nums[0] + '-' + g.nums[g.nums.length - 1]
            : g.nums.join(', '));
       var html = g.paradas.map(function (p, k) {
+        // Una posición aproximada tiene que decirlo: el punto orienta, pero
+        // quien navegue debe usar "Cómo llegar", que va por dirección exacta.
+        var aviso = p.aprox
+          ? '<br><em style="color:#9C2227">Ubicación aproximada — usá Cómo llegar</em>'
+          : '';
         return '<strong>' + g.nums[k] + '. ' + p.nombre + '</strong><br>' + p.direccion +
+               aviso +
                '<br><a href="' + p.maps + '" target="_blank" rel="noopener">Cómo llegar</a>';
       }).join('<hr style="border:none;border-top:1px solid #ddd;margin:8px 0">');
-      L.marker(ll, { icon: icono(etiqueta, g.ideo) }).bindPopup(html).addTo(capa);
+      L.marker(ll, { icon: icono(etiqueta, g.ideo, g.aprox) }).bindPopup(html).addTo(capa);
     });
     L.polyline(puntos, { color: '#e4007c', weight: 3, opacity: 0.9, dashArray: '1 8', lineCap: 'round' }).addTo(capa);
     mapa.fitBounds(L.latLngBounds(puntos).pad(0.15));

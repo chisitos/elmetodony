@@ -1,0 +1,26 @@
+{
+ "alevilla-decoracion": {
+  "lat": 6.197645,
+  "lng": -75.557641,
+  "via": "Carrera 25A",
+  "placa": "1-31"
+ },
+ "the-blue-house": {
+  "lat": 6.211323,
+  "lng": -75.559394,
+  "via": "Carrera 30",
+  "placa": "10-225"
+ },
+ "murano-home": {
+  "lat": 6.197923,
+  "lng": -75.575928,
+  "via": "Carrera 43 B",
+  "placa": "7 Sur-177"
+ },
+ "elemental-galeria": {
+  "lat": 6.193941,
+  "lng": -75.576291,
+  "via": "Carrera 43A",
+  "placa": "9 Sur 91"
+ }
+}

@@ -200,7 +200,7 @@ def load() -> Directorio:
         ruta["paradas_mapa"] = [
             {"nombre": t["nombre"], "direccion": t["direccion_completa"],
              "lat": t["lat"], "lng": t["lng"], "ideo": bool(t.get("en_ideo")),
-             "maps": t["maps_url"]}
+             "aprox": bool(t.get("aprox")), "maps": t["maps_url"]}
             for t in con_coords
         ]
         ruta["maps_ruta_url"] = maps_ruta_url(

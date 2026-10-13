@@ -144,6 +144,8 @@ tiendas:
   - slug: alevilla-decoracion
     nombre: Alevilla Decoración
     zona: poblado
+    lat: 6.197645
+    lng: -75.557641
     categorias: [diseno]
     direccion: "Cra. 25A #1 Sur-45, El Tesoro, Medellín"
     local: Local 9652
@@ -176,6 +178,8 @@ tiendas:
   - slug: the-blue-house
     nombre: The Blue House
     zona: poblado
+    lat: 6.211323
+    lng: -75.559394
     categorias: [diseno, jardines]
     direccion: "Cra. 30 #10-110, Medellín"
     nivel: alto
@@ -218,6 +222,9 @@ tiendas:
   - slug: fokuss-poblado
     nombre: Fokuss Poblado
     zona: poblado
+    lat: 6.220054
+    lng: -75.56751
+    aprox: true
     categorias: [iluminacion]
     direccion: "Cra. 30 #8B-97, Medellín"
     nivel: especializado
@@ -227,6 +234,9 @@ tiendas:
   - slug: techno-smart
     nombre: Techno Smart
     zona: poblado
+    lat: 6.220054
+    lng: -75.56751
+    aprox: true
     categorias: [tech-home, iluminacion]
     direccion: "Cra. 25A #1A Sur-45, El Tesoro, Medellín"
     local: Local 3042
@@ -237,6 +247,9 @@ tiendas:
   - slug: ktronix-poblado
     nombre: Ktronix Poblado
     zona: poblado
+    lat: 6.220054
+    lng: -75.56751
+    aprox: true
     categorias: [tech-home]
     direccion: Cra. 43A, El Poblado, Medellín
     nivel: medio
@@ -272,6 +285,8 @@ tiendas:
   - slug: murano-home
     nombre: Murano Home
     zona: envigado
+    lat: 6.197923
+    lng: -75.575928
     categorias: [diseno]
     direccion: "Cra. 43 #32A Sur-22, Envigado"
     nivel: alto
@@ -281,6 +296,9 @@ tiendas:
   - slug: cricket-home
     nombre: Cricket Home
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [diseno]
     direccion: CC City Plaza, Envigado
     nivel: medio
@@ -302,6 +320,9 @@ tiendas:
   - slug: ikea-viva-envigado
     nombre: IKEA Viva Envigado
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [diseno, cocinas, tech-home]
     direccion: "CC Viva Envigado, Cra. 48 #32B Sur-139 Torre 1, Envigado"
     local: Local 235
@@ -312,6 +333,8 @@ tiendas:
   - slug: elemental-galeria
     nombre: Elemental Galería
     zona: envigado
+    lat: 6.193941
+    lng: -75.576291
     categorias: [diseno, iluminacion]
     direccion: "Cra. 43A #33B Sur-14, Envigado"
     nivel: alto
@@ -321,6 +344,9 @@ tiendas:
   - slug: deco-il-luminar
     nombre: Deco Il-Luminar
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [iluminacion, diseno]
     direccion: "Cra. 43A #33B Sur-14, Envigado"
     nivel: medio
@@ -330,6 +356,9 @@ tiendas:
   - slug: ambiente-living
     nombre: Ambiente Living
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [diseno, jardines]
     direccion: CC Viva Envigado, Envigado
     nivel: medio
@@ -339,6 +368,9 @@ tiendas:
   - slug: fokuss-envigado
     nombre: Fokuss Envigado
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [iluminacion]
     direccion: "Cra. 43A #31A Sur-25, Envigado"
     nivel: especializado
@@ -348,6 +380,9 @@ tiendas:
   - slug: ilumeco
     nombre: Ilumeco
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [iluminacion]
     direccion: "Cra. 43A #35S-23, Envigado"
     nivel: medio
@@ -357,6 +392,9 @@ tiendas:
   - slug: iluminaciones-antioquia
     nombre: Iluminaciones Antioquia
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [iluminacion]
     direccion: "Cra. 39 #35 Sur-16, Envigado"
     nivel: medio
@@ -366,6 +404,9 @@ tiendas:
   - slug: bucarest-lamparas
     nombre: Bucarest Lámparas y Decoración
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [iluminacion]
     direccion: Zona El Poblado / Envigado, Medellín
     nivel: medio
@@ -375,6 +416,9 @@ tiendas:
   - slug: mundo-grifos
     nombre: Mundo Grifos
     zona: envigado
+    lat: 6.171119
+    lng: -75.588439
+    aprox: true
     categorias: [banos]
     direccion: "Cra. 39 #35 Sur-04, Envigado"
     nivel: medio
@@ -421,6 +465,9 @@ tiendas:
   - slug: matisses-sabaneta
     nombre: Matisses
     zona: sabaneta
+    lat: 6.093131
+    lng: -75.636677
+    aprox: true
     categorias: [diseno]
     direccion: "Cl. 52 Sur #44-65, Sabaneta"
     nivel: alto
@@ -454,6 +501,9 @@ tiendas:
   - slug: matiz-laureles
     nombre: Matiz
     zona: laureles
+    lat: 6.231493
+    lng: -75.587899
+    aprox: true
     categorias: [diseno]
     direccion: "Av. Nutibara #71-69, Medellín"
     nivel: alto
@@ -474,6 +524,9 @@ tiendas:
   - slug: galeria-encanto-laureles
     nombre: Galería Encanto Laureles
     zona: laureles
+    lat: 6.231493
+    lng: -75.587899
+    aprox: true
     categorias: [diseno]
     direccion: "Cra. 81 #34A-94, Medellín"
     nivel: medio
@@ -483,6 +536,9 @@ tiendas:
   - slug: pin8-toys
     nombre: Pin8 Toys
     zona: laureles
+    lat: 6.231493
+    lng: -75.587899
+    aprox: true
     categorias: [infantil]
     direccion: "Cl. 47D #63B, Medellín"
     nivel: especializado
@@ -518,6 +574,9 @@ tiendas:
   - slug: art-diseno
     nombre: Art Diseño Muebles y Decoración
     zona: belen
+    lat: 6.250974
+    lng: -75.555267
+    aprox: true
     categorias: [diseno]
     direccion: "Av. 80 #19A-117, Medellín"
     nivel: accesible
@@ -538,6 +597,9 @@ tiendas:
   - slug: sembramos
     nombre: Sembramos
     zona: belen
+    lat: 6.250974
+    lng: -75.555267
+    aprox: true
     categorias: [jardines]
     direccion: "Cl. 26B #70-93, Medellín"
     nivel: medio
@@ -584,6 +646,9 @@ tiendas:
   - slug: ceramicas-y-porcelanatos
     nombre: Cerámicas y Porcelanatos
     zona: centro
+    lat: 6.252482
+    lng: -75.581323
+    aprox: true
     categorias: [pisos]
     direccion: "Cra. 56C #50-56, Medellín"
     nivel: accesible
@@ -593,6 +658,9 @@ tiendas:
   - slug: decolum-medellin
     nombre: Decolum Medellín
     zona: centro
+    lat: 6.252482
+    lng: -75.581323
+    aprox: true
     categorias: [iluminacion, diseno]
     direccion: "Tenerife #50-18, Medellín"
     nivel: medio
@@ -602,6 +670,9 @@ tiendas:
   - slug: terravatio-medellin
     nombre: Terravatio Medellín
     zona: centro
+    lat: 6.252482
+    lng: -75.581323
+    aprox: true
     categorias: [iluminacion]
     direccion: "Tenerife #51-11, Medellín"
     nivel: especializado

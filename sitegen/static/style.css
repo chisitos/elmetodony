@@ -1977,6 +1977,15 @@ a.sec-head__link:hover { color: var(--accent); }
 
 .pin--ideo { background: var(--terracota); }
 
+/* Aproximado: borde punteado y tono apagado. Un punto exacto y uno
+   estimado no pueden parecer lo mismo. */
+.pin--aprox {
+  background: var(--paper);
+  color: var(--ink);
+  border: 2px dashed var(--muted);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+}
+
 .pin--yo {
   width: 22px; height: 22px;
   background: #1769ff;
