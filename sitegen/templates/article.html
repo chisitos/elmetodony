@@ -13,7 +13,9 @@
     {% elif article.es_propio %}
     Foto: {{ article.image_credit }} · Archivo Revista Remodelar
     {% else %}
-    Imagen: {{ article.image_credit }}
+    {# Foto del medio, servida desde su servidor con crédito y enlace: el
+       sitio no la aloja ni se atribuye derecho alguno sobre ella. #}
+    Imagen: <a href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">{{ article.image_credit }}</a> · se muestra desde su fuente
     {% endif %}
   </div>
   {% endif %}

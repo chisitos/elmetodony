@@ -86,8 +86,30 @@ def _load_articles() -> list[Article]:
     return articles
 
 
+# Tres regímenes posibles para la foto de una nota, y lo que cada uno
+# permite. Se decide acá, una sola vez, para que ninguna plantilla tenga que
+# adivinarlo y para que el sitio nunca sugiera un derecho que no se tiene.
+REGIMEN_FOTO = {
+    "propia": "Material propio, alojado en el sitio",
+    "cc": "Banco libre con licencia abierta, alojado con crédito a su autor",
+    "enlace": "La foto es del medio y se muestra desde su servidor, como una previsualización de enlace",
+}
+
+
+def _regimen_foto(a: Article) -> str:
+    if not a.image_url:
+        return ""
+    if a.es_propio:
+        return "propia"
+    if a.image_is_illustrative:
+        return "cc"
+    return "enlace"
+
+
 def _view_model(a: Article) -> dict:
     d = a.to_dict()
+    d["regimen_foto"] = _regimen_foto(a)
+    d["regimen_foto_texto"] = REGIMEN_FOTO.get(d["regimen_foto"], "")
     d["published_at_human"] = _human_date(a.published_at)
     d["original_published_at_human"] = _human_date(a.original_published_at)
     return d

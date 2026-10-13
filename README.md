@@ -177,6 +177,30 @@ Cuando ninguno de los tres niveles encuentra nada, la nota se resuelve con
 una placa de trama técnica (el hatching de un plano de obra) en vez de un
 ícono de imagen rota — nunca se inventa una foto para una nota real.
 
+### Qué se puede republicar, y qué no
+
+Se verificó, no se supuso. Ninguno de los medios de `config/feeds.yaml`
+declara licencia abierta: Architectural Digest responde con
+`Copyright (c) Condé Nast 2026` y el resto no declara nada, que
+legalmente es lo mismo. Tampoco existe un feed de arquitectura que ceda
+derechos de republicación: v2com, Archello y World-Architects no
+responden, y las únicas fuentes realmente permisivas son los bancos
+Creative Commons, cuyas fotos son genéricas y nunca del proyecto cubierto.
+
+De ahí los **tres regímenes**, que el sitio decide solo y declara al pie
+de cada foto:
+
+| Régimen   | Origen                          | ¿Se aloja? | Qué dice la nota |
+| --------- | ------------------------------- | ---------- | ---------------- |
+| `propia`  | archivo de la revista impresa   | sí         | "Foto: {fotógrafo} · Archivo Revista Remodelar" |
+| `cc`      | Openverse, licencia abierta     | sí         | "Imagen ilustrativa, no es una foto del proyecto" + autor y licencia |
+| `enlace`  | el medio de la nota             | **no**     | "Imagen: {medio} · se muestra desde su fuente", con enlace |
+
+Una edición **mezcla las dos cosas**: notas propias con su fotografía, y
+curaduría de medios cuya foto se muestra desde su servidor con crédito y
+enlace — igual que cualquier previsualización de enlace. El sitio nunca
+aloja una foto ajena ni se atribuye un derecho que no tiene.
+
 ### Excepción: las fotos de las rutas
 
 Todo lo anterior vale para **la revista**, donde la foto pertenece a un medio
