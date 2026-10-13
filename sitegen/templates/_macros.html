@@ -7,7 +7,7 @@
 <div class="media media--{{ size }}">
   <div class="media-fallback"><span class="media-fallback__cat">{{ a.category }}</span></div>
   {% if a.image_url %}
-  <img src="{{ a.image_url }}" alt="{{ a.headline }}"
+  <img src="{{ '' if a.image_url.startswith('http') else asset_prefix }}{{ a.image_url }}" alt="{{ a.headline }}"
        loading="{{ 'eager' if size == 'hero' else 'lazy' }}"
        onerror="this.parentNode.classList.add('media--sin-foto'); this.remove();">
   {% if a.image_is_illustrative %}<span class="media-badge">Imagen ilustrativa</span>{% endif %}
@@ -23,7 +23,7 @@
     <h2>{{ a.headline }}</h2>
     <p>{{ a.dek }}</p>
     <div class="foot">
-      <span>{{ a.source_name }}</span>
+      <span>{% if a.autor %}{{ a.autor }}{% else %}{{ a.source_name }}{% endif %}</span>
       <span>{{ a.published_at_human }}</span>
     </div>
   </div>
@@ -39,7 +39,7 @@
       <h1>{{ a.headline }}</h1>
     </a>
     <p class="dek">{{ a.dek }}</p>
-    <div class="byline">{{ a.category }} · {{ a.source_name }} · {{ a.published_at_human }}</div>
+    <div class="byline">{{ a.category }} · {% if a.autor %}{{ a.autor }}{% else %}{{ a.source_name }}{% endif %} · {{ a.published_at_human }}</div>
   </div>
 </section>
 {% endmacro %}

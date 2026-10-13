@@ -10,6 +10,8 @@
   <div class="article__media-credit">
     {% if article.image_is_illustrative %}
     Imagen ilustrativa, no es una foto del proyecto — {{ article.image_credit }}{% if article.image_source_url %} · <a href="{{ article.image_source_url }}" target="_blank" rel="noopener noreferrer">fuente</a>{% endif %}
+    {% elif article.es_propio %}
+    Foto: {{ article.image_credit }} · Archivo Revista Remodelar
     {% else %}
     Imagen: {{ article.image_credit }}
     {% endif %}
@@ -20,7 +22,9 @@
   <h1>{{ article.headline }}</h1>
   <p class="dek">{{ article.dek }}</p>
   <div class="byline">
-    <span>{{ pub_name }} Editorial</span>
+    {# El material propio lleva la firma de quien lo escribió; lo que viene
+       de RSS es reescritura editorial y se firma como la casa. #}
+    <span>{% if article.autor %}Por {{ article.autor }}{% else %}{{ pub_name }} Editorial{% endif %}</span>
     <span>{{ article.published_at_human }}</span>
   </div>
 

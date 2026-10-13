@@ -55,6 +55,13 @@ class Article:
     source_url: str
     published_at: str  # ISO 8601 — cuándo lo publica Remodelar
     original_published_at: Optional[str] = None
+    # Firma del texto. En lo que viene de RSS no existe —se acredita al medio
+    # en source_name—, pero el material propio de la revista impresa sí tiene
+    # autor con nombre, y hay que darle crédito.
+    autor: str = ""
+    # Material propio: cambia cómo se acredita (firma y fotógrafo en vez de
+    # "Imagen: {medio}") y permite alojar la foto en vez de enlazarla.
+    es_propio: bool = False
     scores: dict[str, float] = field(default_factory=dict)
     weighted_score: float = 0.0
     image_url: Optional[str] = None
