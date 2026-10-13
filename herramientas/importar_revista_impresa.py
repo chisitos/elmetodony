@@ -31,9 +31,20 @@ ARCHIVO = pathlib.Path(r"C:\Users\jemho\Downloads\Revista remodelar\Revista remo
 DESTINO_FOTOS = RAIZ / "sitegen" / "static" / "revista"
 DESTINO_NOTAS = RAIZ / "data" / "articles"
 
-# Qué se publica en esta edición y cómo se acredita. El orden es el de la
-# portada: primero lo que conversa con las Rutas.
+# Qué se publica en esta edición y cómo se acredita.
+#
+# EL ORDEN ES EL DE LA PORTADA. Abre quien tenga la mejor fotografía, no
+# quien venga antes en el índice de la revista impresa: la portada se mira
+# antes de leerse. Después, lo que conversa con las Rutas.
 SELECCION = [
+    {
+        "carpeta": "9_Proyecto_Veronica Ochoa",
+        "slug": "el-apartamento-que-se-hizo-casa",
+        "categoria": "Proyecto",
+        "tags": ["remodelación", "apartamento", "medellín", "interiorismo"],
+        "fotografo": "",
+        "foto_archivo": "FNS_1986.jpg",
+    },
     {
         "carpeta": "8_Remodelar Paso a Paso",
         "slug": "paso-a-paso-para-una-transformacion",
@@ -75,14 +86,6 @@ SELECCION = [
         # Interior con luz de color: el tema del artículo, no el retrato del
         # arquitecto que las verticales de esta carpeta repiten.
         "foto_archivo": "FNS_2235.jpg",
-    },
-    {
-        "carpeta": "9_Proyecto_Veronica Ochoa",
-        "slug": "el-apartamento-que-se-hizo-casa",
-        "categoria": "Proyecto",
-        "tags": ["remodelación", "apartamento", "medellín", "interiorismo"],
-        "fotografo": "",
-        "foto_archivo": "FNS_1986.jpg",
     },
     {
         "carpeta": "11_Proyecto_Casa Trujillo",
