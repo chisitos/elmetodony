@@ -18,6 +18,28 @@
 <meta name="apple-mobile-web-app-title" content="{{ pub_name }}">
 <link rel="apple-touch-icon" href="{{ asset_prefix }}static/icono-180.png">
 
+{# Tarjeta de previsualización. Sin esto, compartir un enlace —en WhatsApp,
+   en una historia de Instagram, donde sea— muestra un recuadro vacío. #}
+<meta property="og:site_name" content="{{ pub_name }}">
+<meta property="og:locale" content="es_CO">
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
+<meta property="og:title" content="{% block og_title %}{{ pub_name }} — {{ tagline }}{% endblock %}">
+<meta property="og:description" content="{% block og_desc %}{{ sitio.descripcion }}{% endblock %}">
+<meta property="og:image" content="{% block og_image %}{{ sitio_url }}/static/marca/compartir.jpg{% endblock %}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="{{ sitio_url }}/{% block og_path %}{% endblock %}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="{{ sitio_url }}/{% block canonica %}{{ self.og_path() }}{% endblock %}">
+
+{# Datos estructurados: le dicen a Google QUÉ es esto, no sólo qué dice. #}
+<script type="application/ld+json">
+{{ {"@context":"https://schema.org","@type":"WebSite","name":pub_name,
+    "url":sitio_url,"inLanguage":"es-CO",
+    "description":sitio.descripcion} | tojson }}
+</script>
+{% block datos %}{% endblock %}
+
 <link rel="stylesheet" href="{{ asset_prefix }}static/style.css?v={{ asset_v }}">
 </head>
 <body>

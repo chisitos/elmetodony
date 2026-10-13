@@ -1,6 +1,22 @@
 {% extends "base.html" %}
 {% block title %}{{ t.nombre }} — {{ t.zona_nombre }} | {{ pub_name }}{% endblock %}
 {% block description %}{{ t.nombre }}: {{ t.aporta }}. {{ t.direccion_completa }}.{% endblock %}
+{% block og_title %}{{ t.nombre }} — {{ t.zona_nombre }}{% endblock %}
+{% block og_desc %}{{ t.aporta }}. {{ t.direccion_completa }}.{% endblock %}
+{% block og_path %}directorio/{{ t.slug }}.html{% endblock %}
+{% block datos %}
+<script type="application/ld+json">
+{{ {"@context":"https://schema.org","@type":"HomeGoodsStore",
+    "name":t.nombre, "description":t.aporta,
+    "address":{"@type":"PostalAddress","streetAddress":t.direccion,
+               "addressLocality":t.zona_corta,"addressRegion":"Antioquia",
+               "addressCountry":"CO"},
+    "geo":({"@type":"GeoCoordinates","latitude":t.lat,"longitude":t.lng} if t.lat else None),
+    "telephone":(t.telefono or None),
+    "url":sitio_url ~ "/directorio/" ~ t.slug ~ ".html",
+    "areaServed":ciudad} | tojson }}
+</script>
+{% endblock %}
 {% block content %}
 
 <a class="back-link" href="{{ asset_prefix }}directorio/index.html">&larr; Directorio</a>

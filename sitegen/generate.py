@@ -39,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from pipeline.config import Config  # noqa: E402
 from pipeline.models import Article  # noqa: E402
 from sitegen import directorio  # noqa: E402
+from sitegen import tarjetas  # noqa: E402
 
 log = logging.getLogger("remodelar.site")
 
@@ -229,6 +230,18 @@ def build_site() -> Path:
 
     articles = _load_articles()
     view_models = [_view_model(a) for a in articles]
+
+    # Imágenes para compartir: la previsualización del enlace y la tarjeta
+    # 4:5 de Instagram. Sólo las propias llevan foto; componer la de un
+    # medio ajeno dentro de una tarjeta de marca sería alojarla y alterarla.
+    for i, (a, vm) in enumerate(zip(articles, view_models)):
+        try:
+            r = tarjetas.generar(a.to_dict(), i)
+            vm["compartir"] = r["compartir"]
+            vm["tarjeta_ig"] = r["ig"]
+            vm["tarjeta_pin"] = r["pin"]
+        except Exception as exc:  # nunca debe tumbar la generación del sitio
+            log.warning("No se pudo generar la tarjeta de %s: %s", a.slug, exc)
     editions = _build_editions(view_models)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -290,6 +303,7 @@ def build_site() -> Path:
         nav_categorias=cats_con_n,
         nav_ruta=None,
         anio=datetime.utcnow().year,
+        sitio_url=sitio.get('url', 'https://feriaremodelar.com'),
         asset_v=asset_v,
     )
 
@@ -387,6 +401,30 @@ def build_site() -> Path:
         ctx.update(nav_active="revista", article=vm,
                    body_html=_body_html(a.body_md, a.pull_quote), asset_prefix="../")
         (articulos_dir / f"{a.slug}.html").write_text(article_tpl.render(**ctx), encoding="utf-8")
+
+    # ---- Para que Google sepa que existimos ------------------------------
+    hoy = datetime.utcnow().strftime("%Y-%m-%d")
+    urls = [{"path": "", "fecha": hoy, "frecuencia": "daily", "prioridad": "1.0"},
+            {"path": "rutas/index.html", "fecha": hoy, "frecuencia": "weekly", "prioridad": "0.9"},
+            {"path": "directorio/index.html", "fecha": hoy, "frecuencia": "weekly", "prioridad": "0.9"},
+            {"path": "ideo/index.html", "fecha": hoy, "frecuencia": "monthly", "prioridad": "0.8"},
+            {"path": "revista/index.html", "fecha": hoy, "frecuencia": "weekly", "prioridad": "0.8"},
+            {"path": "ediciones/index.html", "fecha": hoy, "frecuencia": "weekly", "prioridad": "0.5"},
+            {"path": "creditos.html", "fecha": hoy, "frecuencia": "yearly", "prioridad": "0.2"}]
+    urls += [{"path": f"rutas/{r['slug']}.html", "fecha": hoy, "frecuencia": "monthly",
+              "prioridad": "0.9"} for r in dir_data.rutas]
+    # Las fichas de tienda son el activo de búsqueda local: cada una puede
+    # responder a "dónde comprar enchape en Medellín".
+    urls += [{"path": f"directorio/{s['slug']}.html", "fecha": hoy, "frecuencia": "monthly",
+              "prioridad": "0.7"} for s in dir_data.tiendas]
+    urls += [{"path": f"articulos/{a.slug}.html", "fecha": a.published_at[:10],
+              "frecuencia": "yearly", "prioridad": "0.6"} for a in articles]
+    urls += [{"path": f"ediciones/{e['slug']}.html", "fecha": hoy, "frecuencia": "monthly",
+              "prioridad": "0.4"} for e in editions]
+
+    render("sitemap.xml", OUTPUT_DIR / "sitemap.xml", depth=0, urls=urls, nav_active="")
+    render("robots.txt", OUTPUT_DIR / "robots.txt", depth=0, nav_active="")
+    log.info("sitemap.xml con %d direcciones", len(urls))
 
     # ---- Estáticos y PWA ---------------------------------------------------
     static_out = OUTPUT_DIR / "static"

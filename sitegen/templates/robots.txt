@@ -1,0 +1,9 @@
+# Remodelar — feriaremodelar.com
+User-agent: *
+Allow: /
+
+# El JSON del directorio es para la app, no para indexar
+Disallow: /directorio.json
+Disallow: /feed.json
+
+Sitemap: {{ sitio_url }}/sitemap.xml

@@ -2008,6 +2008,31 @@ a.sec-head__link:hover { color: var(--accent); }
 .leaflet-container { font-family: var(--font-body); }
 .leaflet-control-attribution { font-size: 0.6rem; }
 
+/* ---------- compartir ---------- */
+
+.compartir {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 16px 0 26px;
+  margin-bottom: 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.compartir__label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-right: 4px;
+}
+
+@media (max-width: 480px) { .compartir .btn { flex: 1 1 44%; } }
+
 /* ---------- crédito de foto ----------
    Discreto pero presente: una foto sin origen visible es indistinguible
    de una foto tomada sin permiso. */

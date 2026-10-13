@@ -18,6 +18,7 @@ sitio:
     El mapa de dónde comprar para remodelar en Medellín. Rutas armadas por
     proyecto, con las tiendas en el orden en que hay que visitarlas.
   ciudad: "Medellín"
+  url: "https://feriaremodelar.com"
 
 # El ancla del ecosistema.
 ancla:

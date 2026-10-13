@@ -1,6 +1,26 @@
 {% extends "base.html" %}
 {% from "_macros.html" import media %}
 {% block title %}{{ article.headline }} — {{ pub_name }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_title %}{{ article.headline }}{% endblock %}
+{% block og_desc %}{{ article.dek }}{% endblock %}
+{% block og_image %}{{ sitio_url }}/{{ article.compartir or 'static/marca/compartir.jpg' }}{% endblock %}
+{% block og_path %}articulos/{{ article.slug }}.html{% endblock %}
+{% block datos %}
+<script type="application/ld+json">
+{{ {"@context":"https://schema.org","@type":"Article",
+    "headline":article.headline, "description":article.dek,
+    "datePublished":article.published_at,
+    "image":[sitio_url ~ "/" ~ (article.compartir or "")],
+    "author":{"@type":"Person" if article.autor else "Organization",
+              "name":article.autor or pub_name},
+    "publisher":{"@type":"Organization","name":pub_name,
+                 "logo":{"@type":"ImageObject","url":sitio_url ~ "/static/marca/logo.png"}},
+    "inLanguage":"es-CO",
+    "mainEntityOfPage":sitio_url ~ "/articulos/" ~ article.slug ~ ".html"} | tojson }}
+</script>
+{% endblock %}
+{% block scripts %}<script src="{{ asset_prefix }}static/compartir.js?v={{ asset_v }}" defer></script>{% endblock %}
 {% block content %}
 <article class="article">
   <a class="back-link" href="{{ asset_prefix }}index.html">&larr; {{ pub_name }}</a>
@@ -30,6 +50,21 @@
        de RSS es reescritura editorial y se firma como la casa. #}
     <span>{% if article.autor %}Por {{ article.autor }}{% else %}{{ pub_name }} Editorial{% endif %}</span>
     <span>{{ article.published_at_human }}</span>
+  </div>
+
+  <div class="compartir" data-titulo="{{ article.headline }}" data-bajada="{{ article.dek }}"
+       data-url="{{ sitio_url }}/articulos/{{ article.slug }}.html"
+       data-pin="{{ sitio_url }}/{{ article.tarjeta_pin or '' }}">
+    <span class="compartir__label">Compartir</span>
+    <button type="button" class="btn btn--sm btn--primary" data-accion="nativo" hidden>Compartir…</button>
+    <a class="btn btn--sm" data-accion="wa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+    {% if article.tarjeta_pin %}
+    <a class="btn btn--sm" data-accion="pinterest" href="#" target="_blank" rel="noopener">Pinterest</a>
+    {% endif %}
+    <button type="button" class="btn btn--sm btn--ghost" data-accion="copiar">Copiar enlace</button>
+    {% if article.tarjeta_ig %}
+    <a class="btn btn--sm btn--ghost" href="{{ asset_prefix }}{{ article.tarjeta_ig }}" download>Bajar imagen 4:5</a>
+    {% endif %}
   </div>
 
   <div class="body">
