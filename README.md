@@ -201,6 +201,23 @@ curaduría de medios cuya foto se muestra desde su servidor con crédito y
 enlace — igual que cualquier previsualización de enlace. El sitio nunca
 aloja una foto ajena ni se atribuye un derecho que no tiene.
 
+#### Derechos del material propio
+
+Isabel confirmó el 13 de octubre de 2026 que **lo que está en el archivo de
+la revista es de la revista**: textos y fotografías se encargaron para
+Remodelar. Las siete actas de entrega no lo dicen por escrito, así que
+queda asentado acá.
+
+Eso no cambia el crédito: cada nota propia se publica con la firma de quien
+la escribió y el nombre de quien la fotografió. Acreditar no es una
+concesión legal, es lo que hace que el archivo valga.
+
+**Una excepción que ningún acuerdo cubre:** "Especies de Espacios" está
+firmada por **Georges Perec** y es un fragmento traducido de *Espèces
+d'espaces*. Esos derechos son del autor y de su editorial, no de la
+revista, por mucho que el documento esté en la misma carpeta. No se
+publica.
+
 ### Excepción: las fotos de las rutas
 
 Todo lo anterior vale para **la revista**, donde la foto pertenece a un medio
