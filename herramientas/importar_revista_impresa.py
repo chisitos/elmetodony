@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 """Importa artículos del archivo de la Revista Remodelar No. 0 impresa.
 
+OJO — NO TODO EL ARCHIVO ES PROPIO. La sección 19 (Camila Remodela) guarda
+imágenes de referencia bajadas de Houzz: se reconocen por el nombre
+(`infografia_houzz.jpg`, `suelo-vinilico-1416199-105600.jpg`,
+`paquet-en-casa-1219831-159700.jpg`). Esas NO se publican. Antes de tomar
+una foto de una sección nueva, mirar los nombres de archivo: los de
+fotógrafo propio son del tipo `FNS_1947.jpg`, `20140117C_juanri_0484.jpg`
+o `CASA TRUJILLO-1.jpg`.
+
 Convierte un .docx corregido en una nota del sitio y copia su mejor foto a
 `sitegen/static/revista/`. A diferencia de lo que trae el pipeline de RSS,
 esto es material PROPIO: la foto se aloja (no se enlaza) y el crédito lleva
@@ -51,10 +59,11 @@ SELECCION = [
         "categoria": "Cómo remodelar",
         "tags": ["remodelación", "planeación", "presupuesto", "arquitecto", "obra"],
         "fotografo": "",
-        # Esta sección no trae foto. Se toma una de obra en proceso: es lo que
-        # el texto describe, paso por paso.
-        "foto_de": "27_Proyecto_Bathyard Home",
-        "foto_archivo": "IMG_8967.JPG",
+        # Esta sección no trae foto propia. Se tomó primero una de obra en
+        # proceso, pero escombros y operarios son una pésima apertura para un
+        # texto sobre hacer las cosas bien. Va una remodelación terminada.
+        "foto_de": "9_Proyecto_Veronica Ochoa",
+        "foto_archivo": "FNS_1947.jpg",
     },
     {
         "carpeta": "15_¿Cuanto Cuesta_",

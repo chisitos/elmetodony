@@ -106,8 +106,22 @@ def _regimen_foto(a: Article) -> str:
     return "enlace"
 
 
+def _huella_archivo(rel: str) -> str:
+    """Huella del contenido de un estático del sitio. Sin esto, cambiar la
+    foto de una nota conservando el nombre deja a los visitantes viendo la
+    anterior — pasó con la foto de iluminación."""
+    f = STATIC_DIR.parent / rel if not rel.startswith("static/") else STATIC_DIR / rel[len("static/"):]
+    if not f.exists():
+        return ""
+    return hashlib.sha1(f.read_bytes()).hexdigest()[:8]
+
+
 def _view_model(a: Article) -> dict:
     d = a.to_dict()
+    if a.image_url and not a.image_url.startswith("http"):
+        v = _huella_archivo(a.image_url)
+        if v:
+            d["image_url"] = f"{a.image_url}?v={v}"
     d["regimen_foto"] = _regimen_foto(a)
     d["regimen_foto_texto"] = REGIMEN_FOTO.get(d["regimen_foto"], "")
     d["published_at_human"] = _human_date(a.published_at)
