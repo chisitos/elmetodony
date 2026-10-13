@@ -35,7 +35,7 @@ jobs:
         run: |
           cd public
           scp -r -q -i ~/.ssh/deploy -P "${{ secrets.DEPLOY_PORT }}" \
-            index.html manifest.webmanifest sw.js feed.json directorio.json \
+            index.html creditos.html manifest.webmanifest sw.js \n            robots.txt sitemap.xml feed.json directorio.json \
             static articulos directorio ediciones ideo revista rutas \
             "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:public_html/"
 
