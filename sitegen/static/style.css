@@ -15,21 +15,29 @@
   --line: #e0e0e0;
   --muted: #6b6b6b;
 
-  /* Paleta de la revista impresa. Los tonos planos son para BLOQUES con
-     texto negro encima: medidos sobre blanco dan entre 3 y 3,5:1, así que
-     como color de texto no pasarían contraste. Para eso está la variante
-     `-txt`, oscurecida hasta 4,5:1, que es la que va en enlaces y rótulos.
-     Mezclarlas al revés rompe la legibilidad. */
-  --rosa: #E08496;        --rosa-txt: #CF425E;
-  --magenta: #C964AD;     --magenta-txt: #BF499E;
-  --naranja: #ED8731;     --naranja-txt: #B75C10;
-  --turquesa: #60B5AF;    --turquesa-txt: #3C817C;
-  --verde: #B1DE62;       --verde-txt: #5C811B;
+  /* Paleta de marca de Feria Remodelar, muestreada de `paletas 2027.png`.
+     Se separa en dos grupos porque no son intercambiables:
 
-  /* El acento sigue siendo uno solo: con cinco colores compitiendo, el
-     lector deja de saber qué es un enlace. Los otros cuatro codifican
-     secciones, no acciones. */
-  --accent: var(--magenta-txt);
+     PLANOS — van en BLOQUES, con texto negro encima. Sobre blanco dan entre
+     1,3 y 3,6:1, así que como color de texto serían ilegibles.
+
+     OSCUROS — sí pasan contraste sobre blanco (4,3 a 7,9:1) y son los
+     únicos que pueden ir en texto, enlaces y rótulos finos. */
+  --rosa: #E08496;        /* 6288 */
+  --magenta: #C964AD;     /* 6296 */
+  --naranja: #ED8731;     /* 6261 */
+  --turquesa: #60B5AF;    /* 6375 */
+  --lima: #DDE673;        /* 6421 */
+  --amarillo: #E9D44C;    /* 6225 */
+
+  --vino: #9C2227;        /* 6294 — 7,9:1  el rojo del logotipo */
+  --bosque: #2C6934;      /* 6406 — 6,6:1 */
+  --terracota: #C15D24;   /* 6259 — 4,3:1 */
+
+  /* El acento es el vino del logotipo: es el color más fuerte de la marca
+     y el único con contraste de sobra para enlaces. Los planos codifican
+     secciones; con cinco compitiendo, nadie sabría qué es un enlace. */
+  --accent: var(--vino);
   --accent-plano: var(--magenta);
   --font-display: 'Archivo Black', 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Space Grotesk', system-ui, sans-serif;
@@ -101,7 +109,7 @@ img { max-width: 100%; }
 .masthead .brand img {
   display: block;
   width: auto;
-  height: clamp(42px, 6vw, 68px);
+  height: clamp(26px, 3.4vw, 40px);
 }
 
 .masthead .tagline {
@@ -1056,20 +1064,20 @@ footer {
 .plate--1 .plate__name { background: var(--magenta); border-color: var(--magenta); }
 .plate--2 .plate__name { background: var(--naranja); border-color: var(--naranja); }
 .plate--3 .plate__name { background: var(--turquesa); border-color: var(--turquesa); }
-.plate--4 .plate__name { background: var(--verde); border-color: var(--verde); }
+.plate--4 .plate__name { background: var(--lima); border-color: var(--lima); }
 
 /* El número de cada parada toma el tono de su ruta. */
-.ruta--0 .paso__num { color: var(--rosa-txt); }
-.ruta--1 .paso__num { color: var(--magenta-txt); }
-.ruta--2 .paso__num { color: var(--naranja-txt); }
-.ruta--3 .paso__num { color: var(--turquesa-txt); }
-.ruta--4 .paso__num { color: var(--verde-txt); }
+.ruta--0 .paso__num { color: var(--vino); }
+.ruta--1 .paso__num { color: var(--vino); }
+.ruta--2 .paso__num { color: var(--terracota); }
+.ruta--3 .paso__num { color: var(--bosque); }
+.ruta--4 .paso__num { color: var(--bosque); }
 
-.ruta--0 .ruta__plate-n { background: var(--rosa-txt); }
-.ruta--1 .ruta__plate-n { background: var(--magenta-txt); }
-.ruta--2 .ruta__plate-n { background: var(--naranja-txt); }
-.ruta--3 .ruta__plate-n { background: var(--turquesa-txt); }
-.ruta--4 .ruta__plate-n { background: var(--verde-txt); }
+.ruta--0 .ruta__plate-n { background: var(--vino); }
+.ruta--1 .ruta__plate-n { background: var(--vino); }
+.ruta--2 .ruta__plate-n { background: var(--terracota); }
+.ruta--3 .ruta__plate-n { background: var(--bosque); }
+.ruta--4 .ruta__plate-n { background: var(--bosque); }
 
 .plate__body {
   padding: 16px 18px 18px;
@@ -1112,7 +1120,7 @@ footer {
   color: var(--muted);
 }
 
-.plate__ideo { background: var(--naranja-txt); color: var(--paper); padding: 2px 7px; white-space: nowrap; }
+.plate__ideo { background: var(--terracota); color: var(--paper); padding: 2px 7px; white-space: nowrap; }
 
 /* ---------- barra inferior (sólo móvil) ---------- */
 
@@ -1246,8 +1254,8 @@ footer {
 .chip--sm { font-size: 0.6rem; padding: 2px 7px; }
 
 .chip--ideo {
-  background: var(--naranja-txt);
-  border-color: var(--naranja-txt);
+  background: var(--terracota);
+  border-color: var(--terracota);
   color: var(--paper);
 }
 
@@ -1412,7 +1420,7 @@ a.sec-head__link:hover { color: var(--accent); }
   height: 4px;
   background: var(--line);
 }
-.step-dot.is-ideo { background: var(--naranja-txt); }
+.step-dot.is-ideo { background: var(--terracota); }
 
 .ruta-card__foot {
   margin-top: auto;
@@ -1682,7 +1690,7 @@ a.sec-head__link:hover { color: var(--accent); }
   padding-top: 2px;
 }
 
-.paso--ideo .paso__num { color: var(--naranja-txt); }
+.paso--ideo .paso__num { color: var(--terracota); }
 
 .paso__body { min-width: 0; }
 
@@ -1729,7 +1737,7 @@ a.sec-head__link:hover { color: var(--accent); }
 /* la tienda recomendada de cada parada */
 .tienda-box { border: 2px solid var(--ink); padding: 15px 16px 14px; }
 
-.paso--ideo .tienda-box { border-color: var(--naranja-txt); }
+.paso--ideo .tienda-box { border-color: var(--terracota); }
 
 .tienda-box__head {
   display: flex;
@@ -1770,7 +1778,7 @@ a.sec-head__link:hover { color: var(--accent); }
   flex-shrink: 0;
 }
 
-.paso--ideo .tienda-box__tag { background: var(--naranja-txt); }
+.paso--ideo .tienda-box__tag { background: var(--terracota); }
 
 .tienda-box__dir {
   font-size: 0.9rem;
@@ -1967,7 +1975,7 @@ a.sec-head__link:hover { color: var(--accent); }
   box-shadow: 0 1px 5px rgba(0,0,0,0.4);
 }
 
-.pin--ideo { background: var(--naranja-txt); }
+.pin--ideo { background: var(--terracota); }
 
 .pin--yo {
   width: 22px; height: 22px;
@@ -2178,7 +2186,7 @@ a.sec-head__link:hover { color: var(--accent); }
 .chip-btn.is-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .chip-btn.is-on em { color: #9a9a9a; }
 
-.chip-btn--ideo.is-on { background: var(--naranja-txt); border-color: var(--naranja-txt); }
+.chip-btn--ideo.is-on { background: var(--terracota); border-color: var(--terracota); }
 .chip-btn--ideo.is-on em { color: rgba(255,255,255,0.7); }
 
 .resultado-count {
@@ -2205,7 +2213,7 @@ a.sec-head__link:hover { color: var(--accent); }
 
 .tienda-row[hidden] { display: none; }
 
-.tienda-row--ideo { border-left: 3px solid var(--naranja-txt); }
+.tienda-row--ideo { border-left: 3px solid var(--terracota); }
 
 .tienda-row__main {
   flex: 1;
