@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Créditos y uso de imágenes — {{ pub_name }}{% endblock %}
+{% block description %}Bajo qué derecho se publica cada texto y cada fotografía de {{ pub_name }}.{% endblock %}
+{% block content %}
+
+<div class="page-head">
+  <span class="kicker">Créditos</span>
+  <h1>Qué publicamos y bajo qué derecho</h1>
+  <p class="dek">
+    Cada nota de {{ pub_name }} dice de dónde viene su texto y su fotografía.
+    Esta página explica los tres casos posibles, para no repetir el aviso
+    completo en cada pie de página.
+  </p>
+</div>
+
+<div class="creditos">
+  <section>
+    <h2>Material propio</h2>
+    <p>
+      Las notas firmadas vienen del archivo de la revista impresa
+      <em>Remodelar</em>. El texto es de quien lo firma y la fotografía de
+      quien la tomó; ambos aparecen acreditados en la nota. Esas fotos sí se
+      alojan en este sitio.
+    </p>
+    <p>
+      Cuando una nota ilustra con una foto de otro proyecto del mismo
+      archivo, lo dice: <em>«imagen ilustrativa del archivo propio — no
+      documenta este proyecto»</em>.
+    </p>
+  </section>
+
+  <section>
+    <h2>Traducciones autorizadas</h2>
+    <p>
+      Algunas notas son traducciones de artículos publicados bajo licencia
+      Creative Commons que permite derivarlos y republicarlos — CC BY o
+      CC BY-SA. Se indica el título original, el autor, la publicación y la
+      licencia, con enlace al original.
+    </p>
+    <p>
+      Esas notas van <strong>sin la fotografía del original</strong>: una
+      licencia abierta del texto rara vez cubre sus imágenes, que suelen
+      tener derechos de terceros.
+    </p>
+  </section>
+
+  <section>
+    <h2>Curaduría de medios</h2>
+    <p>
+      Las notas sin firma son reescritura editorial propia sobre información
+      publicada por otros medios, con atribución y enlace a la fuente.
+    </p>
+    <p>
+      <strong>Su fotografía no se aloja acá.</strong> Se muestra desde el
+      servidor del medio que la publicó, con su crédito y enlace — como
+      cualquier previsualización de enlace. No reclamamos ningún derecho
+      sobre esas imágenes.
+    </p>
+  </section>
+
+  <section>
+    <h2>Fotos de las rutas</h2>
+    <p>
+      Ilustran una categoría, nunca un establecimiento. La foto de la Ruta
+      Baños dice «esto va de baños»; no insinúa que así se vea ninguna de las
+      tiendas del directorio. Por eso <strong>ninguna ficha de tienda lleva
+      foto de banco</strong>: esas sólo admiten fotografía propia o la que
+      entregue el establecimiento.
+    </p>
+  </section>
+
+  <section>
+    <h2>El directorio</h2>
+    <p>
+      Las direcciones se verifican, pero pueden cambiar sin aviso. Conviene
+      confirmar el horario antes de salir. Si encontrás un dato equivocado o
+      sos de uno de los establecimientos y querés corregir algo, escribinos.
+    </p>
+  </section>
+</div>
+
+{% endblock %}

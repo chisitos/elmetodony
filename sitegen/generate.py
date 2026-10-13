@@ -289,6 +289,7 @@ def build_site() -> Path:
         nav_rutas_side=dir_data.rutas[:4],
         nav_categorias=cats_con_n,
         nav_ruta=None,
+        anio=datetime.utcnow().year,
         asset_v=asset_v,
     )
 
@@ -352,6 +353,8 @@ def build_site() -> Path:
             otras_ideo=otras_ideo,
             cercanas=cercanas,
         )
+
+    render("creditos.html", OUTPUT_DIR / "creditos.html", depth=0, nav_active="")
 
     # ---- IDEO --------------------------------------------------------------
     render(

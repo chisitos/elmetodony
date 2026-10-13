@@ -13,8 +13,24 @@
   --paper-raised: #ffffff;
   --paper-tint: #f7f7f7;
   --line: #e0e0e0;
-  --accent: #e4007c;
   --muted: #6b6b6b;
+
+  /* Paleta de la revista impresa. Los tonos planos son para BLOQUES con
+     texto negro encima: medidos sobre blanco dan entre 3 y 3,5:1, así que
+     como color de texto no pasarían contraste. Para eso está la variante
+     `-txt`, oscurecida hasta 4,5:1, que es la que va en enlaces y rótulos.
+     Mezclarlas al revés rompe la legibilidad. */
+  --rosa: #E08496;        --rosa-txt: #CF425E;
+  --magenta: #C964AD;     --magenta-txt: #BF499E;
+  --naranja: #ED8731;     --naranja-txt: #B75C10;
+  --turquesa: #60B5AF;    --turquesa-txt: #3C817C;
+  --verde: #B1DE62;       --verde-txt: #5C811B;
+
+  /* El acento sigue siendo uno solo: con cinco colores compitiendo, el
+     lector deja de saber qué es un enlace. Los otros cuatro codifican
+     secciones, no acciones. */
+  --accent: var(--magenta-txt);
+  --accent-plano: var(--magenta);
   --font-display: 'Archivo Black', 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Space Grotesk', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
@@ -74,15 +90,19 @@ img { max-width: 100%; }
 }
 
 .masthead .brand {
-  font-family: var(--font-display);
-  font-size: clamp(1.7rem, 4.4vw, 2.9rem);
-  letter-spacing: -0.02em;
-  line-height: 0.9;
+  display: block;
+  line-height: 0;
   text-decoration: none;
-  color: var(--ink);
+  flex-shrink: 0;
 }
 
-.masthead .brand .re { color: var(--accent); }
+/* El logotipo de la revista impresa: la R serif con REVISTA arriba y
+   REMODELAR en versalitas. Reemplaza al logotipo tipográfico provisional. */
+.masthead .brand img {
+  display: block;
+  width: auto;
+  height: clamp(42px, 6vw, 68px);
+}
 
 .masthead .tagline {
   font-family: var(--font-mono);
@@ -273,7 +293,7 @@ img { max-width: 100%; }
   font-family: var(--font-display);
   font-size: 1.6rem;
   letter-spacing: -0.03em;
-  color: var(--accent);
+  color: var(--naranja);
   line-height: 1;
   margin-bottom: 6px;
 }
@@ -847,13 +867,40 @@ footer {
 
 .footer-legal {
   border-top: 1px solid var(--line);
-  padding-top: 18px;
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 0.74rem;
-  line-height: 1.55;
-  max-width: 70ch;
+  padding-top: 16px;
 }
+
+/* Una línea, como un copyright. El detalle completo vive en /creditos.html:
+   un aviso de derechos tiene que poder consultarse, pero no tiene por qué
+   ocupar un párrafo en cada página. */
+.footer-legal__linea {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+}
+
+.footer-legal__linea a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.footer-legal__linea a:hover { color: var(--accent); }
+
+.creditos { max-width: 68ch; padding: 10px 0 60px; }
+.creditos section { margin-top: 32px; }
+
+.creditos h2 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--ink);
+}
+
+.creditos p { margin: 0 0 14px; font-size: 0.97rem; line-height: 1.65; color: #2a2a2a; }
+.creditos em { color: var(--muted); }
 
 /* =====================================================================
    RUTAS Y DIRECTORIO
@@ -1003,6 +1050,27 @@ footer {
 
 .plate:hover .plate__name { background: var(--accent); border-color: var(--accent); color: var(--paper); }
 
+/* Color por ruta: el rótulo se tiñe y la ruta se reconoce de lejos. Va en
+   bloque con el texto en negro, que es como estos tonos sí contrastan. */
+.plate--0 .plate__name { background: var(--rosa); border-color: var(--rosa); }
+.plate--1 .plate__name { background: var(--magenta); border-color: var(--magenta); }
+.plate--2 .plate__name { background: var(--naranja); border-color: var(--naranja); }
+.plate--3 .plate__name { background: var(--turquesa); border-color: var(--turquesa); }
+.plate--4 .plate__name { background: var(--verde); border-color: var(--verde); }
+
+/* El número de cada parada toma el tono de su ruta. */
+.ruta--0 .paso__num { color: var(--rosa-txt); }
+.ruta--1 .paso__num { color: var(--magenta-txt); }
+.ruta--2 .paso__num { color: var(--naranja-txt); }
+.ruta--3 .paso__num { color: var(--turquesa-txt); }
+.ruta--4 .paso__num { color: var(--verde-txt); }
+
+.ruta--0 .ruta__plate-n { background: var(--rosa-txt); }
+.ruta--1 .ruta__plate-n { background: var(--magenta-txt); }
+.ruta--2 .ruta__plate-n { background: var(--naranja-txt); }
+.ruta--3 .ruta__plate-n { background: var(--turquesa-txt); }
+.ruta--4 .ruta__plate-n { background: var(--verde-txt); }
+
 .plate__body {
   padding: 16px 18px 18px;
   display: flex;
@@ -1044,7 +1112,7 @@ footer {
   color: var(--muted);
 }
 
-.plate__ideo { background: var(--accent); color: var(--paper); padding: 2px 7px; white-space: nowrap; }
+.plate__ideo { background: var(--naranja-txt); color: var(--paper); padding: 2px 7px; white-space: nowrap; }
 
 /* ---------- barra inferior (sólo móvil) ---------- */
 
@@ -1178,8 +1246,8 @@ footer {
 .chip--sm { font-size: 0.6rem; padding: 2px 7px; }
 
 .chip--ideo {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--naranja-txt);
+  border-color: var(--naranja-txt);
   color: var(--paper);
 }
 
@@ -1344,7 +1412,7 @@ a.sec-head__link:hover { color: var(--accent); }
   height: 4px;
   background: var(--line);
 }
-.step-dot.is-ideo { background: var(--accent); }
+.step-dot.is-ideo { background: var(--naranja-txt); }
 
 .ruta-card__foot {
   margin-top: auto;
@@ -1377,7 +1445,7 @@ a.sec-head__link:hover { color: var(--accent); }
   font-size: clamp(2.6rem, 9vw, 4.4rem);
   line-height: 1;
   letter-spacing: -0.03em;
-  color: var(--accent);
+  color: var(--naranja);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1614,7 +1682,7 @@ a.sec-head__link:hover { color: var(--accent); }
   padding-top: 2px;
 }
 
-.paso--ideo .paso__num { color: var(--accent); }
+.paso--ideo .paso__num { color: var(--naranja-txt); }
 
 .paso__body { min-width: 0; }
 
@@ -1661,7 +1729,7 @@ a.sec-head__link:hover { color: var(--accent); }
 /* la tienda recomendada de cada parada */
 .tienda-box { border: 2px solid var(--ink); padding: 15px 16px 14px; }
 
-.paso--ideo .tienda-box { border-color: var(--accent); }
+.paso--ideo .tienda-box { border-color: var(--naranja-txt); }
 
 .tienda-box__head {
   display: flex;
@@ -1702,7 +1770,7 @@ a.sec-head__link:hover { color: var(--accent); }
   flex-shrink: 0;
 }
 
-.paso--ideo .tienda-box__tag { background: var(--accent); }
+.paso--ideo .tienda-box__tag { background: var(--naranja-txt); }
 
 .tienda-box__dir {
   font-size: 0.9rem;
@@ -2109,7 +2177,7 @@ a.sec-head__link:hover { color: var(--accent); }
 .chip-btn.is-on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .chip-btn.is-on em { color: #9a9a9a; }
 
-.chip-btn--ideo.is-on { background: var(--accent); border-color: var(--accent); }
+.chip-btn--ideo.is-on { background: var(--naranja-txt); border-color: var(--naranja-txt); }
 .chip-btn--ideo.is-on em { color: rgba(255,255,255,0.7); }
 
 .resultado-count {
@@ -2136,7 +2204,7 @@ a.sec-head__link:hover { color: var(--accent); }
 
 .tienda-row[hidden] { display: none; }
 
-.tienda-row--ideo { border-left: 3px solid var(--accent); }
+.tienda-row--ideo { border-left: 3px solid var(--naranja-txt); }
 
 .tienda-row__main {
   flex: 1;
@@ -2321,7 +2389,7 @@ a.sec-head__link:hover { color: var(--accent); }
   font-size: clamp(3rem, 11vw, 5.5rem);
   line-height: 1;
   letter-spacing: -0.04em;
-  color: var(--accent);
+  color: var(--naranja);
   display: flex;
   align-items: center;
   justify-content: center;

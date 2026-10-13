@@ -15,7 +15,7 @@
 
 <div class="plates plates--full">
   {% for r in rutas %}
-  <a class="plate plate--{{ loop.index0 % 6 }}{% if r.foto %} plate--foto{% endif %}" href="{{ asset_prefix }}rutas/{{ r.slug }}.html">
+  <a class="plate plate--{{ loop.index0 % 5 }}{% if r.foto %} plate--foto{% endif %}" href="{{ asset_prefix }}rutas/{{ r.slug }}.html">
     <div class="plate__art">
       {% if r.foto %}<img src="{{ asset_prefix }}static/fotos/{{ r.foto }}.jpg" alt="" loading="lazy">{% endif %}
       <h3 class="plate__name">{{ r.nombre }}</h3>

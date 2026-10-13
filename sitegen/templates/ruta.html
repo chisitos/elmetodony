@@ -5,7 +5,7 @@
 
 <a class="back-link" href="{{ asset_prefix }}rutas/index.html">&larr; Todas las rutas</a>
 
-<article class="ruta">
+<article class="ruta ruta--{{ ruta.indice % 5 }}">
 
   <header class="ruta__head">
     {% if ruta.mapeable %}
@@ -21,7 +21,7 @@
       <span class="mapa-aviso" id="mapa-aviso">Orden de la obra: lo que hay que decidir primero va primero.</span>
     </div>
     {% else %}
-    <div class="ruta__plate plate--{{ ruta.indice % 6 }}{% if ruta.foto %} ruta__plate--foto{% endif %}">
+    <div class="ruta__plate plate--{{ ruta.indice % 5 }}{% if ruta.foto %} ruta__plate--foto{% endif %}">
       {% if ruta.foto %}<img src="{{ asset_prefix }}static/fotos/{{ ruta.foto }}.jpg" alt="" fetchpriority="high">{% endif %}
       <span class="ruta__plate-n">{{ ruta.nombre }}</span>
     </div>
