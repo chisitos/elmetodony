@@ -32,6 +32,8 @@ tiendas:
   - slug: decorceramica-ideo
     nombre: Decorcerámica
     zona: ideo
+    lat: 6.1829
+    lng: -75.5909
     categorias: [pisos, banos]
     direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 121
@@ -42,6 +44,8 @@ tiendas:
   - slug: ceramica-italia-ideo
     nombre: Cerámica Italia
     zona: ideo
+    lat: 6.1829
+    lng: -75.5909
     categorias: [pisos]
     direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 159
@@ -52,6 +56,8 @@ tiendas:
   - slug: mosagres-ideo
     nombre: Mosagres
     zona: ideo
+    lat: 6.1829
+    lng: -75.5909
     categorias: [pisos]
     direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 105
@@ -62,6 +68,8 @@ tiendas:
   - slug: pisos-prestige-ideo
     nombre: Pisos Prestige Medellín
     zona: ideo
+    lat: 6.1829
+    lng: -75.5909
     categorias: [pisos]
     direccion: "Cra. 42 Autopista Sur #75-83, Itagüí"
     local: Local 130
@@ -72,6 +80,8 @@ tiendas:
   - slug: dyd-colombia-ideo
     nombre: D&D Colombia
     zona: ideo
+    lat: 6.1829
+    lng: -75.5909
     categorias: [banos]
     direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 146
@@ -82,6 +92,8 @@ tiendas:
   - slug: tecnigrifos-ideo
     nombre: Tecnigrifos Medellín
     zona: ideo
+    lat: 6.1829
+    lng: -75.5909
     categorias: [banos]
     direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 126
@@ -92,6 +104,8 @@ tiendas:
   - slug: cocinas-y-ensambles-ideo
     nombre: Cocinas y Ensambles
     zona: ideo
+    lat: 6.1829
+    lng: -75.5909
     categorias: [cocinas]
     direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 242
@@ -102,6 +116,8 @@ tiendas:
   - slug: usa-electrodomesticos-ideo
     nombre: USA Electrodomésticos
     zona: ideo
+    lat: 6.1829
+    lng: -75.5909
     categorias: [tech-home, cocinas]
     direccion: "Cra. 42 #75-83, Itagüí"
     local: Local 124A
@@ -116,6 +132,8 @@ tiendas:
   - slug: boconcept-medellin
     nombre: BoConcept Medellín
     zona: poblado
+    lat: 6.200672
+    lng: -75.573061
     categorias: [diseno]
     direccion: "Cra. 43A #1A Sur-175, Medellín"
     local: Local 102
@@ -136,6 +154,8 @@ tiendas:
   - slug: fernando-garcia-atelier
     nombre: Fernando García Atelier
     zona: poblado
+    lat: 6.210592
+    lng: -75.567595
     categorias: [diseno]
     direccion: "Cra. 40 #10A-03, Medellín"
     nivel: alto
@@ -145,6 +165,8 @@ tiendas:
   - slug: habitat-store
     nombre: Habitat Store
     zona: poblado
+    lat: 6.303607
+    lng: -75.56786
     categorias: [diseno]
     direccion: "Cra. 43A #16B-70, Medellín"
     nivel: alto
@@ -163,6 +185,8 @@ tiendas:
   - slug: la-carpi
     nombre: La Carpi
     zona: poblado
+    lat: 6.214319
+    lng: -75.561852
     categorias: [diseno, cocinas]
     direccion: "Cl. 12 #30-144, Medellín"
     nivel: especializado
@@ -172,6 +196,8 @@ tiendas:
   - slug: selva-de-oro
     nombre: Selva de Oro
     zona: poblado
+    lat: 6.213589
+    lng: -75.561727
     categorias: [diseno, infantil]
     direccion: "Cl. 12 #30, Medellín"
     nivel: especializado
@@ -181,6 +207,8 @@ tiendas:
   - slug: aluzina
     nombre: Aluzina
     zona: poblado
+    lat: 6.200412
+    lng: -75.569438
     categorias: [diseno, iluminacion]
     direccion: "Cra. 37A #2 Sur-83, Medellín"
     nivel: especializado
@@ -218,6 +246,8 @@ tiendas:
   - slug: vivero-tierranegra-poblado
     nombre: Vivero Tierranegra Poblado
     zona: poblado
+    lat: 6.207985
+    lng: -75.571752
     categorias: [jardines]
     direccion: "Cl. 7D #43A-15, Medellín"
     nivel: medio
@@ -227,6 +257,8 @@ tiendas:
   - slug: mi-bendicion
     nombre: Mi Bendición
     zona: poblado
+    lat: 6.209255
+    lng: -75.566796
     categorias: [infantil]
     direccion: "Cl. 10 #42-49, Medellín"
     nivel: medio
@@ -258,6 +290,8 @@ tiendas:
   - slug: espacioflex
     nombre: Espacioflex
     zona: envigado
+    lat: 6.173443
+    lng: -75.589056
     categorias: [diseno]
     direccion: "Cra. 45A #34 Sur-57, Envigado"
     local: Local 161
@@ -350,6 +384,8 @@ tiendas:
   - slug: grival-envigado
     nombre: Grival Envigado
     zona: envigado
+    lat: 6.170031
+    lng: -75.589814
     categorias: [banos]
     direccion: "Cra. 43A #38B Sur, Envigado"
     nivel: accesible
@@ -359,6 +395,8 @@ tiendas:
   - slug: electroferia
     nombre: ElectroFeria
     zona: envigado
+    lat: 6.171162
+    lng: -75.587934
     categorias: [tech-home]
     direccion: "Cl. 37 Sur #41-64, Envigado"
     nivel: accesible
@@ -368,6 +406,8 @@ tiendas:
   - slug: electrobello
     nombre: Electrobello
     zona: envigado
+    lat: 6.169842
+    lng: -75.586953
     categorias: [tech-home]
     direccion: "Cra. 43 #37 Sur-17, Envigado"
     nivel: accesible
@@ -390,6 +430,8 @@ tiendas:
   - slug: pisende-sur
     nombre: Pisende Sur
     zona: sabaneta
+    lat: 6.093131
+    lng: -75.636677
     categorias: [pisos]
     direccion: "Cl. 50 Sur #48-129, Sabaneta"
     nivel: accesible
@@ -421,6 +463,8 @@ tiendas:
   - slug: vila-decoracion
     nombre: Vilá Decoración
     zona: laureles
+    lat: 6.246569
+    lng: -75.595981
     categorias: [diseno]
     direccion: "Circular 75 #39B-61, Medellín"
     nivel: alto
@@ -448,6 +492,8 @@ tiendas:
   - slug: muebles-infantiles-ragla
     nombre: Muebles Infantiles Ragla
     zona: laureles
+    lat: 6.206807
+    lng: -75.571015
     categorias: [infantil]
     direccion: "Cl. 50 #29, Medellín"
     nivel: especializado
@@ -457,6 +503,8 @@ tiendas:
   - slug: al-solar
     nombre: Al Solar
     zona: laureles
+    lat: 6.241103
+    lng: -75.5967
     categorias: [jardines]
     direccion: "Cra. 64B #34-20, Medellín"
     nivel: especializado
@@ -479,6 +527,8 @@ tiendas:
   - slug: espacio-mobiliario
     nombre: Espacio Mobiliario
     zona: belen
+    lat: 6.250974
+    lng: -75.555267
     categorias: [diseno, cocinas]
     direccion: "Cl. 30 #72-59, Medellín"
     nivel: alto
@@ -501,6 +551,8 @@ tiendas:
   - slug: bazar-americano
     nombre: Bazar Americano
     zona: centro
+    lat: 6.267547
+    lng: -75.604861
     categorias: [banos]
     direccion: "Cl. 50 #56B-86, Medellín"
     nivel: accesible
@@ -510,6 +562,8 @@ tiendas:
   - slug: pisende-udea
     nombre: Pisende UdeA
     zona: centro
+    lat: 6.264386
+    lng: -75.570029
     categorias: [pisos]
     direccion: "Cra. 58 #65-224, Medellín"
     nivel: accesible
@@ -519,6 +573,8 @@ tiendas:
   - slug: materiales-emo-san-benito
     nombre: Materiales Emo San Benito
     zona: centro
+    lat: 6.251194
+    lng: -75.570267
     categorias: [pisos]
     direccion: "Cra. 56C #50-51, Medellín"
     nivel: accesible
@@ -555,6 +611,8 @@ tiendas:
   - slug: totally-electric-medellin
     nombre: Totally Electric Medellín
     zona: centro
+    lat: 6.226801
+    lng: -75.580135
     categorias: [iluminacion, tech-home]
     direccion: "Cl. 51 #54-16, Medellín"
     nivel: accesible

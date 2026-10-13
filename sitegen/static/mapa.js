@@ -23,25 +23,49 @@
   var capa = L.layerGroup().addTo(mapa);
   var orden = paradas.slice();
 
-  function icono(n, enIdeo) {
+  function icono(etiqueta, enIdeo) {
+    var ancho = etiqueta.length > 2 ? 44 : 30;
     return L.divIcon({
       className: '',
-      html: '<span class="pin' + (enIdeo ? ' pin--ideo' : '') + '">' + n + '</span>',
-      iconSize: [30, 30],
-      iconAnchor: [15, 15]
+      html: '<span class="pin' + (enIdeo ? ' pin--ideo' : '') + '">' + etiqueta + '</span>',
+      iconSize: [ancho, 30],
+      iconAnchor: [ancho / 2, 15]
     });
+  }
+
+  /* Varias paradas pueden caer en el mismo punto — los 8 locales de IDEO
+   * están en un solo edificio. Sin agrupar, los marcadores se tapan y la
+   * ruta aparenta tener menos paradas de las que tiene. */
+  function agrupar(lista) {
+    var grupos = [], indice = {};
+    lista.forEach(function (p, i) {
+      var clave = p.lat.toFixed(5) + ',' + p.lng.toFixed(5);
+      if (indice[clave] === undefined) {
+        indice[clave] = grupos.length;
+        grupos.push({ lat: p.lat, lng: p.lng, ideo: p.ideo, nums: [], paradas: [] });
+      }
+      grupos[indice[clave]].nums.push(i + 1);
+      grupos[indice[clave]].paradas.push(p);
+    });
+    return grupos;
   }
 
   function pintar() {
     capa.clearLayers();
     var puntos = [];
-    orden.forEach(function (p, i) {
-      var ll = [p.lat, p.lng];
+    agrupar(orden).forEach(function (g) {
+      var ll = [g.lat, g.lng];
       puntos.push(ll);
-      L.marker(ll, { icon: icono(i + 1, p.ideo) })
-        .bindPopup('<strong>' + p.nombre + '</strong><br>' + p.direccion +
-                   '<br><a href="' + p.maps + '" target="_blank" rel="noopener">Cómo llegar</a>')
-        .addTo(capa);
+      // "1-3" si son seguidas, "1, 4" si no — se lee de un vistazo.
+      var etiqueta = g.nums.length === 1 ? String(g.nums[0])
+        : (g.nums[g.nums.length - 1] - g.nums[0] === g.nums.length - 1
+           ? g.nums[0] + '-' + g.nums[g.nums.length - 1]
+           : g.nums.join(', '));
+      var html = g.paradas.map(function (p, k) {
+        return '<strong>' + g.nums[k] + '. ' + p.nombre + '</strong><br>' + p.direccion +
+               '<br><a href="' + p.maps + '" target="_blank" rel="noopener">Cómo llegar</a>';
+      }).join('<hr style="border:none;border-top:1px solid #ddd;margin:8px 0">');
+      L.marker(ll, { icon: icono(etiqueta, g.ideo) }).bindPopup(html).addTo(capa);
     });
     L.polyline(puntos, { color: '#e4007c', weight: 3, opacity: 0.9, dashArray: '1 8', lineCap: 'round' }).addTo(capa);
     mapa.fitBounds(L.latLngBounds(puntos).pad(0.15));

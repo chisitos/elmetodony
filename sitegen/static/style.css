@@ -1956,7 +1956,8 @@ a.sec-head__link:hover { color: var(--accent); }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px; height: 30px;
+  min-width: 30px; height: 30px;
+  padding: 0 6px;
   font-family: var(--font-display);
   font-size: 0.9rem;
   line-height: 1;
@@ -1966,7 +1967,7 @@ a.sec-head__link:hover { color: var(--accent); }
   box-shadow: 0 1px 5px rgba(0,0,0,0.4);
 }
 
-.pin--ideo { background: var(--accent); }
+.pin--ideo { background: var(--naranja-txt); }
 
 .pin--yo {
   width: 22px; height: 22px;
