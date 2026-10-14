@@ -1,8 +1,11 @@
-{# La placa de trama va SIEMPRE debajo de la foto, no sólo cuando falta
-   image_url. Las fotos de la revista son hotlink al servidor del medio
-   original (ver README, "Imágenes y derechos de autor"): si ese servidor
-   bloquea el hotlinking, cambia la URL o simplemente se cae, `onerror`
-   quita la imagen y queda la placa — nunca el ícono de imagen rota. #}
+{# La placa de trama va SIEMPRE debajo de la foto, no solo cuando falta
+   image_url. Todas las fotos se alojan en este sitio: las del archivo
+   de la revista, que son propias, y las de Wikimedia Commons, cuya
+   licencia permite republicarlas acreditando (ver README, "Imagenes y
+   derechos de autor"). Antes algunas eran hotlink al servidor del medio
+   original, que no era republicar con permiso sino usar su imagen y su
+   servidor; esas notas se retiraron. `onerror` deja la placa si una
+   foto falta, para no mostrar nunca el icono de imagen rota. #}
 {% macro media(a, asset_prefix, size='card') %}
 <div class="media media--{{ size }}">
   <div class="media-fallback"><span class="media-fallback__cat">{{ a.category }}</span></div>

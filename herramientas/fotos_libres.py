@@ -95,15 +95,25 @@ def buscar(consulta: str, limite: int = 8) -> list[dict]:
 
 
 def descargar(cand: dict, slug: str) -> str:
-    """Guarda la foto en el sitio. Se aloja, no se enlaza: enlazar al
-    servidor ajeno lo hace pagar el trafico y la foto puede desaparecer."""
+    """Guarda la foto en el sitio, en JPEG y al ancho del sitio.
+
+    Se aloja, no se enlaza: enlazar al servidor ajeno lo hace pagar el
+    trafico, deja la pagina a merced de que la borren, y es lo que veniamos
+    haciendo mal con las notas curadas.
+    """
+    from PIL import Image
+
     DESTINO.mkdir(parents=True, exist_ok=True)
-    ext = ".jpg" if cand["url"].lower().rsplit(".", 1)[-1] in ("jpg", "jpeg") else ".png"
-    destino = DESTINO / f"{slug}{ext}"
     req = urllib.request.Request(cand["url"], headers={"User-Agent": AGENTE})
     with urllib.request.urlopen(req, timeout=60) as r:
-        destino.write_bytes(r.read())
-    return f"static/libres/{destino.name}"
+        im = Image.open(io.BytesIO(r.read()))
+    if im.mode not in ("RGB", "L"):
+        im = im.convert("RGB")
+    if im.width > 1400:
+        im.thumbnail((1400, 1400 * 3), Image.LANCZOS)
+    destino = DESTINO / (slug + ".jpg")
+    im.save(destino, "JPEG", quality=82, optimize=True, progressive=True)
+    return "static/libres/" + destino.name
 
 
 # --------------------------------------------------------------------------
