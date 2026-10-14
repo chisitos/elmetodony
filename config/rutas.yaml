@@ -19,6 +19,10 @@ sitio:
     proyecto, con las tiendas en el orden en que hay que visitarlas.
   ciudad: "Medellín"
   url: "https://feriaremodelar.com"
+  # Con quien se firma lo que escribimos nosotros y no lleva firma de una
+  # persona. Las notas del archivo impreso que si tienen autor conservan el
+  # suyo: la firma de alguien no se reemplaza por la de la casa.
+  autor_por_defecto: "Grupo Remodelar"
 
 # El ancla del ecosistema.
 ancla:

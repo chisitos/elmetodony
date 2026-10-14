@@ -76,8 +76,14 @@
   </div>
 
   <div class="source-box">
+    {# Cuando la nota es nuestra, "curado a partir de" no significa nada: no
+       hay fuente externa que acreditar, hay un autor que firmar. #}
+    {% if article.source_url %}
     Curado a partir de <strong>{{ article.source_name }}</strong>.
     Fuente original: <a href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">{{ article.source_url }}</a>
+    {% else %}
+    Por <strong>{{ article.autor or sitio.autor_por_defecto }}</strong>{% if article.source_name and article.source_name != pub_name %} · {{ article.source_name }}{% endif %}.
+    {% endif %}
   </div>
 </article>
 {% endblock %}
