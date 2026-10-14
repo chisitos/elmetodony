@@ -39,6 +39,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from pipeline.config import Config  # noqa: E402
 from pipeline.models import Article  # noqa: E402
 from sitegen import directorio  # noqa: E402
+from sitegen import markdown  # noqa: E402
 from sitegen import tarjetas  # noqa: E402
 
 log = logging.getLogger("remodelar.site")
@@ -155,18 +156,8 @@ def _build_editions(view_models: list[dict]) -> list[dict]:
 
 
 def _body_html(body_md: str, pull_quote: str) -> str:
-    paragraphs = [p.strip() for p in body_md.split("\n\n") if p.strip()]
-    escaped = [html.escape(p) for p in paragraphs]
-    if pull_quote and len(escaped) >= 2:
-        mid = max(1, len(escaped) // 2)
-        escaped.insert(mid, f"__QUOTE__{html.escape(pull_quote)}")
-    parts = []
-    for p in escaped:
-        if p.startswith("__QUOTE__"):
-            parts.append(f"<blockquote>{p[len('__QUOTE__'):]}</blockquote>")
-        else:
-            parts.append(f"<p>{p}</p>")
-    return "\n".join(parts)
+    """El cuerpo de la nota, ya formateado. Ver sitegen/markdown.py."""
+    return markdown.a_html(body_md, pull_quote)
 
 
 def _manifest(sitio: dict, rutas: list[dict]) -> str:
@@ -231,14 +222,13 @@ def build_site() -> Path:
     articles = _load_articles()
     view_models = [_view_model(a) for a in articles]
 
-    # Imágenes para compartir: la previsualización del enlace y la tarjeta
-    # 4:5 de Instagram. Sólo las propias llevan foto; componer la de un
-    # medio ajeno dentro de una tarjeta de marca sería alojarla y alterarla.
+    # Imágenes para compartir: la previsualización del enlace y la de
+    # Pinterest. Sólo las propias llevan foto; componer la de un medio
+    # ajeno dentro de una tarjeta de marca sería alojarla y alterarla.
     for i, (a, vm) in enumerate(zip(articles, view_models)):
         try:
             r = tarjetas.generar(a.to_dict(), i)
             vm["compartir"] = r["compartir"]
-            vm["tarjeta_ig"] = r["ig"]
             vm["tarjeta_pin"] = r["pin"]
         except Exception as exc:  # nunca debe tumbar la generación del sitio
             log.warning("No se pudo generar la tarjeta de %s: %s", a.slug, exc)

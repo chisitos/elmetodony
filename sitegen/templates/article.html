@@ -62,9 +62,6 @@
     <a class="btn btn--sm" data-accion="pinterest" href="#" target="_blank" rel="noopener">Pinterest</a>
     {% endif %}
     <button type="button" class="btn btn--sm btn--ghost" data-accion="copiar">Copiar enlace</button>
-    {% if article.tarjeta_ig %}
-    <a class="btn btn--sm btn--ghost" href="{{ asset_prefix }}{{ article.tarjeta_ig }}" download>Bajar imagen 4:5</a>
-    {% endif %}
   </div>
 
   <div class="body">
@@ -76,7 +73,7 @@
   </div>
 
   <div class="source-box">
-    Curado a partir de <strong>{{ article.source_name }}</strong>{% if article.original_published_at_human %} · publicado originalmente el {{ article.original_published_at_human }}{% endif %}.
+    Curado a partir de <strong>{{ article.source_name }}</strong>.
     Fuente original: <a href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">{{ article.source_url }}</a>
   </div>
 </article>

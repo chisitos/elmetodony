@@ -139,7 +139,13 @@ def _componer(ancho: int, alto: int, titular: str, categoria: str,
 
 
 def generar(articulo: dict, indice: int) -> dict[str, str]:
-    """Devuelve {'compartir': ruta, 'ig': ruta} relativas al sitio."""
+    """Devuelve {'compartir': ruta, 'pin': ruta} relativas al sitio.
+
+    Solo las dos que el sitio usa: la previsualizacion del enlace y la de
+    Pinterest. Habia una tercera, 4:5, para bajarla y subirla a mano a
+    Instagram; se quito el boton, y generar un archivo que nadie abre solo
+    engorda el despliegue.
+    """
     salida = STATIC / "compartir"
     salida.mkdir(parents=True, exist_ok=True)
 
@@ -153,7 +159,7 @@ def generar(articulo: dict, indice: int) -> dict[str, str]:
     slug = articulo["slug"]
     firma = articulo.get("autor") or articulo.get("source_name", "")
     rutas = {}
-    for clave, (an, al) in {"compartir": (1200, 630), "ig": (1080, 1350),
+    for clave, (an, al) in {"compartir": (1200, 630),
                             "pin": (1000, 1500)}.items():
         im = _componer(an, al, articulo["headline"], articulo.get("category", ""), firma, foto, indice)
         nombre = f"{slug}-{clave}.jpg"

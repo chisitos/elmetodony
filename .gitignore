@@ -5,3 +5,4 @@ venv/
 .env
 public/
 .DS_Store
+scratch_artifacts/

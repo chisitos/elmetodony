@@ -26,6 +26,8 @@ import re
 import sys
 import unicodedata
 import zipfile
+
+import lector_docx
 from datetime import datetime, timezone
 
 from PIL import Image
@@ -124,13 +126,36 @@ def carpeta_de(nombre: str) -> pathlib.Path | None:
     return None
 
 
+RECUADRO = re.compile(r"^RECUADRO\s*\d*\s*:?\s*$", re.I)
+
+
 def lineas_docx(ruta: pathlib.Path) -> list[str]:
-    """Un .docx es un zip con XML; se lee sin dependencias."""
-    with zipfile.ZipFile(ruta) as z:
-        xml = z.read("word/document.xml").decode("utf-8", "replace")
-    xml = re.sub(r"</w:p>", "\n", xml)
-    plano = re.sub(r"<[^>]+>", "", xml)
-    return [nfc(l.strip()) for l in plano.split("\n") if l.strip()]
+    """Bloques del documento, con las tablas conservadas como tablas.
+
+    Antes esto borraba todas las etiquetas de un golpe y las tablas se
+    aplanaban a una celda por linea. En el articulo de jardines eso
+    convirtio una tabla de especies por clima en una lista de nombres y
+    equis sin columna: "Palma rafis", que es de clima medio y caliente,
+    quedo leyendose como de clima frio y medio. Era un dato falso, no un
+    problema de diagramacion.
+    """
+    bloques = lector_docx.bloques(ruta)
+
+    # "RECUADRO 1" es una marca de taller para el diagramador, no texto
+    # para el lector: se descarta, y el titulo que viene detras pasa a ser
+    # el encabezado de ese aparte.
+    salida: list[str] = []
+    marcado = False
+    for b in bloques:
+        if RECUADRO.match(b):
+            marcado = True
+            continue
+        if marcado and not b.startswith("|"):
+            salida.append("## " + b)
+        else:
+            salida.append(b)
+        marcado = False
+    return salida
 
 
 def doc_final(d: pathlib.Path) -> pathlib.Path | None:
@@ -187,6 +212,9 @@ def partir(lineas: list[str]) -> tuple[str, str, str, list[str]]:
         if l.lower().startswith("por ") and len(l) < 60 and not autor:
             autor = l[4:].strip()
             continue
+        if l.startswith(("|", "## ")):
+            resto.append(l)
+            continue
         if not bajada and len(l) > 40:
             bajada = l
             continue
@@ -199,7 +227,18 @@ def main() -> int:
     ahora = datetime.now(timezone.utc)
     hechas = 0
 
-    for i, item in enumerate(SELECCION):
+    # Sin argumentos importa todo. Con argumentos, solo los slugs que los
+    # contengan: varias de estas notas ya se editaron a mano despues de
+    # importarlas (precios al dia, tono), y una corrida completa las
+    # volveria a la version cruda del Word sin avisar.
+    filtros = [a.lower() for a in sys.argv[1:]]
+    seleccion = [x for x in SELECCION
+                 if not filtros or any(f in x["slug"].lower() for f in filtros)]
+    if filtros:
+        print("solo: " + ", ".join(x["slug"] for x in seleccion))
+    print()
+
+    for i, item in enumerate(seleccion):
         d = carpeta_de(item["carpeta"])
         if not d:
             print(f"  NO ENCONTRADA  {item['carpeta']}")
@@ -230,12 +269,30 @@ def main() -> int:
         # del archivo propio, pero ilustra. El sitio ya sabe decirlo.
         prestada = bool(item.get("foto_de")) and item["foto_de"] != item["carpeta"]
 
+        # Si la nota ya existe, se conserva SU slug y SU fecha. Volver a
+        # sellarla con la fecha de hoy creaba un segundo archivo con la
+        # misma nota (paso con jardines, importado dos dias seguidos) y
+        # cambiaba la URL de algo ya publicado e indexado.
+        previas = sorted(DESTINO_NOTAS.glob(f"*-{item['slug']}.json"))
+        if previas:
+            anterior = json.loads(previas[0].read_text(encoding="utf-8"))
+            slug_nota = anterior["slug"]
+            fecha_nota = anterior.get("published_at") or ""
+            for extra in previas[1:]:
+                print(f"  duplicada, se borra: {extra.name}")
+                extra.unlink()
+        else:
+            slug_nota, fecha_nota = f"{ahora:%Y-%m-%d}-{item['slug']}", ""
+
         nota = {
-            "slug": f"{ahora:%Y-%m-%d}-{item['slug']}",
+            "slug": slug_nota,
             "headline": titular,
             "dek": bajada or cuerpo[0][:200],
             "body_md": "\n\n".join(cuerpo),
-            "pull_quote": max((l for l in cuerpo if 60 < len(l) < 190), key=len, default=""),
+            "pull_quote": max((l for l in cuerpo
+                               if 60 < len(l) < 190
+                               and not l.startswith(("|", "## "))),
+                              key=len, default=""),
             "tags": item["tags"],
             "category": item["categoria"],
             "source_name": "Revista Remodelar",
@@ -257,7 +314,7 @@ def main() -> int:
         # Desfase de un segundo por nota para fijar el orden de portada.
         from datetime import timedelta
         ts = ahora - timedelta(seconds=i)
-        nota["published_at"] = ts.replace(microsecond=0).isoformat()
+        nota["published_at"] = fecha_nota or ts.replace(microsecond=0).isoformat()
 
         destino = DESTINO_NOTAS / f"{nota['slug']}.json"
         destino.write_text(json.dumps(nota, ensure_ascii=False, indent=2), encoding="utf-8")
