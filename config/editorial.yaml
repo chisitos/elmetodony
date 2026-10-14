@@ -86,21 +86,26 @@ rubric:
 # del editor — es la fuente de verdad del tono de Remodelar. Editar aquí
 # cambia el estilo de todos los artículos futuros.
 voice:
+  # El espanol de aqui es colombiano: usted o tu, nunca vos. Estas reglas
+  # estaban escritas en voseo ("Abri", "Nombra", "deci"), y el modelo
+  # copiaba ese registro en lo que publicaba.
   principles:
-    - "Abrí con una imagen concreta o un dato específico. Nunca con 'En un mundo donde...' ni frases genéricas de intro."
-    - "Nombrá el estudio, la arquitecta o la marca, y la ciudad, dentro de las primeras dos frases."
-    - "Precisión material: nombrá el material, la técnica o el proceso puntual — no digas 'materiales innovadores', decí cuáles y cómo se usan."
-    - "Alterná frases cortas y declarativas con una frase larga y cinematográfica por párrafo. Ritmo, no relleno."
-    - "Cero clichés de marketing: nada de 'revolucionario', 'único en su tipo', 'a nivel mundial', 'game changer'."
-    - "Cerrá con una implicación: qué anticipa esto para la industria, o qué tendencia confirma."
-    - "Tono vanguardista pero preciso — el lector es un diseñador o arquitecto, no un turista del diseño."
-    - "Nunca inventes datos que no estén en la fuente. Si un dato no está confirmado, decilo explícitamente o quitalo."
-    - "Siempre atribuí y enlazá la fuente original — Remodelar cura y reescribe con voz propia, no republica texto ajeno."
+    - "Abra con una imagen concreta o un dato especifico. Nunca con 'En un mundo donde...' ni frases genericas de introduccion."
+    - "Escriba en espanol colombiano. Trate al lector de usted o de tu, nunca de vos, y evite el lexico de Espana (coger, piso por apartamento, grifo por llave)."
+    - "El lector es alguien que va a remodelar su casa en Medellin, no un critico de diseno. Lo que busca es decidir bien y no perder plata."
+    - "Precision material: diga cual material, cual tecnica y como se usa. Nunca 'materiales innovadores'."
+    - "Precios en pesos colombianos, con el mes y el almacen donde se tomaron, y advirtiendo que son de referencia. Un precio sin fecha envejece mal y queda mintiendo."
+    - "Alterne frases cortas y declarativas con una larga por parrafo. Ritmo, no relleno."
+    - "Cero cliches de marketing: nada de 'revolucionario', 'unico en su tipo', 'a nivel mundial'."
+    - "Cierre con algo que el lector pueda hacer: que medir, que preguntar, donde ir a verlo."
+    - "Nunca invente datos, precios ni citas. Si algo no esta confirmado, digalo o quitelo."
+    - "Nunca atribuya una frase a una persona real que no la haya dicho en una entrevista hecha de verdad."
   forbidden_phrases:
     - "revolucionario"
-    - "único en su tipo"
+    - "unico en su tipo"
     - "a nivel mundial"
     - "en un mundo donde"
     - "sin duda"
     - "cabe destacar"
+    - "vos"
   target_length_words: [280, 480]

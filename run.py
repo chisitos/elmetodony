@@ -19,6 +19,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--site-only", action="store_true", help="Sólo regenerar el sitio")
     parser.add_argument("--pipeline-only", action="store_true", help="Sólo correr los agentes")
+    parser.add_argument("--propias", type=int, metavar="N",
+                        help="Escribir N notas propias del plan de config/temas.yaml")
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args()
 
@@ -29,7 +31,16 @@ def main() -> int:
 
     cfg = Config.load()
 
-    if not args.site_only:
+    if args.propias:
+        # Notas propias: salen del plan editorial, no de medios ajenos.
+        from pipeline.propios import run as run_propias
+
+        escritas = run_propias(args.propias)
+        print(f"Notas propias nuevas: {len(escritas)}")
+        for p in escritas:
+            print(f"  - {p}")
+
+    elif not args.site_only:
         # Import diferido: esto arrastra anthropic/feedparser/requests, que
         # --site-only no necesita para nada (ver .github/workflows/deploy-pages.yml,
         # que sólo instala lo que usa el generador de sitio).

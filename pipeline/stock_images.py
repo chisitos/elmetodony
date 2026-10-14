@@ -25,6 +25,7 @@ licencia y link a la fuente para atribuir correctamente.
 from __future__ import annotations
 
 import logging
+import pathlib
 from typing import Optional
 
 import requests
@@ -32,6 +33,14 @@ import requests
 log = logging.getLogger("remodelar.stock_images")
 
 _API_URL = "https://api.openverse.org/v1/images/"
+# Para la API basta identificarse. Para bajar la imagen no: Flickr
+# devuelve 403 a todo lo que diga "bot" en el User-Agent.
+_IMG_HEADERS = {
+    "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                   "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"),
+    "Accept": "image/avif,image/webp,image/jpeg,image/png,*/*",
+}
+
 _HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; RemodelarBot/1.0; +editorial illustrative-image fallback)"}
 
 # Respaldo genérico por categoría editorial (pipeline/editor.py las define),
@@ -48,36 +57,68 @@ _CATEGORY_QUERY = {
 _DEFAULT_QUERY = "interior architecture design"
 
 
-def _query_openverse(query: str, timeout: float) -> Optional[dict]:
+def _ficha(item: dict) -> Optional[dict]:
+    url = item.get("url")
+    if not url:
+        return None
+    creator = item.get("creator") or item.get("source") or "autor desconocido"
+    license_name = (item.get("license") or "").upper()
+    license_version = item.get("license_version", "")
+    license_str = f"CC {license_name} {license_version}".strip() if license_name else "licencia abierta"
+    return {
+        "url": url,
+        "thumb": item.get("thumbnail") or "",
+        "titulo": item.get("title") or "",
+        "credit": f"{creator} - {license_str}",
+        "license": license_str,
+        "source_url": item.get("foreign_landing_url") or item.get("license_url") or "",
+    }
+
+
+def _query_openverse(query: str, timeout: float, cuantas: int = 1) -> list[dict]:
     params = {
         "q": query,
         "license_type": "commercial,modification",
-        "page_size": 6,
+        "page_size": max(cuantas, 6),
         "mature": "false",
     }
     try:
         resp = requests.get(_API_URL, params=params, headers=_HEADERS, timeout=timeout)
         resp.raise_for_status()
         results = resp.json().get("results", [])
-    except Exception as exc:  # noqa: BLE001 — es un plus, nunca debe tumbar el pipeline
-        log.warning("Búsqueda de imagen ilustrativa falló para '%s': %s", query, exc)
-        return None
+    except Exception as exc:  # noqa: BLE001 - es un plus, nunca debe tumbar el pipeline
+        log.warning("Busqueda de imagen ilustrativa fallo para '%s': %s", query, exc)
+        return []
 
+    salida = []
     for item in results:
-        url = item.get("url")
-        if not url:
-            continue
-        creator = item.get("creator") or item.get("source") or "autor desconocido"
-        license_name = item.get("license", "").upper()
-        license_version = item.get("license_version", "")
-        license_str = f"CC {license_name} {license_version}".strip() if license_name else "licencia abierta"
-        return {
-            "url": url,
-            "credit": f"{creator} · {license_str}",
-            "license": license_str,
-            "source_url": item.get("foreign_landing_url") or item.get("license_url") or "",
-        }
-    return None
+        ficha = _ficha(item)
+        if ficha:
+            salida.append(ficha)
+        if len(salida) >= cuantas:
+            break
+    return salida
+
+
+def candidatas(category: str, search_hint: str = "", cuantas: int = 6,
+               timeout: float = 8.0) -> list[dict]:
+    """Varias fotos con licencia para que alguien -o algo que vea- elija.
+
+    Devolver solo la primera fue el error: Openverse ordena por relevancia
+    de texto, y el texto de una foto abstracta puede decir "tile pattern"
+    sin que la foto tenga nada que ver con un piso.
+    """
+    intentos = [q for q in (search_hint, _CATEGORY_QUERY.get(category, _DEFAULT_QUERY)) if q]
+    vistos, salida = set(), []
+    for query in dict.fromkeys(intentos):
+        for c in _query_openverse(query, timeout, cuantas):
+            if c["url"] in vistos:
+                continue
+            vistos.add(c["url"])
+            salida.append(c)
+        if len(salida) >= cuantas:
+            break
+    return salida[:cuantas]
 
 
 def search_illustrative_image(category: str, search_hint: str = "", timeout: float = 8.0) -> Optional[dict]:
@@ -99,9 +140,69 @@ def search_illustrative_image(category: str, search_hint: str = "", timeout: flo
         tried.append(fallback)
 
     for query in tried:
-        result = _query_openverse(query, timeout)
-        if result:
-            return result
+        encontradas = _query_openverse(query, timeout)
+        if encontradas:
+            return encontradas[0]
 
     log.info("Sin resultados de imagen ilustrativa (intentos: %s)", tried)
     return None
+
+
+def alojar(url: str, slug: str, respaldo: str = "") -> str:
+    """Baja la foto con licencia y la guarda aqui, en JPEG y al ancho del
+    sitio. Enlazarla dejaria la portada a merced de un servidor ajeno, y le
+    cargaria a el nuestro trafico.
+
+    `respaldo` es la miniatura del proxy de Openverse, que se usa cuando el
+    proveedor no entrega el original (Flickr bloquea por User-Agent). Sale
+    mas pequena, pero una foto algo blanda es mejor que ninguna.
+    """
+    import io
+
+    from PIL import Image
+
+    destino_dir = pathlib.Path(__file__).resolve().parent.parent / "sitegen" / "static" / "libres"
+    for intento in [u for u in (url, respaldo) if u]:
+        try:
+            resp = requests.get(intento, timeout=40, headers=_IMG_HEADERS)
+            resp.raise_for_status()
+            im = Image.open(io.BytesIO(resp.content))
+            if im.mode not in ("RGB", "L"):
+                im = im.convert("RGB")
+            if im.width > 1400:
+                im.thumbnail((1400, 4200), Image.LANCZOS)
+            destino_dir.mkdir(parents=True, exist_ok=True)
+            im.save(destino_dir / (slug + ".jpg"), "JPEG", quality=82,
+                    optimize=True, progressive=True)
+            return "static/libres/" + slug + ".jpg"
+        except Exception as exc:  # noqa: BLE001 - se intenta el respaldo
+            log.warning("No se pudo bajar %s: %s", intento[:70], exc)
+    return ""
+
+
+def miniatura(url: str, lado: int = 512, timeout: float = 25.0) -> bytes | None:
+    """Version pequena en JPEG, para mandarla a revisar.
+
+    Se achica antes de mandarla porque son seis candidatas por nota: a
+    tamano completo serian decenas de megas por articulo, todos los dias.
+    Se le pasa la miniatura del proxy de Openverse, no el original: el
+    proveedor suele bloquear la descarga directa.
+    """
+    import io
+
+    from PIL import Image
+
+    try:
+        resp = requests.get(url, timeout=timeout, headers=_IMG_HEADERS)
+        resp.raise_for_status()
+        im = Image.open(io.BytesIO(resp.content))
+        if im.mode not in ("RGB", "L"):
+            im = im.convert("RGB")
+        im.thumbnail((lado, lado))
+        buf = io.BytesIO()
+        im.save(buf, "JPEG", quality=75)
+        return buf.getvalue()
+    except Exception as exc:  # noqa: BLE001
+        log.warning("No se pudo bajar la miniatura de %s: %s", url[:60], exc)
+        return None
+

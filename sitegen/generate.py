@@ -99,8 +99,18 @@ REGIMEN_FOTO = {
 
 
 def _regimen_foto(a: Article) -> str:
+    """De quien es la FOTO, que no es lo mismo que de quien es el texto.
+
+    Antes se decidia por `es_propio`, que habla del texto. Desde que
+    escribimos nuestras propias notas con foto de banco libre, eso hacia
+    que una foto de Openverse apareciera acreditada como "del archivo
+    propio": una atribucion falsa, justo lo que esta parte del sitio
+    existe para evitar.
+    """
     if not a.image_url:
         return ""
+    if a.image_license:
+        return "cc"
     if a.es_propio:
         return "propia"
     if a.image_is_illustrative:

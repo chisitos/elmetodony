@@ -1,0 +1,83 @@
+name: Feria Remodelar — nota propia del día
+
+# Una nota nuestra por día, de lunes a viernes. Son cinco por semana, y
+# salen del plan de config/temas.yaml: el tema y su ángulo están escritos
+# de antemano, para que no salga relleno.
+#
+# Esto reemplazó a la edición curada de los lunes como fuente principal de
+# contenido. La razón fue de derechos: las notas curadas colgaban la foto
+# del medio original sin licencia y hubo que retirarlas.
+
+on:
+  schedule:
+    # 07:00 en Colombia (UTC-5) = 12:00 UTC, de lunes a viernes.
+    - cron: "0 12 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      cuantas:
+        description: "Cuántas notas escribir en esta corrida"
+        required: false
+        default: "1"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  escribir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Escribir la nota del día
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python run.py --propias ${{ github.event.inputs.cuantas || 1 }} -v
+
+      - name: Guardar la nota
+        run: |
+          git config user.name "remodelar-bot"
+          git config user.email "remodelar-bot@users.noreply.github.com"
+          # La foto va junto con la nota: se aloja aquí, no se enlaza.
+          git add data/articles data/temas_publicados.json sitegen/static/libres
+          git diff --staged --quiet || git commit -m "Nota propia del $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Generar sitio estático
+        run: python run.py --site-only
+
+      - name: Subir artifact de Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+
+  deploy:
+    needs: escribir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # El dominio de verdad es feriaremodelar.com; Pages queda como espejo.
+  hosting:
+    needs: deploy
+    uses: ./.github/workflows/_deploy-sftp.yml
+    secrets: inherit

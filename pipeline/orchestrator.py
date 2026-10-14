@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import json
 
-import requests
 import logging
 from pathlib import Path
 
@@ -52,33 +51,6 @@ def _load_recent_articles(limit: int) -> list[Article]:
     return articles[:limit]
 
 
-def _alojar(url: str, slug: str) -> str:
-    """Baja la foto con licencia y la guarda aqui, en JPEG y al ancho del
-    sitio. Enlazarla dejaria la portada a merced de un servidor ajeno, y le
-    cargaria a el nuestro trafico."""
-    import io
-
-    from PIL import Image
-
-    destino_dir = Path(__file__).resolve().parent.parent / "sitegen" / "static" / "libres"
-    try:
-        resp = requests.get(url, timeout=30,
-                            headers={"User-Agent": "FeriaRemodelar/1.0 (+https://feriaremodelar.com)"})
-        resp.raise_for_status()
-        im = Image.open(io.BytesIO(resp.content))
-        if im.mode not in ("RGB", "L"):
-            im = im.convert("RGB")
-        if im.width > 1400:
-            im.thumbnail((1400, 4200), Image.LANCZOS)
-        destino_dir.mkdir(parents=True, exist_ok=True)
-        im.save(destino_dir / (slug + ".jpg"), "JPEG", quality=82,
-                optimize=True, progressive=True)
-        return "static/libres/" + slug + ".jpg"
-    except Exception as exc:  # noqa: BLE001 - que falle bajarla no tumba la corrida
-        log.warning("No se pudo alojar la foto de %s: %s", slug, exc)
-        return ""
-
-
 def run(cfg: Config | None = None) -> list[Path]:
     cfg = cfg or Config.load()
     seen = state.load_seen()
@@ -121,7 +93,7 @@ def run(cfg: Config | None = None) -> list[Path]:
         if not article.image_url:
             stock = stock_images.search_illustrative_image(article.category, article.image_search_hint)
             if stock:
-                article.image_url = _alojar(stock["url"], article.slug) or stock["url"]
+                article.image_url = stock_images.alojar(stock["url"], article.slug) or stock["url"]
                 article.image_credit = stock["credit"]
                 article.image_license = stock["license"]
                 article.image_source_url = stock["source_url"]

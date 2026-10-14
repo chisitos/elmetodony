@@ -6,6 +6,7 @@ a la API, con o sin la tool de búsqueda web nativa.
 """
 from __future__ import annotations
 
+import base64
 import json
 import os
 import re
@@ -131,6 +132,47 @@ def call_json(
             if attempt < retries:
                 time.sleep(2**attempt)
     raise RuntimeError(f"Falló la llamada al modelo tras {retries} intentos: {last_err}") from last_err
+
+
+
+def call_json_mirando(
+    *,
+    model: str,
+    system: str,
+    user: str,
+    imagenes: list[bytes],
+    max_tokens: int = 2000,
+) -> Any:
+    """Como call_json, pero el modelo VE las imagenes que se le pasan.
+
+    Existe por un error concreto: la foto de la nota se elegia por el orden
+    en que la devolvia el banco de imagenes, y el orden es por relevancia de
+    texto. Para una nota de porcelanato, la primera fue un patron azul
+    abstracto titulado "iPhone Background - Ceramic", y la foto correcta de
+    un piso de porcelanato era la sexta. Un titulo no dice que hay en una
+    foto; hay que mirarla.
+    """
+    contenido: list[dict] = []
+    for i, datos in enumerate(imagenes):
+        contenido.append({"type": "text", "text": f"Imagen {i}:"})
+        contenido.append({
+            "type": "image",
+            "source": {"type": "base64", "media_type": "image/jpeg",
+                       "data": base64.b64encode(datos).decode("ascii")},
+        })
+    contenido.append({"type": "text", "text": user})
+
+    with client().messages.stream(
+        model=model,
+        max_tokens=max_tokens,
+        system=system,
+        messages=[{"role": "user", "content": contenido}],
+    ) as stream:
+        resp = stream.get_final_message()
+    texto = "\n".join(b.text for b in resp.content if getattr(b, "type", None) == "text").strip()
+    if not texto:
+        raise ValueError(f"Respuesta sin texto al mirar imagenes (stop_reason={resp.stop_reason})")
+    return _extract_json(texto)
 
 
 # Tool de búsqueda web nativa de Anthropic. Se declara acá para no repetir

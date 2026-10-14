@@ -1,9 +1,14 @@
 name: Remodelar — edición semanal y publicación
 
+# Sin horario: solo a mano.
+#
+# Esta es la edicion CURADA de medios ajenos. Se le quito el cron de los
+# lunes porque esas notas colgaban la foto del medio original sin licencia
+# y hubo que retirar veintinueve. El motor ya no publica una nota sin foto
+# con licencia (ver pipeline/orchestrator.py), pero mientras la fuente de
+# contenido sea el plan propio de config/temas.yaml, esto no debe correr
+# solo. La publicacion diaria vive en nota-diaria.yml.
 on:
-  schedule:
-    # Lunes 08:00 en Colombia (America/Bogota, UTC-5) = lunes 13:00 UTC.
-    - cron: "0 13 * * 1"
   workflow_dispatch: {}
 
 permissions:

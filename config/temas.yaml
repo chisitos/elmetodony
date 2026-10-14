@@ -1,0 +1,299 @@
+# Plan editorial propio — Feria Remodelar
+#
+# De aquí sale un artículo por día, de lunes a viernes. Son nuestros: los
+# escribimos nosotros, con nuestras fotos o con fotos de licencia abierta,
+# y no dependen de que un medio extranjero nos deje republicar. Esa fue la
+# razón de empezarlos: las notas curadas colgaban la foto del medio
+# original sin licencia y hubo que retirarlas.
+#
+# Cada tema se marca `publicado: true` cuando sale, y el motor toma el
+# siguiente sin publicar. Agregar temas al final es lo normal; el orden de
+# la lista es el orden de publicación.
+#
+# tipo:        material | guia | combinar | tendencia | inspiracion | entrevista
+# angulo:      qué tiene que resolverle al lector. Es lo que evita la nota
+#              de relleno: si no hay ángulo, no hay nota.
+# ruta:        slug de config/rutas.yaml al que enlaza, para que el lector
+#              salga del artículo sabiendo a dónde ir a verlo.
+# categorias:  slugs de categorías de tienda que el motor usa para traer
+#              almacenes reales del directorio al cierre del artículo.
+# precios:     true si la nota necesita precios verificados. El motor los
+#              busca y los publica con mes y almacén; sin eso no los pone.
+# foto:        consulta en inglés para Openverse (indexa en inglés).
+
+pilares:
+  material: "Qué es, dónde se usa bien, dónde se daña, y qué cuesta."
+  guia: "Cómo se hace o cómo se elige, paso por paso y con medidas."
+  combinar: "Qué va con qué: color, textura, materiales, luz."
+  tendencia: "Qué está pasando y si vale la pena, dicho sin humo."
+  inspiracion: "Un espacio real, contado por lo que se le puede copiar."
+  entrevista: "Alguien que sabe, respondiendo preguntas concretas."
+
+# Las entrevistas NO las genera el motor. Una cita inventada puesta en boca
+# de una persona real es una mentira y un problema legal. Para esas, el
+# motor arma el cuestionario y el correo de contacto; la nota se escribe
+# cuando la persona responda de verdad.
+entrevistas_requieren_fuente_real: true
+
+temas:
+  - slug: porcelanato-vs-ceramica
+    tipo: material
+    titulo: "Porcelanato o cerámica: en qué se diferencian de verdad"
+    angulo: >
+      En la tienda los dos se ven iguales y el precio se dispara al doble.
+      La diferencia está en la absorción de agua y en el PEI, y define si
+      el piso aguanta un baño, una cocina o una terraza en Medellín.
+    ruta: pisos-toda-la-casa
+    categorias: [pisos]
+    precios: true
+    foto: "porcelain tile floor interior"
+
+  - slug: medir-antes-de-comprar-bano
+    tipo: guia
+    titulo: "Las seis medidas que hay que tomar antes de comprar nada para el baño"
+    angulo: >
+      Casi toda la plata que se pierde remodelando un baño se pierde por
+      una medida que nadie tomó. Cuáles son, cómo se toman y qué margen
+      dejar para el enchape y la puerta.
+    ruta: bano-completo
+    categorias: [banos]
+    precios: false
+    foto: "small bathroom interior measuring"
+
+  - slug: combinar-madera-y-blanco
+    tipo: combinar
+    titulo: "Madera y blanco: por qué funciona casi siempre y cuándo no"
+    angulo: >
+      Es la combinación más repetida y la más fácil de arruinar. El error
+      está en mezclar maderas de distinta temperatura y en el blanco:
+      no es uno solo, y con luz cálida de Medellín se pone amarillo.
+    ruta: cocina-integral
+    categorias: [cocinas, diseno]
+    precios: false
+    foto: "wood and white kitchen interior"
+
+  - slug: luz-calida-o-fria
+    tipo: guia
+    titulo: "Luz cálida o fría: la decisión que cambia cómo se ve todo lo demás"
+    angulo: >
+      Los grados kelvin explicados por lo que hacen: qué le pasa a una
+      madera, a un mármol y a un blanco bajo 2700K y bajo 6000K, y por qué
+      el enchape que escogió en la tienda se ve distinto en su casa.
+    ruta: iluminacion-de-la-casa
+    categorias: [iluminacion]
+    precios: true
+    foto: "warm interior lighting living room"
+
+  - slug: microcemento-la-verdad
+    tipo: material
+    titulo: "Microcemento: lo que sí hace y lo que le van a vender de más"
+    angulo: >
+      Se volvió el acabado de moda para baños sin juntas. Es cierto que no
+      tiene junta donde se forme hongo, y también que se fisura si la base
+      se mueve y que el sellado hay que repetirlo. Qué preguntar antes.
+    ruta: pisos-toda-la-casa
+    categorias: [pisos, diseno]
+    precios: true
+    foto: "microcement wall bathroom"
+
+  - slug: cocina-triangulo-trabajo
+    tipo: guia
+    titulo: "Dónde va la estufa, dónde el lavaplatos: la cocina se diseña caminando"
+    angulo: >
+      El triángulo de trabajo con medidas reales y aplicado a las plantas
+      que de verdad se construyen en Medellín: cocinas lineales de 2,40 m
+      y cocinas en L de apartamento.
+    ruta: cocina-integral
+    categorias: [cocinas]
+    precios: false
+    foto: "kitchen layout counter interior"
+
+  - slug: pintura-que-aguanta-humedad
+    tipo: material
+    titulo: "Pintura para clima húmedo: qué pedir cuando la pared se mancha"
+    angulo: >
+      Medellín tiene meses de lluvia y apartamentos con muros medianeros
+      que sudan. La diferencia entre una vinilo tipo 1 y una impermeable,
+      y por qué pintar encima del hongo no sirve.
+    ruta: apartamento-desde-cero
+    categorias: [diseno]
+    precios: true
+    foto: "painting interior wall roller"
+
+  - slug: griferia-que-no-se-dana
+    tipo: material
+    titulo: "Grifería: por qué una de $90.000 y una de $900.000 no son lo mismo"
+    angulo: >
+      El cartucho cerámico, el acabado y el repuesto. La pregunta que casi
+      nadie hace en el almacén y que decide si en dos años gotea: si hay
+      repuesto del cartucho en el país.
+    ruta: bano-completo
+    categorias: [banos]
+    precios: true
+    foto: "bathroom faucet tap detail"
+
+  - slug: closet-que-si-cabe
+    tipo: guia
+    titulo: "Un clóset que sí cabe: las medidas de lo que usted guarda"
+    angulo: >
+      Profundidad de 60 cm porque un gancho mide 45. Altura de la barra
+      según si cuelga camisas o vestidos. Cuánto cajón se necesita de
+      verdad, y por qué el entrepaño alto siempre queda vacío.
+    ruta: cocina-integral
+    categorias: [cocinas]
+    precios: true
+    foto: "closet wardrobe interior shelves"
+
+  - slug: colores-2027
+    tipo: tendencia
+    titulo: "Los colores que se vienen, y cuáles de esos aguantan diez años"
+    angulo: >
+      Las paletas del año sirven para un cojín, no para un enchape. Cuál
+      es la diferencia entre lo que se cambia barato y lo que se queda
+      pegado a la pared por una década.
+    ruta: apartamento-desde-cero
+    categorias: [diseno]
+    precios: false
+    foto: "paint color swatches interior"
+
+  - slug: pisos-para-mascotas
+    tipo: guia
+    titulo: "Pisos con perro en la casa: qué resiste la uña y qué no"
+    angulo: >
+      La dureza del laminado, el rayón del vinilo y por qué el porcelanato
+      pulido es una pista de patinaje. Con la tabla de qué escoger según
+      el tamaño del animal.
+    ruta: pisos-toda-la-casa
+    categorias: [pisos]
+    precios: true
+    foto: "laminate floor living room dog"
+
+  - slug: mesones-cuarzo-granito
+    tipo: material
+    titulo: "Mesón de cuarzo, granito o laminado: el que se mancha y el que no"
+    angulo: >
+      La prueba del limón y la del aceite. Qué pasa con cada uno cuando se
+      le riega vino, y cuál se puede reparar sin cambiarlo entero.
+    ruta: cocina-integral
+    categorias: [cocinas, pisos]
+    precios: true
+    foto: "quartz kitchen countertop"
+
+  - slug: combinar-enchapes-bano
+    tipo: combinar
+    titulo: "Dos enchapes en un baño sin que parezca un error"
+    angulo: >
+      La regla del tercio, dónde cortar el cambio de material y por qué
+      la junta vertical alineada es lo que separa un baño bien hecho de
+      uno que se ve improvisado.
+    ruta: bano-completo
+    categorias: [pisos, banos]
+    precios: false
+    foto: "bathroom tile wall pattern"
+
+  - slug: iluminar-sin-plafon-central
+    tipo: guia
+    titulo: "Sacar la luz del centro del techo: cómo se ilumina por capas"
+    angulo: >
+      El plafón central aplana todo y marca ojeras. Las tres capas —
+      general, de tarea y de acento — con ejemplos de dónde va cada una en
+      una sala de apartamento.
+    ruta: iluminacion-de-la-casa
+    categorias: [iluminacion]
+    precios: true
+    foto: "layered lighting living room lamps"
+
+  - slug: ventanas-ruido-autopista
+    tipo: material
+    titulo: "Ventanas contra el ruido: qué sirve de verdad cerca de una avenida"
+    angulo: >
+      El vidrio doble no es lo mismo que el vidrio laminado acústico, y el
+      ruido casi siempre entra por el marco, no por el vidrio. Qué medir
+      antes de gastar.
+    ruta: apartamento-desde-cero
+    categorias: [diseno]
+    precios: true
+    foto: "window frame glass interior"
+
+  - slug: jardin-interior-sin-luz
+    tipo: guia
+    titulo: "Plantas para un apartamento oscuro: qué aguanta y qué se muere"
+    angulo: >
+      La luz indirecta medida de forma práctica, sin aparatos: si puede
+      leer sin prender la luz, le sirve a estas especies; si no, a estas
+      otras. Complementa el artículo de jardines del archivo.
+    ruta: terraza-y-jardin
+    categorias: [jardines]
+    precios: true
+    foto: "indoor plants low light apartment"
+
+  - slug: remodelar-por-partes
+    tipo: guia
+    titulo: "Remodelar por partes sin romper dos veces lo mismo"
+    angulo: >
+      El orden correcto cuando no hay plata para todo de una: qué va
+      primero porque después toca picar, y qué se puede dejar para el año
+      entrante sin perder nada.
+    ruta: apartamento-desde-cero
+    categorias: [pisos, diseno]
+    precios: false
+    foto: "home renovation construction interior"
+
+  - slug: terraza-en-clima-de-medellin
+    tipo: material
+    titulo: "Terrazas en Medellín: lo que el sol y la lluvia le hacen a cada material"
+    angulo: >
+      Deck plástico que se dilata, madera que se decolora, porcelanato que
+      se pone resbaloso. Qué aguanta aquí, donde llueve de verdad y el sol
+      pega fuerte el mismo día.
+    ruta: terraza-y-jardin
+    categorias: [pisos, jardines]
+    precios: true
+    foto: "outdoor terrace deck wood"
+
+  - slug: sanitario-que-no-se-tapa
+    tipo: material
+    titulo: "Sanitarios: por qué uno se tapa y el otro no"
+    angulo: >
+      La descarga, el diámetro de la trampa y los litros por descarga.
+      Cómo leer la ficha técnica, que es lo único que diferencia dos
+      sanitarios que en la vitrina se ven idénticos.
+    ruta: bano-completo
+    categorias: [banos]
+    precios: true
+    foto: "toilet bathroom fixture"
+
+  - slug: espejos-y-espacio
+    tipo: combinar
+    titulo: "Espejos: dónde sí agrandan el espacio y dónde solo reflejan el desorden"
+    angulo: >
+      Frente a una ventana funciona, frente a una pared llena no. Alturas,
+      tamaños y el error de ponerlo donde refleja el sanitario.
+    ruta: bano-completo
+    categorias: [banos, iluminacion]
+    precios: false
+    foto: "mirror interior wall reflection"
+
+  # --- Entrevistas: no las escribe el motor. Ver arriba. ---
+  - slug: entrevista-maestro-de-obra
+    tipo: entrevista
+    titulo: "Un maestro de obra responde: los errores que ve repetidos"
+    angulo: >
+      Alguien que lleva veinte años picando y resanando sabe dónde se
+      pierde la plata. Preguntas sobre qué pide la gente que no se puede
+      hacer, y qué se podría hacer y nadie pide.
+    ruta: apartamento-desde-cero
+    categorias: []
+    precios: false
+    foto: "construction worker renovation"
+
+  - slug: entrevista-vendedor-ideo
+    tipo: entrevista
+    titulo: "Del otro lado del mostrador: qué pregunta la gente y qué debería preguntar"
+    angulo: >
+      Un vendedor de IDEO cuenta qué llega a buscar la gente, qué devuelve
+      y por qué. Es la fuente más directa que tenemos y está a la mano.
+    ruta: apartamento-desde-cero
+    categorias: []
+    precios: false
+    foto: "hardware store shop interior"

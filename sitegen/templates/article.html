@@ -28,14 +28,17 @@
   {{ media(article, asset_prefix, 'article') }}
   {% if article.image_url and article.image_credit %}
   <div class="article__media-credit">
-    {% if article.image_is_illustrative and article.es_propio %}
+    {# El credito se decide por el regimen de la FOTO, no por quien escribio
+       el texto. Mezclarlos hacia que una foto de banco libre apareciera
+       como "del archivo propio", que es una atribucion falsa. #}
+    {% if article.regimen_foto == 'cc' %}
+    Imagen ilustrativa, no es una foto de este lugar — {{ article.image_credit }}{% if article.image_source_url %} · <a href="{{ article.image_source_url }}" target="_blank" rel="noopener noreferrer">fuente</a>{% endif %}
+    {% elif article.regimen_foto == 'propia' and article.image_is_illustrative %}
     Imagen ilustrativa del archivo propio — no documenta este proyecto · Foto: {{ article.image_credit }}
-    {% elif article.image_is_illustrative %}
-    Imagen ilustrativa, no es una foto del proyecto — {{ article.image_credit }}{% if article.image_source_url %} · <a href="{{ article.image_source_url }}" target="_blank" rel="noopener noreferrer">fuente</a>{% endif %}
-    {% elif article.es_propio %}
+    {% elif article.regimen_foto == 'propia' %}
     Foto: {{ article.image_credit }} · Archivo Revista Remodelar
     {% else %}
-    {# Foto del medio, servida desde su servidor con crédito y enlace: el
+    {# Foto del medio, servida desde su servidor con credito y enlace: el
        sitio no la aloja ni se atribuye derecho alguno sobre ella. #}
     Imagen: <a href="{{ article.source_url }}" target="_blank" rel="noopener noreferrer">{{ article.image_credit }}</a> · se muestra desde su fuente
     {% endif %}
