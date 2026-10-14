@@ -257,6 +257,56 @@ def cuestionario(tema: dict, cfg: Config) -> dict:
     return raw if isinstance(raw, dict) else {}
 
 
+CATALOGO_PROPIO = RAIZ / "data" / "fotos_propias.json"
+
+
+def _foto_propia(tema: dict) -> dict | None:
+    """Una foto nuestra para el tema, si la hay.
+
+    Se mira aqui ANTES de salir a un banco de imagenes. No es por ahorrar
+    una llamada: los bancos libres no tienen interiores contemporaneos, y
+    lo mejor que consiguieron para una nota de porcelanato fue una baldosa
+    de barro. Una foto tomada en una tienda de Medellin le dice mas al
+    lector, y ademas es nuestra.
+
+    Se reparten por orden y no al azar, para que dos notas seguidas del
+    mismo tema no abran con la misma imagen.
+    """
+    if not CATALOGO_PROPIO.exists():
+        return None
+    try:
+        catalogo = json.loads(CATALOGO_PROPIO.read_text(encoding="utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        log.warning("No se pudo leer el catalogo de fotos propias: %s", exc)
+        return None
+
+    # El tema de la foto se empareja con la ruta del articulo o con sus
+    # categorias; la carpeta "cocinas" sirve para la nota de mesones.
+    claves = {tema.get("ruta", ""), *tema.get("categorias", []), tema.get("slug", "")}
+    candidatas = [c for c in catalogo
+                  if any(k and (k in c["tema"] or c["tema"] in k) for k in claves)]
+    if not candidatas:
+        return None
+
+    # Las apaisadas primero: la de apertura es horizontal.
+    candidatas.sort(key=lambda c: (not c.get("apaisada"), c["url"]))
+    usadas = {a.get("image_url", "") for a in _notas_existentes()}
+    libres = [c for c in candidatas if c["url"] not in usadas]
+    elegida = (libres or candidatas)[0]
+    log.info("Foto propia para %s: %s", tema["slug"], elegida["url"])
+    return elegida
+
+
+def _notas_existentes() -> list[dict]:
+    salida = []
+    for f in ARTICLES_DIR.glob("*.json"):
+        try:
+            salida.append(json.loads(f.read_text(encoding="utf-8")))
+        except Exception:  # noqa: BLE001
+            pass
+    return salida
+
+
 def _elegir_foto(tema: dict, art, cfg: Config) -> dict | None:
     """Escoge la foto MIRANDOLA, no por el orden del buscador.
 
@@ -328,7 +378,18 @@ def run(n: int = 1) -> list[Path]:
         # Foto: de Openverse, que filtra por licencia comercial y de
         # modificacion, y alojada aqui. La consulta sale del tema, escrita
         # en ingles, porque Openverse indexa casi todo en ingles.
-        foto = _elegir_foto(tema, art, cfg)
+        propia = _foto_propia(tema)
+        if propia:
+            art.image_url = propia["url"]
+            art.image_credit = propia["credito"]
+            art.image_license = ""
+            art.image_source_url = ""
+            # Es del archivo o de la feria, del tema pero no de este caso
+            # puntual; el sitio lo dice en el pie.
+            art.image_is_illustrative = True
+            foto = None
+        else:
+            foto = _elegir_foto(tema, art, cfg)
         if foto:
             art.image_url = stock_images.alojar(foto["url"], art.slug, foto.get("thumb", "")) or ""
             art.image_credit = foto["credit"]
