@@ -28,7 +28,7 @@ MARCA = DEST / "marca"
 
 # De que archivo sale el icono. Cambia cuando rota la paleta de la
 # edicion; el resto del proceso no se toca.
-ICONO_FUENTE = "icono cuadrante 2.png"
+ICONO_FUENTE = "paleta2.png"
 
 def quitar_blanco(im: Image.Image, umbral: int = 232) -> Image.Image:
     """Blanco -> transparente, el resto opaco con SU color.
@@ -80,98 +80,38 @@ def main() -> int:
           .save(MARCA / "logo-blanco.png", "PNG", optimize=True)
     print("  logo-blanco.png")
 
-    # --- icono: la R de los cuadrantes, recortada en circulo ---
+    # --- icono: el cuadrado completo, a sangre, sin recortar en circulo ---
+    #
+    # Tres intentos de recorte circular salieron mal: la R quedaba chica y
+    # flotando, con un fondo de colores repetidos que no calzaba limpio con
+    # el borde. La salida correcta es la simple: mandar el arte cuadrado tal
+    # cual, sin encoger nada. Asi se entregan los iconos de apps -arte
+    # cuadrado a sangre completa- y es el propio sistema el que aplica su
+    # propio redondeado (iOS) o su mascara (Android) encima.
     ico = ORIGEN / ICONO_FUENTE
     if not ico.exists():
         print(f"\n  OJO: falta {ico.name}; el icono no se regenera")
         return 0
 
-    # Sobre blanco antes de pasar a RGB. El archivo trae transparencia en
-    # las lineas que separan los cuadrantes: convertir directo a RGB las
-    # pinta de NEGRO, y el icono queda cruzado por dos rayas negras.
-    crudo = Image.open(ico).convert("RGBA")
-    base = Image.new("RGB", crudo.size, "white")
-    base.paste(crudo, (0, 0), crudo)
-
+    base = Image.open(ico).convert("RGB")
     lado = min(base.size)
     izq, arr = (base.width - lado) // 2, (base.height - lado) // 2
     base = base.crop((izq, arr, izq + lado, arr + lado))
 
-    # Colores de cada cuadrante, tomados adentro de cada uno.
-    q = lado // 4
-    colores = [base.getpixel((q, q)), base.getpixel((lado - q, q)),
-               base.getpixel((q, lado - q)), base.getpixel((lado - q, lado - q))]
-    # Grosor de la linea blanca que separa los cuadrantes, en proporcion.
-    grosor = max(1, round(lado * 0.009))
+    for px, nombre in [(512, "icono-512.png"), (192, "icono-192.png"),
+                       (180, "icono-180.png")]:
+        base.resize((px, px), Image.LANCZOS).save(DEST / nombre, "PNG", optimize=True)
+        print(f"  {nombre:<24} {px}x{px}  cuadrado completo")
 
-    def icono(px: int, encoge: float = 0.0) -> Image.Image:
-        """Circulo con los cuatro cuadrantes y la R adentro.
-
-        El dibujo se encoge un poco y el fondo se completa con los mismos
-        cuatro colores. Si se dejara la imagen llenando el circulo, el
-        recorte le comeria los extremos a la R: la letra ocupa casi todo el
-        ancho, y lo que sobra de un cuadrado al inscribirle un circulo son
-        justo las esquinas donde esta el asta y la cola.
-        """
-        fondo = Image.new("RGB", (px, px))
-        m = px // 2
-        for (x, y), c in zip([(0, 0), (m, 0), (0, m), (m, m)], colores):
-            fondo.paste(Image.new("RGB", (m, m), c), (x, y))
-        # Las lineas siguen hasta el borde, para que no se corten a medias.
-        d = ImageDraw.Draw(fondo)
-        g = max(1, round(px * 0.009))
-        d.rectangle([m - g // 2, 0, m + g // 2, px], fill="white")
-        d.rectangle([0, m - g // 2, px, m + g // 2], fill="white")
-
-        if encoge:
-            dentro = round(px * (1 - encoge))
-            fondo.paste(base.resize((dentro, dentro), Image.LANCZOS),
-                        ((px - dentro) // 2, (px - dentro) // 2))
-        else:
-            fondo = base.resize((px, px), Image.LANCZOS)
-
-        # Mascara al cuadruple y reducida: dibujarla al tamano final deja
-        # el borde dentado, y en 180 px se nota.
-        e = 4
-        mascara = Image.new("L", (px * e, px * e), 0)
-        ImageDraw.Draw(mascara).ellipse((0, 0, px * e - 1, px * e - 1), fill=255)
-        mascara = mascara.resize((px, px), Image.LANCZOS)
-        salida = Image.new("RGBA", (px, px), (0, 0, 0, 0))
-        salida.paste(fondo, (0, 0), mascara)
-        return salida
-
-    # 0.14 dentro del circulo deja respirar la R sin que el dibujo se vea
-    # perdido en el medio.
-    #
-    # Estos van CON transparencia: es el circulo flotando, que es como debe
-    # verse en la pestana del navegador y en el manifiesto.
-    for px, nombre in [(512, "icono-512.png"), (192, "icono-192.png")]:
-        icono(px, 0.14).save(DEST / nombre, "PNG", optimize=True)
-        print(f"  {nombre:<24} {px}x{px}  circular, transparente")
-
-    def sobre_blanco(im: Image.Image, px: int, encoge: float = 0.0) -> Image.Image:
-        """Pega el circulo sobre blanco, sin alfa."""
-        lienzo = Image.new("RGB", (px, px), "white")
-        if encoge:
-            d = round(px * (1 - encoge))
-            chico = icono(d, 0.14)
-            lienzo.paste(chico.convert("RGB"), ((px - d) // 2, (px - d) // 2),
-                         chico.split()[3])
-        else:
-            lienzo.paste(im.convert("RGB"), (0, 0), im.split()[3])
-        return lienzo
-
-    # iOS: Safari NO admite transparencia en el apple-touch-icon y rellena
-    # de negro. Por eso este va sobre blanco. El sistema le pone encima su
-    # propio redondeado.
-    sobre_blanco(icono(180, 0.14), 180).save(DEST / "icono-180.png", "PNG", optimize=True)
-    print(f"  {'icono-180.png':<24} 180x180  sobre blanco (iOS no acepta alfa)")
-
-    # Android recorta el maskable por su cuenta en circulo o squircle, asi
-    # que la marca va mas adentro y el fondo tiene que ser opaco: lo
-    # transparente tambien le sale negro.
-    sobre_blanco(None, 512, 0.28).save(DEST / "icono-maskable-512.png", "PNG", optimize=True)
-    print(f"  {'icono-maskable-512.png':<24} 512x512  sobre blanco, con margen")
+    # El maskable de Android SI necesita margen: el sistema recorta en
+    # circulo o squircle por su cuenta, y sin encoger la R quedaria
+    # mutilada en las esquinas, que es justo donde estan el asta y la cola.
+    px = 512
+    lienzo = Image.new("RGB", (px, px), base.getpixel((4, 4)))
+    disp = round(px * 0.72)
+    lienzo.paste(base.resize((disp, disp), Image.LANCZOS), ((px - disp) // 2, (px - disp) // 2))
+    lienzo.save(DEST / "icono-maskable-512.png", "PNG", optimize=True)
+    print(f"  {'icono-maskable-512.png':<24} {px}x{px}  con margen de seguridad")
     return 0
 
 
