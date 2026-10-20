@@ -7,8 +7,8 @@
 <meta name="description" content="{% block description %}{{ tagline }}{% endblock %}">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="manifest" href="{{ asset_prefix }}manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="{{ asset_prefix }}static/icono-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="{{ asset_prefix }}static/icono-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="{{ asset_prefix }}static/icono-192.png?v={{ asset_v }}">
+<link rel="icon" type="image/png" sizes="512x512" href="{{ asset_prefix }}static/icono-512.png?v={{ asset_v }}">
 
 {# iOS ignora el manifest para instalar: usa estas metas. Sin ellas, al
    agregar a la pantalla de inicio abre con la barra de Safari encima. #}
@@ -16,7 +16,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="{{ pub_name }}">
-<link rel="apple-touch-icon" href="{{ asset_prefix }}static/icono-180.png">
+<link rel="apple-touch-icon" href="{{ asset_prefix }}static/icono-180.png?v={{ asset_v }}">
 
 {# Tarjeta de previsualización. Sin esto, compartir un enlace —en WhatsApp,
    en una historia de Instagram, donde sea— muestra un recuadro vacío. #}
