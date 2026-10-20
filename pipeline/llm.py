@@ -8,12 +8,15 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import os
 import re
 import time
 from typing import Any, Optional
 
 import anthropic
+
+log = logging.getLogger("remodelar.llm")
 
 _client: Optional[anthropic.Anthropic] = None
 
@@ -174,6 +177,67 @@ def call_json_mirando(
         raise ValueError(f"Respuesta sin texto al mirar imagenes (stop_reason={resp.stop_reason})")
     return _extract_json(texto)
 
+
+
+# La organizacion de Anthropic de Rutta App S.A.S. Esta revista NO puede
+# gastar de ahi: Rutta es el producto que factura, y si esa cuenta se queda
+# sin saldo deja de leer las facturas de los conductores en produccion,
+# sin aviso. Un blog que se atrasa un dia no se compara con eso.
+ORG_PROHIBIDA = "927cf559-c176-4a38-8fbd-4f59d56e6260"
+
+_organizacion_vista: Optional[str] = None
+
+
+def organizacion() -> str:
+    """A que cuenta de Anthropic pertenece la llave que estamos usando.
+
+    No hay endpoint para preguntarlo, pero la API devuelve el id de la
+    organizacion en la cabecera `anthropic-organization-id` de cualquier
+    respuesta, incluso de un error. Se pide lo minimo posible.
+    """
+    global _organizacion_vista
+    if _organizacion_vista is not None:
+        return _organizacion_vista
+
+    import json as _json
+    import urllib.error
+    import urllib.request
+
+    clave = os.environ.get("ANTHROPIC_API_KEY", "")
+    pedido = urllib.request.Request(
+        "https://api.anthropic.com/v1/messages",
+        data=_json.dumps({"model": "claude-haiku-5-5", "max_tokens": 1,
+                          "messages": [{"role": "user", "content": "."}]}).encode(),
+        headers={"x-api-key": clave, "anthropic-version": "2023-06-01",
+                 "content-type": "application/json"})
+    try:
+        with urllib.request.urlopen(pedido, timeout=20) as r:
+            cabeceras = r.headers
+    except urllib.error.HTTPError as e:
+        cabeceras = e.headers
+    except Exception:
+        return ""
+    _organizacion_vista = cabeceras.get("anthropic-organization-id", "") or ""
+    return _organizacion_vista
+
+
+def verificar_cuenta() -> None:
+    """Corta la corrida si la llave es la de Rutta.
+
+    Va antes de escribir nada: el objetivo es no gastar, asi que no sirve
+    enterarse al final. La comprobacion cuesta un token.
+    """
+    org = organizacion()
+    if not org:
+        log.warning("No se pudo confirmar a que cuenta de Anthropic pertenece la llave.")
+        return
+    if org == ORG_PROHIBIDA:
+        raise RuntimeError(
+            "La llave configurada es la de Rutta App S.A.S. "
+            f"(organizacion {org}). Feria Remodelar tiene que usar su propia "
+            "cuenta: si esta se queda sin saldo, Rutta deja de leer facturas "
+            "en produccion. Cambie ANTHROPIC_API_KEY por la de la revista.")
+    log.info("Cuenta de Anthropic en uso: %s", org)
 
 # Tool de búsqueda web nativa de Anthropic. Se declara acá para no repetir
 # el nombre/versión de la tool en cada agente que la usa.

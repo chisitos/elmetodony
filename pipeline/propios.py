@@ -33,7 +33,8 @@ import yaml
 
 from .config import Config
 from . import stock_images
-from .llm import WEB_SEARCH_TOOL, call_json, call_json_mirando
+from .llm import (WEB_SEARCH_TOOL, call_json, call_json_mirando,
+                  verificar_cuenta)
 from .models import Article, now_iso
 
 log = logging.getLogger("remodelar.propios")
@@ -363,6 +364,9 @@ def _elegir_foto(tema: dict, art, cfg: Config) -> dict | None:
 def run(n: int = 1) -> list[Path]:
     """Escribe las próximas n notas propias y las guarda."""
     from sitegen import directorio as dir_mod
+
+    # Antes de nada: que no se este gastando de la cuenta de Rutta.
+    verificar_cuenta()
 
     cfg = Config.load()
     directorio = dir_mod.load()
