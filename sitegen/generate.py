@@ -321,9 +321,12 @@ def build_site() -> Path:
         OUTPUT_DIR / "index.html",
         depth=0,
         nav_active="inicio",
-        # La portada la abre la última edición: es lo único del sitio con
-        # fotografía propia del motor editorial, con crédito a cada fuente.
+        # La portada la abre la última edición.
         edicion=editions[0] if editions else None,
+        # Y debajo, lo anterior. Desde que se publica una nota por día en
+        # vez de cinco de golpe el lunes, la edición de la semana arranca
+        # con una sola nota y la portada se veía desierta los lunes.
+        anteriores=[a for e in editions[1:] for a in e["articles"]][:9],
         rutas_destacadas=dir_data.rutas[:6],
         categorias=cats_con_n,
     )

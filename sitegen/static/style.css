@@ -2525,3 +2525,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
+
+
+/* Portada: las notas anteriores, debajo de la edicion de la semana. */
+.mas-revista { margin: 56px 0 0; }
+.mas-revista .section-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 16px; margin-bottom: 20px;
+  border-top: 1px solid var(--linea, #e3e3e3); padding-top: 16px;
+}
+.mas-revista .section-head h2 { margin: 0; font-size: 1.35rem; letter-spacing: -.01em; }
+.mas-revista .section-head a { font-size: .82rem; text-decoration: none; opacity: .72; }
+.mas-revista .section-head a:hover { opacity: 1; }

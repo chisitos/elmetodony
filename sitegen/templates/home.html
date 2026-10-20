@@ -26,6 +26,18 @@
 {# ---- Rutas: sin foto propia, así que la identidad es tipográfica y de
        trama — el mismo hatching de plano de obra que la revista usa cuando
        una nota no trae imagen. ---- #}
+{% if anteriores %}
+<section class="mas-revista">
+  <div class="section-head">
+    <h2>Antes en la revista</h2>
+    <a href="{{ asset_prefix }}revista/">Ver todo &rarr;</a>
+  </div>
+  <div class="grid">
+    {% for a in anteriores %}{{ card(a, asset_prefix) }}{% endfor %}
+  </div>
+</section>
+{% endif %}
+
 <section class="band">
   <div class="band__head">
     <h2>Rutas Remodelar</h2>
