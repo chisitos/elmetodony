@@ -10,8 +10,16 @@ name: Feria Remodelar — nota propia del día
 
 on:
   schedule:
-    # 07:00 en Colombia (UTC-5) = 12:00 UTC, de lunes a viernes.
-    - cron: "0 12 * * 1-5"
+    # 07:23 en Colombia (UTC-5) = 12:23 UTC, de lunes a viernes.
+    #
+    # El minuto 23 no es capricho. Estaba en "0 12" y no corrio ni una sola
+    # vez en cuatro dias habiles, con el workflow activo, en la rama por
+    # defecto y con los secrets puestos; lanzado a mano funciono de una. La
+    # cola de GitHub se congestiona en el minuto cero de cada hora, que es
+    # donde todo el mundo programa sus tareas, y ahi las corridas se
+    # retrasan o se descartan en silencio. Un minuto cualquiera dentro de
+    # la hora cae fuera de ese pico.
+    - cron: "23 12 * * 1-5"
   workflow_dispatch:
     inputs:
       cuantas:

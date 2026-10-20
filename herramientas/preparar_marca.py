@@ -17,7 +17,7 @@ import io
 import pathlib
 import sys
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
@@ -25,6 +25,10 @@ ORIGEN = pathlib.Path(r"C:\Users\jemho\OneDrive\Desktop\Feria remodelar")
 DEST = pathlib.Path(__file__).resolve().parent.parent / "sitegen" / "static"
 MARCA = DEST / "marca"
 
+
+# De que archivo sale el icono. Cambia cuando rota la paleta de la
+# edicion; el resto del proceso no se toca.
+ICONO_FUENTE = "icono cuadrante 2.png"
 
 def quitar_blanco(im: Image.Image, umbral: int = 232) -> Image.Image:
     """Blanco -> transparente, el resto opaco con SU color.
@@ -76,28 +80,83 @@ def main() -> int:
           .save(MARCA / "logo-blanco.png", "PNG", optimize=True)
     print("  logo-blanco.png")
 
-    # --- ícono: la R sobre los cuatro cuadrantes de color ---
-    ico = ORIGEN / "icono-cuadrantes.png"
+    # --- icono: la R de los cuadrantes, recortada en circulo ---
+    ico = ORIGEN / ICONO_FUENTE
     if not ico.exists():
-        print(f"\n  OJO: falta {ico.name}; el ícono no se regenera")
+        print(f"\n  OJO: falta {ico.name}; el icono no se regenera")
         return 0
-    base = Image.open(ico).convert("RGB")
-    base = base.crop(base.getbbox() or (0, 0, *base.size))
-    for px, nombre, margen in [(512, "icono-512.png", 0.0),
-                               (192, "icono-192.png", 0.0),
-                               (180, "icono-180.png", 0.0),
-                               # Android recorta en círculo: la marca se
-                               # encoge y el resto se rellena con su color.
-                               (512, "icono-maskable-512.png", 0.18)]:
-        if margen:
-            lienzo = Image.new("RGB", (px, px), base.getpixel((2, 2)))
-            disp = round(px * (1 - margen * 2))
-            c = base.resize((disp, disp), Image.LANCZOS)
-            lienzo.paste(c, ((px - disp) // 2, (px - disp) // 2))
+
+    # Sobre blanco antes de pasar a RGB. El archivo trae transparencia en
+    # las lineas que separan los cuadrantes: convertir directo a RGB las
+    # pinta de NEGRO, y el icono queda cruzado por dos rayas negras.
+    crudo = Image.open(ico).convert("RGBA")
+    base = Image.new("RGB", crudo.size, "white")
+    base.paste(crudo, (0, 0), crudo)
+
+    lado = min(base.size)
+    izq, arr = (base.width - lado) // 2, (base.height - lado) // 2
+    base = base.crop((izq, arr, izq + lado, arr + lado))
+
+    # Colores de cada cuadrante, tomados adentro de cada uno.
+    q = lado // 4
+    colores = [base.getpixel((q, q)), base.getpixel((lado - q, q)),
+               base.getpixel((q, lado - q)), base.getpixel((lado - q, lado - q))]
+    # Grosor de la linea blanca que separa los cuadrantes, en proporcion.
+    grosor = max(1, round(lado * 0.009))
+
+    def icono(px: int, encoge: float = 0.0) -> Image.Image:
+        """Circulo con los cuatro cuadrantes y la R adentro.
+
+        El dibujo se encoge un poco y el fondo se completa con los mismos
+        cuatro colores. Si se dejara la imagen llenando el circulo, el
+        recorte le comeria los extremos a la R: la letra ocupa casi todo el
+        ancho, y lo que sobra de un cuadrado al inscribirle un circulo son
+        justo las esquinas donde esta el asta y la cola.
+        """
+        fondo = Image.new("RGB", (px, px))
+        m = px // 2
+        for (x, y), c in zip([(0, 0), (m, 0), (0, m), (m, m)], colores):
+            fondo.paste(Image.new("RGB", (m, m), c), (x, y))
+        # Las lineas siguen hasta el borde, para que no se corten a medias.
+        d = ImageDraw.Draw(fondo)
+        g = max(1, round(px * 0.009))
+        d.rectangle([m - g // 2, 0, m + g // 2, px], fill="white")
+        d.rectangle([0, m - g // 2, px, m + g // 2], fill="white")
+
+        if encoge:
+            dentro = round(px * (1 - encoge))
+            fondo.paste(base.resize((dentro, dentro), Image.LANCZOS),
+                        ((px - dentro) // 2, (px - dentro) // 2))
         else:
-            lienzo = base.resize((px, px), Image.LANCZOS)
-        lienzo.save(DEST / nombre, "PNG", optimize=True)
-        print(f"  {nombre:<24} {px}x{px}")
+            fondo = base.resize((px, px), Image.LANCZOS)
+
+        # Mascara al cuadruple y reducida: dibujarla al tamano final deja
+        # el borde dentado, y en 180 px se nota.
+        e = 4
+        mascara = Image.new("L", (px * e, px * e), 0)
+        ImageDraw.Draw(mascara).ellipse((0, 0, px * e - 1, px * e - 1), fill=255)
+        mascara = mascara.resize((px, px), Image.LANCZOS)
+        salida = Image.new("RGBA", (px, px), (0, 0, 0, 0))
+        salida.paste(fondo, (0, 0), mascara)
+        return salida
+
+    # 0.14 dentro del circulo deja respirar la R sin que el dibujo se vea
+    # perdido en el medio.
+    for px, nombre in [(512, "icono-512.png"), (192, "icono-192.png"),
+                       (180, "icono-180.png")]:
+        icono(px, 0.14).save(DEST / nombre, "PNG", optimize=True)
+        print(f"  {nombre:<24} {px}x{px}  circular")
+
+    # El maskable no lleva transparencia -Android rellena, y lo transparente
+    # sale negro- y ademas el sistema vuelve a recortar por su cuenta, asi
+    # que la marca va mas adentro todavia.
+    px = 512
+    plano = Image.new("RGB", (px, px), colores[0])
+    disp = round(px * 0.72)
+    chico = icono(disp, 0.10)
+    plano.paste(chico.convert("RGB"), ((px - disp) // 2, (px - disp) // 2), chico.split()[3])
+    plano.save(DEST / "icono-maskable-512.png", "PNG", optimize=True)
+    print(f"  {'icono-maskable-512.png':<24} {px}x{px}  con margen de seguridad")
     return 0
 
 

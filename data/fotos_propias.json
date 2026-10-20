@@ -1,1 +1,202 @@
-[]
+[
+  {
+    "tema": "banos",
+    "url": "static/propias/banos-27-09.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "00042_PIC_15.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "banos",
+    "url": "static/propias/banos-27-10.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "00042_PIC_15.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "diseno",
+    "url": "static/propias/diseno-27-00.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "DSCN9867.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "diseno",
+    "url": "static/propias/diseno-27-01.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "DSCN9877.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "diseno",
+    "url": "static/propias/diseno-27-02.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "DSCN9864.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "diseno",
+    "url": "static/propias/diseno-27-06.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "IMG_4497.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "diseno",
+    "url": "static/propias/diseno-27-08.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "IMG_8953.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "iluminacion",
+    "url": "static/propias/iluminacion-17-11.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": false,
+    "origen": "_MG_9552.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "iluminacion",
+    "url": "static/propias/iluminacion-17-12.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_MG_9556.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "iluminacion",
+    "url": "static/propias/iluminacion-17-09.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "FNS_2265.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "iluminacion",
+    "url": "static/propias/iluminacion-17-10.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "FNS_2235.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "iluminacion",
+    "url": "static/propias/iluminacion-17-04.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "FNS_2220.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "iluminacion",
+    "url": "static/propias/iluminacion-17-06.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "FNS_2192.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "cocinas",
+    "url": "static/propias/cocinas-17-05.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": false,
+    "origen": "_MG_9544.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "cocinas",
+    "url": "static/propias/cocinas-17-07.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "FNS_2294.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "jardines",
+    "url": "static/propias/jardines-30-02.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8184.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "jardines",
+    "url": "static/propias/jardines-30-04.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8186.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "jardines",
+    "url": "static/propias/jardines-30-05.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8200.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "jardines",
+    "url": "static/propias/jardines-30-06.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8164.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "jardines",
+    "url": "static/propias/jardines-30-07.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8194.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "jardines",
+    "url": "static/propias/jardines-30-11.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8195.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "jardines",
+    "url": "static/propias/jardines-30-12.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": false,
+    "origen": "scott-webb-214087.jpg",
+    "del_archivo": true
+  },
+  {
+    "tema": "pisos",
+    "url": "static/propias/pisos-30-01.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8204.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "pisos",
+    "url": "static/propias/pisos-30-03.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8205.JPG",
+    "del_archivo": true
+  },
+  {
+    "tema": "pisos",
+    "url": "static/propias/pisos-30-13.jpg",
+    "credito": "Archivo Revista Remodelar",
+    "apaisada": true,
+    "origen": "_DSF8203.JPG",
+    "del_archivo": true
+  }
+]

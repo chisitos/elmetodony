@@ -32,6 +32,9 @@ import requests
 
 log = logging.getLogger("remodelar.stock_images")
 
+# 30 segundos, no 8: desde los runners de GitHub la API de Openverse
+# tarda mas y con 8 se vencia siempre. El 20 de octubre eso hizo que dos
+# notas ya escritas se descartaran por falta de foto.
 _API_URL = "https://api.openverse.org/v1/images/"
 # Para la API basta identificarse. Para bajar la imagen no: Flickr
 # devuelve 403 a todo lo que diga "bot" en el User-Agent.
@@ -101,7 +104,7 @@ def _query_openverse(query: str, timeout: float, cuantas: int = 1) -> list[dict]
 
 
 def candidatas(category: str, search_hint: str = "", cuantas: int = 6,
-               timeout: float = 8.0) -> list[dict]:
+               timeout: float = 30.0) -> list[dict]:
     """Varias fotos con licencia para que alguien -o algo que vea- elija.
 
     Devolver solo la primera fue el error: Openverse ordena por relevancia
@@ -121,7 +124,7 @@ def candidatas(category: str, search_hint: str = "", cuantas: int = 6,
     return salida[:cuantas]
 
 
-def search_illustrative_image(category: str, search_hint: str = "", timeout: float = 8.0) -> Optional[dict]:
+def search_illustrative_image(category: str, search_hint: str = "", timeout: float = 30.0) -> Optional[dict]:
     """Busca una foto de banco libre coherente con la nota.
 
     `search_hint` (la image_search_query específica que manda el editor) va

@@ -368,7 +368,8 @@ def run(n: int = 1) -> list[Path]:
     directorio = dir_mod.load()
     escritos: list[Path] = []
 
-    for tema in pendientes()[:n]:
+    pedidos = pendientes()[:n]
+    for tema in pedidos:
         try:
             art = escribir(tema, cfg, directorio)
         except Exception as exc:  # noqa: BLE001 — que falle una no tumba el resto
@@ -409,5 +410,15 @@ def run(n: int = 1) -> list[Path]:
         _marcar(tema["slug"])
         escritos.append(ruta)
         log.info("Nota propia: %s -> %s", tema["slug"], art.slug)
+
+    # Si habia temas en cola y no salio ninguna nota, algo se rompio: hay
+    # que enterarse. Antes esto devolvia una lista vacia sin mas, el paso
+    # del workflow terminaba en verde y la revista se quedaba sin publicar
+    # sin que nadie lo notara durante dias.
+    if pedidos and not escritos:
+        raise RuntimeError(
+            f"Se intentaron {len(pedidos)} notas y no se publico ninguna. "
+            "Revise los avisos de arriba: lo mas probable es que no se "
+            "consiguiera foto para ninguna.")
 
     return escritos
