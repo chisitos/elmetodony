@@ -369,11 +369,13 @@ def run(n: int = 1) -> list[Path]:
     escritos: list[Path] = []
 
     pedidos = pendientes()[:n]
+    motivos: list[str] = []
     for tema in pedidos:
         try:
             art = escribir(tema, cfg, directorio)
         except Exception as exc:  # noqa: BLE001 — que falle una no tumba el resto
             log.error("Falló la nota '%s': %s", tema["slug"], exc)
+            motivos.append(f"{tema['slug']}: {exc}")
             continue
 
         # Foto: de Openverse, que filtra por licencia comercial y de
@@ -401,6 +403,7 @@ def run(n: int = 1) -> list[Path]:
 
         if not art.image_url:
             log.warning("Sin foto publicable, no se publica: %s", tema["slug"])
+            motivos.append(f"{tema['slug']}: no se consiguio foto publicable")
             continue
 
         ARTICLES_DIR.mkdir(parents=True, exist_ok=True)
@@ -416,9 +419,13 @@ def run(n: int = 1) -> list[Path]:
     # del workflow terminaba en verde y la revista se quedaba sin publicar
     # sin que nadie lo notara durante dias.
     if pedidos and not escritos:
+        # El motivo va en el mensaje, no una conjetura. La primera vez que
+        # esto salto, el aviso decia "lo mas probable es que no se
+        # consiguiera foto" y en realidad la cuenta de la API se habia
+        # quedado sin saldo: mando a buscar donde no era.
+        detalle = "\n  - " + "\n  - ".join(motivos) if motivos else ""
         raise RuntimeError(
-            f"Se intentaron {len(pedidos)} notas y no se publico ninguna. "
-            "Revise los avisos de arriba: lo mas probable es que no se "
-            "consiguiera foto para ninguna.")
+            f"Se intentaron {len(pedidos)} notas y no se publico ninguna."
+            + detalle)
 
     return escritos

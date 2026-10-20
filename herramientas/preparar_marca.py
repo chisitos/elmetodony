@@ -142,21 +142,36 @@ def main() -> int:
 
     # 0.14 dentro del circulo deja respirar la R sin que el dibujo se vea
     # perdido en el medio.
-    for px, nombre in [(512, "icono-512.png"), (192, "icono-192.png"),
-                       (180, "icono-180.png")]:
+    #
+    # Estos van CON transparencia: es el circulo flotando, que es como debe
+    # verse en la pestana del navegador y en el manifiesto.
+    for px, nombre in [(512, "icono-512.png"), (192, "icono-192.png")]:
         icono(px, 0.14).save(DEST / nombre, "PNG", optimize=True)
-        print(f"  {nombre:<24} {px}x{px}  circular")
+        print(f"  {nombre:<24} {px}x{px}  circular, transparente")
 
-    # El maskable no lleva transparencia -Android rellena, y lo transparente
-    # sale negro- y ademas el sistema vuelve a recortar por su cuenta, asi
-    # que la marca va mas adentro todavia.
-    px = 512
-    plano = Image.new("RGB", (px, px), colores[0])
-    disp = round(px * 0.72)
-    chico = icono(disp, 0.10)
-    plano.paste(chico.convert("RGB"), ((px - disp) // 2, (px - disp) // 2), chico.split()[3])
-    plano.save(DEST / "icono-maskable-512.png", "PNG", optimize=True)
-    print(f"  {'icono-maskable-512.png':<24} {px}x{px}  con margen de seguridad")
+    def sobre_blanco(im: Image.Image, px: int, encoge: float = 0.0) -> Image.Image:
+        """Pega el circulo sobre blanco, sin alfa."""
+        lienzo = Image.new("RGB", (px, px), "white")
+        if encoge:
+            d = round(px * (1 - encoge))
+            chico = icono(d, 0.14)
+            lienzo.paste(chico.convert("RGB"), ((px - d) // 2, (px - d) // 2),
+                         chico.split()[3])
+        else:
+            lienzo.paste(im.convert("RGB"), (0, 0), im.split()[3])
+        return lienzo
+
+    # iOS: Safari NO admite transparencia en el apple-touch-icon y rellena
+    # de negro. Por eso este va sobre blanco. El sistema le pone encima su
+    # propio redondeado.
+    sobre_blanco(icono(180, 0.14), 180).save(DEST / "icono-180.png", "PNG", optimize=True)
+    print(f"  {'icono-180.png':<24} 180x180  sobre blanco (iOS no acepta alfa)")
+
+    # Android recorta el maskable por su cuenta en circulo o squircle, asi
+    # que la marca va mas adentro y el fondo tiene que ser opaco: lo
+    # transparente tambien le sale negro.
+    sobre_blanco(None, 512, 0.28).save(DEST / "icono-maskable-512.png", "PNG", optimize=True)
+    print(f"  {'icono-maskable-512.png':<24} 512x512  sobre blanco, con margen")
     return 0
 
 
