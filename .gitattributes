@@ -1,0 +1,14 @@
+# Sin esto, Windows guarda los archivos de texto con CRLF y Linux (donde
+# corre la publicación) los lee con LF: el mismo commit produce bytes
+# distintos según la máquina, y como asset_v se calcula hasheando esos
+# bytes, el código de versión del ícono salía diferente en cada lado —
+# aunque "git status" dijera que todo estaba limpio. Forzar LF en todo
+# lo que es texto hace que el hash sea el mismo en cualquier máquina.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
