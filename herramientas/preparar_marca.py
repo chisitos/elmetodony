@@ -98,8 +98,8 @@ def main() -> int:
     izq, arr = (base.width - lado) // 2, (base.height - lado) // 2
     base = base.crop((izq, arr, izq + lado, arr + lado))
 
-    for px, nombre in [(512, "icono-512.png"), (192, "icono-192.png"),
-                       (180, "icono-180.png")]:
+    for px, nombre in [(512, "icono-512-nuevo.png"), (192, "icono-192-nuevo.png"),
+                       (180, "icono-180-nuevo.png")]:
         base.resize((px, px), Image.LANCZOS).save(DEST / nombre, "PNG", optimize=True)
         print(f"  {nombre:<24} {px}x{px}  cuadrado completo")
 
@@ -110,8 +110,8 @@ def main() -> int:
     lienzo = Image.new("RGB", (px, px), base.getpixel((4, 4)))
     disp = round(px * 0.72)
     lienzo.paste(base.resize((disp, disp), Image.LANCZOS), ((px - disp) // 2, (px - disp) // 2))
-    lienzo.save(DEST / "icono-maskable-512.png", "PNG", optimize=True)
-    print(f"  {'icono-maskable-512.png':<24} {px}x{px}  con margen de seguridad")
+    lienzo.save(DEST / "icono-maskable-512-nuevo.png", "PNG", optimize=True)
+    print(f"  {'icono-maskable-512-nuevo.png':<24} {px}x{px}  con margen de seguridad")
     return 0
 
 

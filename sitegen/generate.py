@@ -204,9 +204,9 @@ def _manifest(sitio: dict, rutas: list[dict], v: str = "") -> str:
             "dir": "ltr",
             "categories": ["shopping", "lifestyle", "navigation"],
             "icons": [
-                {"src": f"static/icono-192.png{suf}", "sizes": "192x192", "type": "image/png", "purpose": "any"},
-                {"src": f"static/icono-512.png{suf}", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-                {"src": f"static/icono-maskable-512.png{suf}", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+                {"src": f"static/icono-192-nuevo.png{suf}", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+                {"src": f"static/icono-512-nuevo.png{suf}", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+                {"src": f"static/icono-maskable-512-nuevo.png{suf}", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
             ],
             # Accesos directos: mantener pulsado el ícono en la pantalla de
             # inicio abre las rutas de obra sin pasar por la portada.
@@ -215,7 +215,7 @@ def _manifest(sitio: dict, rutas: list[dict], v: str = "") -> str:
                     "name": r["nombre"],
                     "short_name": r["nombre"].replace("Ruta ", ""),
                     "url": f"./rutas/{r['slug']}.html",
-                    "icons": [{"src": f"static/icono-192.png{suf}", "sizes": "192x192"}],
+                    "icons": [{"src": f"static/icono-192-nuevo.png{suf}", "sizes": "192x192"}],
                 }
                 for r in rutas[:4]
             ],
@@ -271,8 +271,8 @@ def build_site() -> Path:
     # el manifiesto deja de ser identico, que es lo que hace que el
     # sistema vuelva a leer el icono de la app instalada.
     asset_v = _huella(STATIC_DIR / "style.css", STATIC_DIR / "buscador.js",
-                      STATIC_DIR / "icono-192.png", STATIC_DIR / "icono-512.png",
-                      STATIC_DIR / "icono-maskable-512.png")
+                      STATIC_DIR / "icono-192-nuevo.png", STATIC_DIR / "icono-512-nuevo.png",
+                      STATIC_DIR / "icono-maskable-512-nuevo.png")
 
     sitio = dir_data.sitio
     ancla = dir_data.ancla
